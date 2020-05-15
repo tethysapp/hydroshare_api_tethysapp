@@ -23,6 +23,11 @@
   <li><a href="">3. The Third Step</a></li>
   <li class="separator"></li>
   <li><a href="">Get Started</a></li>
+  <li>
+  <form enctype="multipart/form-data" action="/apps/hydroshare-python/getfile/" method="post">{% csrf_token %}
+    <input id="image-file" type="file" />
+    <button type="submit">Upload</button>
+</form></li>
 {% endblock %}
 
 {% block app_content %}

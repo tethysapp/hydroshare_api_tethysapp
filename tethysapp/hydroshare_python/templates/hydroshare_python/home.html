@@ -1,11 +1,31 @@
 {% extends "hydroshare_python/base.html" %}
 {% load tethys_gizmos %}
 
+
 {% block header_buttons %}
   <div class="header-button glyphicon-button" data-toggle="tooltip" data-placement="bottom" title="Help">
     <a data-toggle="modal" data-target="#help-modal"><span class="glyphicon glyphicon-question-sign"></span></a>
   </div>
 {% endblock %}
+{% extends "dam_inventory/base.html" %}
+{% load tethys_gizmos %}
+
+{% block app_content %}
+  <h1>Add Dam</h1>
+  <form id="add-dam-form" method="post">
+    {% csrf_token %}
+    {% gizmo name_input %}
+    {% gizmo owner_input %}
+    {% gizmo river_input %}
+    {% gizmo date_built_input %}
+  </form>
+{% endblock %}
+
+{% block app_actions %}
+  {% gizmo cancel_button %}
+  {% gizmo add_button %}
+{% endblock %}
+
 
 {% block app_content %}
   <h1>Welcome to your Tethys App!</h1>
