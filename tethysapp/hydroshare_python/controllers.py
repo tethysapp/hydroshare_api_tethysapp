@@ -2,8 +2,13 @@ from django.shortcuts import render
 from tethys_sdk.permissions import login_required
 from tethys_sdk.gizmos import Button
 from tethys_sdk.gizmos import TextInput, DatePicker, SelectInput
-from django.shortcuts import redirect
+from tethys_sdk.gizmos import DataTableView
+# from .model import get_all_dams
+from django.shortcuts import redirect, reverse
 from django.contrib import messages
+from hs_restclient import HydroShare, HydroShareAuthBasic
+auth = HydroShareAuthBasic(username='abhishekamal18@gmail.com', password='Herbie132!')
+hs = HydroShare(auth=auth)
 
 @login_required()
 def home(request):
@@ -76,72 +81,10 @@ def home(request):
 
     return render(request, 'hydroshare_python/home.html', context)
 
-
-
-@login_required()
-def add_dam(request):
-    """
-    Controller for the Add Dam page.
-    """
-    # Define form gizmos
-    name_input = TextInput(
-        display_text='Name',
-        name='name'
-    )
-
-    owner_input = SelectInput(
-        display_text='Owner',
-        name='owner',
-        multiple=False,
-        options=[('Reclamation', 'Reclamation'), ('Army Corp', 'Army Corp'), ('Other', 'Other')],
-        initial=['Reclamation']
-    )
-
-    river_input = TextInput(
-        display_text='River',
-        name='river',
-        placeholder='e.g.: Mississippi River'
-    )
-
-    date_built = DatePicker(
-        name='date-built',
-        display_text='Date Built',
-        autoclose=True,
-        format='MM d, yyyy',
-        start_view='decade',
-        today_button=True,
-        initial='February 15, 2017'
-    )
-
-    add_button = Button(
-        display_text='Add',
-        name='add-button',
-        icon='glyphicon glyphicon-plus',
-        style='success',
-        attributes={'form': 'add-dam-form'},
-        submit=True
-    )
-
-    cancel_button = Button(
-        display_text='Cancel',
-        name='cancel-button',
-        href=reverse('dam_inventory:home')
-    )
-
-    context = {
-        'name_input': name_input,
-        'owner_input': owner_input,
-        'river_input': river_input,
-        'date_built_input': date_built,
-        'add_button': add_button,
-        'cancel_button': cancel_button,
-    }
-
-    return render(request, 'dam_inventory/add_dam.html', context)
-
+   
 
 @login_required()
-def add_dam(request):
+def get_file(request):
     """
     Controller for the Add Dam page.
     """
@@ -185,16 +128,22 @@ def add_dam(request):
 
         if not has_errors:
             # Do stuff here
-            return redirect(reverse('dam_inventory:home'))
+            abstract = 'My abstract'
+            title = name
+            keywords = ('my keyword 1', 'my keyword 2')
+            rtype = 'GenericResource'
+            fpath = '/Users/water/Desktop/tl_2017_06059_roads.shp'
+            metadata = '[{"coverage":{"type":"period", "value":{"start":"01/01/2000", "end":"12/12/2010"}}}, {"creator":{"name":"John Smith"}}, {"creator":{"name":"Lisa Miller"}}]'
+            extra_metadata = '{"key-1": "value-1", "key-2": "value-2"}'
+            resource_id = hs.createResource(rtype, title, resource_file=fpath, keywords=keywords, abstract=abstract, metadata=metadata, extra_metadata=extra_metadata)
+            return redirect(reverse('hydroshare_python:home'))
 
         messages.error(request, "Please fix errors.")
 
     # Define form gizmos
     name_input = TextInput(
         display_text='Name',
-        name='name',
-        initial=name,
-        error=name_error
+        name='name'
     )
 
     owner_input = SelectInput(
@@ -202,16 +151,13 @@ def add_dam(request):
         name='owner',
         multiple=False,
         options=[('Reclamation', 'Reclamation'), ('Army Corp', 'Army Corp'), ('Other', 'Other')],
-        initial=owner,
-        error=owner_error
+        initial=['Reclamation']
     )
 
     river_input = TextInput(
         display_text='River',
         name='river',
-        placeholder='e.g.: Mississippi River',
-        initial=river,
-        error=river_error
+        placeholder='e.g.: Mississippi River'
     )
 
     date_built = DatePicker(
@@ -221,15 +167,32 @@ def add_dam(request):
         format='MM d, yyyy',
         start_view='decade',
         today_button=True,
-        initial=date_built,
-        error=date_error
+        initial='February 15, 2017'
     )
-    
 
-@login_required()
-def getfile(request):
-    print(request.user)
-    file_name = request.user.form["uploaded"]
-    with open(file_name, 'r') as f:
-        file_content = f.read()
-    return file_content
+    add_button = Button(
+        display_text='Add',
+        name='add-button',
+        icon='glyphicon glyphicon-plus',
+        style='success',
+        attributes={'form': 'add-dam-form'},
+        submit=True
+    )
+
+    cancel_button = Button(
+        display_text='Cancel',
+        name='cancel-button',
+        href=reverse('hydroshare_python:home')
+    )
+
+    context = {
+        'name_input': name_input,
+        'owner_input': owner_input,
+        'river_input': river_input,
+        'date_built_input': date_built,
+        'add_button': add_button,
+        'cancel_button': cancel_button,
+    }
+
+    return render(request, 'hydroshare_python/get_file.html', context)
+

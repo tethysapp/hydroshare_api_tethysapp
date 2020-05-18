@@ -13,6 +13,10 @@
 {% block app_title %}{{ tethys_app.name }}{% endblock %}
 
 {% block app_navigation_items %}
+{% url 'hydroshare_python:get_file' as get_file_url %}   
+ 
+  <li class="{% if request.path == get_file_url %}active{% endif %}"><a href="{{ get_file_url }}">get file</a></li>   
+
   <li class="title">App Navigation</li>
   <li class="active"><a href="">Home</a></li>
   <li><a href="">Jobs</a></li>
@@ -20,7 +24,7 @@
   <li class="title">Steps</li>
   <li><a href="">1. The First Step</a></li>
   <li><a href="">2. The Second Step</a></li>
-  <li><a href="">3. The Third Step</a></li>
+  <li><a href="get_file.html">Get file</a></li>
   <li class="separator"></li>
   <li><a href="">Get Started</a></li>
   <li>
