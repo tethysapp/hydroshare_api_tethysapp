@@ -93,12 +93,17 @@ def get_file(request):
     owner = 'Reclamation'
     river = ''
     date_built = ''
+    author = ''
+    coauthor = ''
 
     # Errors
     title_error = ''
     owner_error = ''
     river_error = ''
     date_error = ''
+    author_error = ''
+    coauthor_error = ''
+
 
     # Handle form submission
     if request.POST and 'add-button' in request.POST:
@@ -108,6 +113,9 @@ def get_file(request):
         owner = request.POST.get('owner', None)
         river = request.POST.get('river', None)
         date_built = request.POST.get('date-built', None)
+        author = request.POST.get('author', None)
+        coauthor = request.POST.get('coauthor', None)
+        
 
         # Validate
         if not title:
@@ -126,13 +134,21 @@ def get_file(request):
             has_errors = True
             date_error = 'Date Built is required.'
 
+        if not author:
+            has_errors = True
+            river_error = 'Author is required.'
+
+        if not coauthor:
+            has_errors = True
+            date_error = 'Author is required.'
+
         if not has_errors:
             # Do stuff here
-            abstract = 'My abstract'
+            abstract = date_built
             keywords = owner.split(', ')
             rtype = 'GenericResource'
             fpath = '/Users/water/Desktop/resources/tl_2017_06059_roads.shp'
-            metadata = '[{"coverage":{"type":"period", "value":{"start":"01/01/2000", "end":"12/12/2010"}}}, {"creator":{"name":"'+title+'"}}, {"creator":{"name":"Lisa Miller"}}]'
+            metadata = '[{"coverage":{"type":"period", "value":{"start":"01/01/2000", "end":"12/12/2010"}}}, {"creator":{"name":"'+author+'"}}, {"creator":{"name":"'+coauthor+'"}}]'
             extra_metadata = '{"key-1": "value-1", "key-2": "value-2"}'
             resource_id = hs.createResource(rtype, title, resource_file=fpath, keywords=keywords, abstract=abstract, metadata=metadata, extra_metadata=extra_metadata)
             return redirect(reverse('hydroshare_python:home'))
@@ -158,10 +174,20 @@ def get_file(request):
     )
 
     date_built = TextInput(
-        display_text='Keywords',
+        display_text='Abstract',
         name='date-built',
-        placeholder='e.g: Shapefiles, datasets, etc..'
+        placeholder='Type in your abstract here'
     
+    )
+
+    author_input = TextInput(
+        display_text='author',
+        name='author'
+    )
+
+    coauthor_input = TextInput(
+        display_text='coauthor',
+        name='coauthor'
     )
 
     add_button = Button(
