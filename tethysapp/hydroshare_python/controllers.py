@@ -7,7 +7,7 @@ from tethys_sdk.gizmos import DataTableView
 from django.shortcuts import redirect, reverse
 from django.contrib import messages
 from hs_restclient import HydroShare, HydroShareAuthBasic
-auth = HydroShareAuthBasic(username='abhishekamal18@gmail.com', password='Herbie132!')
+auth = HydroShareAuthBasic(username='abhishekamal18@gmail.com', password='hydro1234')
 hs = HydroShare(auth=auth)
 
 @login_required()
@@ -89,13 +89,13 @@ def get_file(request):
     Controller for the Add Dam page.
     """
     # Default Values
-    name = ''
+    title = ''
     owner = 'Reclamation'
     river = ''
     date_built = ''
 
     # Errors
-    name_error = ''
+    title_error = ''
     owner_error = ''
     river_error = ''
     date_error = ''
@@ -104,15 +104,15 @@ def get_file(request):
     if request.POST and 'add-button' in request.POST:
         # Get values
         has_errors = False
-        name = request.POST.get('name', None)
+        title = request.POST.get('title', None)
         owner = request.POST.get('owner', None)
         river = request.POST.get('river', None)
         date_built = request.POST.get('date-built', None)
 
         # Validate
-        if not name:
+        if not title:
             has_errors = True
-            name_error = 'Name is required.'
+            title_error = 'Title is required.'
 
         if not owner:
             has_errors = True
@@ -129,11 +129,10 @@ def get_file(request):
         if not has_errors:
             # Do stuff here
             abstract = 'My abstract'
-            title = name
-            keywords = ('my keyword 1', 'my keyword 2')
+            keywords = owner.split(', ')
             rtype = 'GenericResource'
-            fpath = '/Users/water/Desktop/tl_2017_06059_roads.shp'
-            metadata = '[{"coverage":{"type":"period", "value":{"start":"01/01/2000", "end":"12/12/2010"}}}, {"creator":{"name":"John Smith"}}, {"creator":{"name":"Lisa Miller"}}]'
+            fpath = '/Users/water/Desktop/resources/tl_2017_06059_roads.shp'
+            metadata = '[{"coverage":{"type":"period", "value":{"start":"01/01/2000", "end":"12/12/2010"}}}, {"creator":{"name":"'+title+'"}}, {"creator":{"name":"Lisa Miller"}}]'
             extra_metadata = '{"key-1": "value-1", "key-2": "value-2"}'
             resource_id = hs.createResource(rtype, title, resource_file=fpath, keywords=keywords, abstract=abstract, metadata=metadata, extra_metadata=extra_metadata)
             return redirect(reverse('hydroshare_python:home'))
@@ -141,33 +140,28 @@ def get_file(request):
         messages.error(request, "Please fix errors.")
 
     # Define form gizmos
-    name_input = TextInput(
-        display_text='Name',
-        name='name'
+    title_input = TextInput(
+        display_text='Title',
+        name='title'
     )
 
-    owner_input = SelectInput(
-        display_text='Owner',
+    owner_input = TextInput(
+        display_text='Keywords',
         name='owner',
-        multiple=False,
-        options=[('Reclamation', 'Reclamation'), ('Army Corp', 'Army Corp'), ('Other', 'Other')],
-        initial=['Reclamation']
-    )
+        placeholder='eg: shapefiles, datasets, etc..'
+    ) 
 
     river_input = TextInput(
-        display_text='River',
+        display_text='Name of Creator',
         name='river',
-        placeholder='e.g.: Mississippi River'
+        placeholder='e.g: John Smith'
     )
 
-    date_built = DatePicker(
+    date_built = TextInput(
+        display_text='Keywords',
         name='date-built',
-        display_text='Date Built',
-        autoclose=True,
-        format='MM d, yyyy',
-        start_view='decade',
-        today_button=True,
-        initial='February 15, 2017'
+        placeholder='e.g: Shapefiles, datasets, etc..'
+    
     )
 
     add_button = Button(
@@ -186,7 +180,7 @@ def get_file(request):
     )
 
     context = {
-        'name_input': name_input,
+        'title_input': title_input,
         'owner_input': owner_input,
         'river_input': river_input,
         'date_built_input': date_built,
@@ -195,4 +189,94 @@ def get_file(request):
     }
 
     return render(request, 'hydroshare_python/get_file.html', context)
+
+@login_required()
+def add_file(request):
+    """
+    Controller for the Add Dam page.
+    """
+    # Default Values
+    title = ''
+    # owner = 'Reclamation'
+    # river = ''
+    # date_built = ''
+
+    # Errors
+    title_error = ''
+    # owner_error = ''
+    # river_error = ''
+    # date_error = ''
+
+    # Handle form submission
+    if request.POST and 'add-button' in request.POST:
+        # Get values
+        has_errors = False
+        title = request.POST.get('title', None)
+        # owner = request.POST.get('owner', None)
+        # river = request.POST.get('river', None)
+        # date_built = request.POST.get('date-built', None)
+
+        # Validate
+        if not title:
+            has_errors = True
+            title_error = 'Title is required.'
+
+        if not has_errors:
+            # Do stuff here
+            title = title
+            fpath = '/Users/water/Desktop/resources/nyu_2451_34514.shp.zip'
+            resource_id = hs.addResourceFile('358a0196c5004d429a532158cff74d0e', fpath) #"remove_original_after_zip": True
+        
+        messages.error(request, "Please fix errors.")
+
+    # Define form gizmos
+    title_input = TextInput(
+        display_text='Title',
+        name='title'
+    )
+
+    # owner_input = TextInput(
+    #     display_text='Keywords',
+    #     name='owner',
+    #     placeholder='eg: shapefiles, datasets, etc..'
+    # ) 
+
+    # river_input = TextInput(
+    #     display_text='Name of Creator',
+    #     name='river',
+    #     placeholder='e.g: John Smith'
+    # )
+
+    # date_built = TextInput(
+    #     display_text='Keywords',
+    #     name='date-built',
+    #     placeholder='e.g: Shapefiles, datasets, etc..'
+    
+    # )
+
+    add_button = Button(
+        display_text='Add',
+        name='add-button',
+        icon='glyphicon glyphicon-plus',
+        style='success',
+        attributes={'form': 'add-dam-form'},
+        submit=True
+    )
+
+    cancel_button = Button(
+        display_text='Cancel',
+        name='cancel-button',
+        href=reverse('hydroshare_python:home')
+    )
+
+    context = {
+        'title_input': title_input,
+        # 'owner_input': owner_input,
+        # 'river_input': river_input,
+        # 'date_built_input': date_built,
+        'add_button': add_button,
+        'cancel_button': cancel_button,
+    }
+
+    return render(request, 'hydroshare_python/add_file.html', context)
 

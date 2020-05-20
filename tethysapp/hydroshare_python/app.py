@@ -34,6 +34,11 @@ class HydrosharePython(TethysAppBase):
                 url='hydroshare-python/get_file',
                 controller='hydroshare_python.controllers.get_file'
             ),
+            UrlMap(
+                name='add_file',
+                url='hydroshare-python/add_file',
+                controller='hydroshare_python.controllers.add_file'
+            ),
             # UrlMap(
             #     name='get_file',
             #     url='hydroshare-python',

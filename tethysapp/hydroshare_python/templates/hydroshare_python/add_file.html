@@ -2,13 +2,11 @@
 {% load tethys_gizmos %}
 
 {% block app_content %}
-  <h1>Create a resource</h1>
+  <h1>Add file</h1>
   <form id="add-dam-form" method="post">
     {% csrf_token %}
     {% gizmo title_input %}
-    {% gizmo owner_input %}
-    {% gizmo river_input %}
-    {% gizmo date_built_input %}
+
   </form>
 {% endblock %}
 
