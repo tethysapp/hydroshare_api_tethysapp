@@ -91,7 +91,7 @@ def get_file(request):
     # Default Values
     title = ''
     owner = 'Reclamation'
-    river = ''
+    # river = ''
     date_built = ''
     author = ''
     coauthor = ''
@@ -99,7 +99,7 @@ def get_file(request):
     # Errors
     title_error = ''
     owner_error = ''
-    river_error = ''
+    # river_error = ''
     date_error = ''
     author_error = ''
     coauthor_error = ''
@@ -111,7 +111,7 @@ def get_file(request):
         has_errors = False
         title = request.POST.get('title', None)
         owner = request.POST.get('owner', None)
-        river = request.POST.get('river', None)
+        # river = request.POST.get('river', None)
         date_built = request.POST.get('date-built', None)
         author = request.POST.get('author', None)
         coauthor = request.POST.get('coauthor', None)
@@ -126,9 +126,9 @@ def get_file(request):
             has_errors = True
             owner_error = 'Owner is required.'
 
-        if not river:
-            has_errors = True
-            river_error = 'River is required.'
+        # if not river:
+        #     has_errors = True
+        #     river_error = 'River is required.'
 
         if not date_built:
             has_errors = True
@@ -147,7 +147,7 @@ def get_file(request):
             abstract = date_built
             keywords = owner.split(', ')
             rtype = 'GenericResource'
-            fpath = '/Users/water/Desktop/resources/tl_2017_06059_roads.shp'
+            fpath = '/Users/abu/Desktop/resources/tl_2017_06059_roads.shp'
             metadata = '[{"coverage":{"type":"period", "value":{"start":"01/01/2000", "end":"12/12/2010"}}}, {"creator":{"name":"'+author+'"}}, {"creator":{"name":"'+coauthor+'"}}]'
             extra_metadata = '{"key-1": "value-1", "key-2": "value-2"}'
             resource_id = hs.createResource(rtype, title, resource_file=fpath, keywords=keywords, abstract=abstract, metadata=metadata, extra_metadata=extra_metadata)
@@ -167,11 +167,11 @@ def get_file(request):
         placeholder='eg: shapefiles, datasets, etc..'
     ) 
 
-    river_input = TextInput(
-        display_text='Name of Creator',
-        name='river',
-        placeholder='e.g: John Smith'
-    )
+    # river_input = TextInput(
+    #     display_text='Name of Creator',
+    #     name='river',
+    #     placeholder='e.g: John Smith'
+    # )
 
     date_built = TextInput(
         display_text='Abstract',
@@ -208,8 +208,10 @@ def get_file(request):
     context = {
         'title_input': title_input,
         'owner_input': owner_input,
-        'river_input': river_input,
+        # 'river_input': river_input,
         'date_built_input': date_built,
+        'author_input': author_input,
+        'coauthor_input': coauthor_input,
         'add_button': add_button,
         'cancel_button': cancel_button,
     }
@@ -250,7 +252,7 @@ def add_file(request):
         if not has_errors:
             # Do stuff here
             title = title
-            fpath = '/Users/water/Desktop/resources/nyu_2451_34514.shp.zip'
+            fpath = '/Users/abu/Desktop/resources/nyu_2451_34514.shp.zip'
             resource_id = hs.addResourceFile('358a0196c5004d429a532158cff74d0e', fpath) #"remove_original_after_zip": True
         
         messages.error(request, "Please fix errors.")

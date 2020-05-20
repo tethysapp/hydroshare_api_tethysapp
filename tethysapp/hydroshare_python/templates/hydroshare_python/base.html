@@ -25,7 +25,6 @@
   <li class="{% if request.path == get_file_url %}active{% endif %}"><a href="{{ get_file_url }}">1. Create a resource</a></li>  
 {% url 'hydroshare_python:add_file' as add_file_url %}  
   <li class="{% if request.path == add_file_url %}active{% endif %}"><a href="{{ add_file_url }}">2. Add file</a></li>   
-  <li><a href="get_file.html">Get file</a></li>
   <li class="separator"></li>
   <li><a href="">Get Started</a></li>
   <li>
