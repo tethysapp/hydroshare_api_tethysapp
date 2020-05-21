@@ -3,9 +3,13 @@
 
 {% block app_content %}
   <h1>Add file</h1>
-  <form id="add-dam-form" method="post">
+  <form id="add-dam-form" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {% gizmo title_input %}
+    {% gizmo resourcein_input %}
+
+    <input id="add-file" type="file" name="addfile"/>
+    
 
   </form>
 {% endblock %}
