@@ -5,9 +5,9 @@
   <h1>Add file</h1>
   <form id="add-dam-form" method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    
+
     {% gizmo username_input %}
-    {% gizmo password_input %}
+    <input type="password" name = password>
     {% gizmo title_input %}
     {% gizmo resourcein_input %}
 
