@@ -1,0 +1,26 @@
+{% extends "hydroshare_python/base.html" %}
+{% load tethys_gizmos %}
+
+{% block app_content %}
+  <h1>Delete a Resource</h1>
+
+  <p>This feature is to delete a Resource from your profile</p>
+  <form id="add-dam-form" method="post" enctype="multipart/form-data">
+    
+    {% csrf_token %}
+
+
+    {% gizmo username_input %}
+    <input type="password" name = password>
+    {% gizmo resourcein_input %}
+
+    
+
+  </form>
+{% endblock %}
+
+{% block app_actions %}
+  {% gizmo cancel_button %}
+  {% gizmo add_button %}
+{% endblock %}
+

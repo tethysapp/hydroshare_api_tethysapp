@@ -9,19 +9,22 @@
 
 {% block app_content %}
   <h1>Welcome to the Hydroshare app from Tethys</h1>
-  <p>The features of hydroshare made available on this tethys app using the python api from hydroshare</p>
-  <h1>Create a Resource<h1>
-    <p>1. After installing the app on your local, enter in yur username and password in line 10 of the controllers.py file. </p>
-    <p>2. Then you can go ahead and type the path in the fpath location found in line 150 and save the changes made in the file.</p>
-    <p>3. Now click on the Create Resource button and enter the data in the boxes as mentioned and click on the 'Add+' button found int bottom right of the page.</p>
-    <p>4. You can see the new Resource created in your Hydroshare account</p>
-    <p></p>
-  <h1>Add a file to the created resource<h1>
-    <p>1. After successfully creating a resource in your Hydroshare account, copy the 32 element resource id that shows up on the hyperlink of the http. (for example; <mark>https://www.hydroshare.org/resource/9f0e6230688d4a95842880029d17e003/ </mark></p>
-    <p>2. Go ahead and paste that resource id in the fpath found in line 255 of controller.py file </p>
-    <p>3. Save the changes to the file and refresh the app. </p>
-    <p>4. Now click on the Add file button and enter the data in the box as mentioned and click on the 'Add+' button found in the bottom right of the page.</p>
-    <p>5. You will now the see the file added to the respective resource as desired in Hydroshare </p>
+  <h2>Introduction to HydroShare</h2>
+  <h2>What is HydroShare?</h2>
+  <p>HydroShare is the Consortium of Universities for the Advancement of Hydrologic Science, Inc. (CUAHSI)'s web based hydrologic information system for users to share and publish data and models in a variety of flexible formats, and to make this information available in a citable, shareable and discoverable manner. It enables users to collaborate and work as teams in a web based collaborative environment, thereby enhancing research, education and application of hydrologic knowledge. Hydroshare includes tools (web apps) that can act on content in HydroShare providing users with a gateway to computing and analysis. HydroShare is being developed by a CUAHSI team supported by National Science Foundation awards ACI-1148453, ACI-1148090, EAR-1338606, OAC-1664018, OAC-1664061, OAC-1664119.
+
+    CUAHSI is an organization representing more than 130 U.S. universities and international water-science-related organizations and is sponsored by the National Science Foundation to provide infrastructure and services to advance the development of hydrologic science and education in the United States.</p>
+  
+  <h2>What can I use HydroShare for?<h2>
+  <p>Some of the uses we designed HydroShare to support include: </p>
+  <p>Save your data online and share them to collaborate with and get feedback from other people
+    HydroShare provides the ability to upload and store your data and corresponding metadata online. Users can control viewing and access permissions, and enable viewers to comment on the shared data and models. This helps users connect with the data user community, collaborate and receive constructive feedback about their work.</p>
+  <p>Permanently publish your data and models and obtain a citable Digital Object Identifier (DOI) to get credit for your data and models
+    Data and models uploaded into HydroShare are assigned citation information. Users may permanently publish and obtain a citable digital object identifier (DOI) for resources in HydroShare. Once permanently published, resources  may no longer be edited or changed to support reproducibility of results based on them.</p>
+  <p>Easily access hydrologic data and models
+    HydroShare provides discovery functions to help users find data and models in HydroShare. These data and models are from a wide range of users.</p>
+  <p>Collaborate with other people for hydrological research
+    HydroShare provides communication features similar to that of social media platforms to enhance collaborations for hydrologic research. Users are able to create or join groups with common research interests. Ratings and comments on data provide useful feedback to other users. Sharing and privacy controls within HydroShare, enable researchers to keep their data private from the public or make their data available to only designated users and groups. These controls enable researchers to retain data privacy for when publications are still under review but then easily publish the data when the associated paper is published.</p>
 {% endblock %}
 
 {# Use the after_app_content block for modals #}

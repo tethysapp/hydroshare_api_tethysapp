@@ -11,7 +11,7 @@ class HydrosharePython(TethysAppBase):
     icon = 'hydroshare_python/images/icon.gif'
     package = 'hydroshare_python'
     root_url = 'hydroshare-python'
-    color = '#006400'
+    color = '#330033'
     description = '"An app which has the basic functions of the Hydroshare python client library"'
     tags = 'Python library, Hydroshare'
     enable_feedback = False
@@ -39,11 +39,16 @@ class HydrosharePython(TethysAppBase):
                 url='hydroshare-python/add_file',
                 controller='hydroshare_python.controllers.add_file'
             ),
-            # UrlMap(
-            #     name='get_file',
-            #     url='hydroshare-python',
-            #     controller='hydroshare_python.controllers.get_file'
-            # ),
+            UrlMap(
+                name='delete_resource',
+                url='hydroshare-python/delete_resource',
+                controller='hydroshare_python.controllers.delete_resource'
+            ),
+            UrlMap(
+                name='delete_file',
+                url='hydroshare-python/delete_file',
+                controller='hydroshare_python.controllers.delete_file'
+            ),
             
         )
 

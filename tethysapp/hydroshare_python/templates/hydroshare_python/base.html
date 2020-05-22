@@ -17,21 +17,19 @@
 
   <li class="title">App Navigation</li>
   <li class="active"><a href="/apps/hydroshare-python/">Home</a></li>
-  <li><a href="">Jobs</a></li>
-  <li><a href="">Results</a></li>
   <li class="title">Steps</li>
 
 {% url 'hydroshare_python:get_file' as get_file_url %}  
   <li class="{% if request.path == get_file_url %}active{% endif %}"><a href="{{ get_file_url }}">1. Create a resource</a></li>  
 {% url 'hydroshare_python:add_file' as add_file_url %}  
   <li class="{% if request.path == add_file_url %}active{% endif %}"><a href="{{ add_file_url }}">2. Add file</a></li>   
+{% url 'hydroshare_python:delete_resource' as delete_resource_url %}  
+  <li class="{% if request.path == delete_resource_url %}active{% endif %}"><a href="{{ delete_resource_url }}">3. Delete Resource</a></li>  
+{% url 'hydroshare_python:delete_file' as delete_file_url %} 
+  <li class="{% if request.path == delete_file_url %}active{% endif %}"><a href="{{ delete_file_url }}">4. Delete a file</a></li>
   <li class="separator"></li>
   <li><a href="">Get Started</a></li>
   <li>
-  <form enctype="multipart/form-data" action="/apps/hydroshare-python/getfile/" method="post">{% csrf_token %}
-    <input id="image-file" type="file" />
-    <button type="submit">Upload</button>
-</form></li>
 {% endblock %}
 
 {% block app_content %}
