@@ -5,11 +5,17 @@
   <h1>Create a resource</h1>
   <form id="add-dam-form" method="post">
     {% csrf_token %}
+    
+    {% gizmo username_input %}
+    {% gizmo password_input %}
     {% gizmo author_input %}
     {% gizmo coauthor_input %}
     {% gizmo title_input %}
     {% gizmo owner_input %}
     {% gizmo date_built_input %}
+
+    
+
   </form>
 {% endblock %}
 

@@ -12,8 +12,8 @@ import tempfile
 import zipfile
 
 
-auth = HydroShareAuthBasic(username='abhishekamal18@gmail.com', password='hydro1234')
-hs = HydroShare(auth=auth)
+# auth = HydroShareAuthBasic(username='abhishekamal18@gmail.com', password='hydro1234')
+# hs = HydroShare(auth=auth)
 
 @login_required()
 def home(request):
@@ -96,6 +96,8 @@ def get_file(request):
     # Default Values
     title = ''
     owner = 'Reclamation'
+    username = ''
+    password = ''
     # river = ''
     date_built = ''
     author = ''
@@ -104,6 +106,8 @@ def get_file(request):
     # Errors
     title_error = ''
     owner_error = ''
+    username_error = ''
+    password_error = ''
     # river_error = ''
     date_error = ''
     author_error = ''
@@ -114,6 +118,8 @@ def get_file(request):
     if request.POST and 'add-button' in request.POST:
         # Get values
         has_errors = False
+        username = request.POST.get('username', None)
+        password = request.POST.get('password', None)
         title = request.POST.get('title', None)
         owner = request.POST.get('owner', None)
         # river = request.POST.get('river', None)
@@ -130,6 +136,14 @@ def get_file(request):
         if not owner:
             has_errors = True
             owner_error = 'Owner is required.'
+        
+        if not username:
+            has_errors = True
+            username_error = 'Username is required.'
+        
+        if not password:
+            has_errors = True
+            password_error = 'Password is required.'
 
         # if not river:
         #     has_errors = True
@@ -149,6 +163,8 @@ def get_file(request):
 
         if not has_errors:
             # Do stuff here
+            auth = HydroShareAuthBasic(username= username, password= password)
+            hs = HydroShare(auth=auth)
             abstract = date_built
             keywords = owner.split(', ')
             rtype = 'GenericResource'
@@ -170,6 +186,18 @@ def get_file(request):
         display_text='Keywords',
         name='owner',
         placeholder='eg: shapefiles, datasets, etc..'
+    )
+
+    username_input = TextInput(
+        display_text='Username',
+        name='username',
+        placeholder='Enter your username'
+    )
+
+    password_input = TextInput(
+        display_text='Password',
+        name='password',
+        placeholder='Enter your password'
     ) 
 
     # river_input = TextInput(
@@ -213,6 +241,8 @@ def get_file(request):
     context = {
         'title_input': title_input,
         'owner_input': owner_input,
+        'username_input': username_input,
+        'password_input': password_input,
         # 'river_input': river_input,
         'date_built_input': date_built,
         'author_input': author_input,
@@ -230,6 +260,8 @@ def add_file(request):
     """
     # Default Values
     title = ''
+    username = ''
+    password = ''
     # filename = ''
     resourcein = ''
     # owner = 'Reclamation'
@@ -238,6 +270,8 @@ def add_file(request):
 
     # Errors
     title_error = ''
+    username_error = ''
+    password_error = ''
     # filename_error = ''
     resourcein_error = ''
     # owner_error = ''
@@ -249,6 +283,8 @@ def add_file(request):
         # Get values
         has_errors = False
         # filename = request.POST.get('filename', None)
+        username = request.POST.get('username', None)
+        password = request.POST.get('password', None)
         resourcein = request.POST.get('resourcein', None)
         title = request.POST.get('title', None)
         print(dict(request.FILES))
@@ -267,6 +303,14 @@ def add_file(request):
             if not title:
                 has_errors = True
                 title_error = 'Title is required.'
+
+            if not username:
+                has_errors = True
+                username_error = 'Username is required.'
+        
+            if not password:
+                has_errors = True
+                password_error = 'Password is required.'
             
             if not resourcein:
                 has_errors = True
@@ -280,6 +324,8 @@ def add_file(request):
                 # Do stuff here
                 # title = title
                 # filename = filename
+                auth = HydroShareAuthBasic(username= username, password= password)
+                hs = HydroShare(auth=auth)
                 fpath = temp_zip_path #'/Users/abu/Desktop/resources/nyu_2451_34514.shp.zip'
                 resource_id = hs.addResourceFile(resourcein, fpath) #"remove_original_after_zip": True
                 return redirect(reverse('hydroshare_python:home'))
@@ -296,6 +342,18 @@ def add_file(request):
         display_text='Resource ID',
         name='resourcein',
         placeholder='Enter id here eg: 08c6e88adaa647cd9bb28e5d619178e0 '
+    )
+
+    username_input = TextInput(
+        display_text='Username',
+        name='username',
+        placeholder='Enter your username'
+    )
+
+    password_input = TextInput(
+        display_text='Password',
+        name='password',
+        placeholder='Enter your password'
     )
 
     # filename_input = TextInput(
@@ -341,6 +399,8 @@ def add_file(request):
     context = {
         'title_input': title_input,
         'resourcein_input': resourcein_input,
+        'username_input': username_input,
+        'password_input': password_input,
         # 'filename_input': filename_input,
         # 'owner_input': owner_input,
         # 'river_input': river_input,
