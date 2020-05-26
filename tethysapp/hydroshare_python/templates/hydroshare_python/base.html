@@ -27,6 +27,8 @@
   <li class="{% if request.path == delete_resource_url %}active{% endif %}"><a href="{{ delete_resource_url }}">3. Delete Resource</a></li>  
 {% url 'hydroshare_python:delete_file' as delete_file_url %} 
   <li class="{% if request.path == delete_file_url %}active{% endif %}"><a href="{{ delete_file_url }}">4. Delete a file</a></li>
+  {% url 'hydroshare_python:find_resource' as find_resource_url %} 
+  <li class="{% if request.path == find_resource_url %}active{% endif %}"><a href="{{ find_resource_url }}">5. Browse for a resource</a></li> 
   <li class="separator"></li>
   <li><a href="">Get Started</a></li>
   <li>

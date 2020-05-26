@@ -3,17 +3,36 @@ from tethys_sdk.permissions import login_required
 from tethys_sdk.gizmos import Button
 from tethys_sdk.gizmos import TextInput, DatePicker, SelectInput
 from tethys_sdk.gizmos import DataTableView
+from tethys_services.backends.hs_restclient_helper import get_oauth_hs
 # from .model import get_all_dams
 from django.shortcuts import redirect, reverse
 from django.contrib import messages
 from hs_restclient import HydroShare, HydroShareAuthBasic
+# from hs_restclient import HydroShareAuthOAuth2
+# from oauthlib.oauth2 import TokenExpiredError
 import os
 import tempfile
 import zipfile
 
 
-# auth = HydroShareAuthBasic(username='abhishekamal18@gmail.com', password='hydro1234')
-# hs = HydroShare(auth=auth)
+# import helper function
+
+# @login_required()
+# # your controller function
+# def home1(request):
+
+#     # put codes in a 'try..except...' statement
+#     try:
+#         # pass in request object
+#         hs = get_oauth_hs(request)
+
+#         # your logic goes here. For example: list all HydroShare resources
+#         for resource in hs.getResourceList():
+#             print(resource)
+
+#     except Exception as e:
+#         # handle exceptions
+#         pass
 
 @login_required()
 def home(request):
@@ -102,6 +121,8 @@ def get_file(request):
     date_built = ''
     author = ''
     coauthor = ''
+    fname = ''
+    
 
     # Errors
     title_error = ''
@@ -112,6 +133,7 @@ def get_file(request):
     date_error = ''
     author_error = ''
     coauthor_error = ''
+    fname_error = ''
 
 
     # Handle form submission
@@ -120,61 +142,76 @@ def get_file(request):
         has_errors = False
         username = request.POST.get('username', None)
         password = request.POST.get('password', None)
-        title = request.POST.get('title', None)
         owner = request.POST.get('owner', None)
         # river = request.POST.get('river', None)
         date_built = request.POST.get('date-built', None)
         author = request.POST.get('author', None)
         coauthor = request.POST.get('coauthor', None)
-        
+        title = request.POST.get('title', None)
+        fname = request.POST.get('fname', None)
+        print(dict(request.FILES))
+        uploaded_file = request.FILES['uploadedfile']
 
-        # Validate
-        if not title:
-            has_errors = True
-            title_error = 'Title is required.'
+        with tempfile.TemporaryDirectory() as temp_dir:
+            temp_zip_path = os.path.join(temp_dir, fname+'.shp')
+            print(temp_zip_path)
 
-        if not owner:
-            has_errors = True
-            owner_error = 'Owner is required.'
-        
-        if not username:
-            has_errors = True
-            username_error = 'Username is required.'
-        
-        if not password:
-            has_errors = True
-            password_error = 'Password is required.'
+            # Use with statements to ensure opened files are closed when done
+            with open(temp_zip_path, 'wb') as temp_zip:
+                for chunk in uploaded_file.chunks():
+                    temp_zip.write(chunk)
 
-        # if not river:
-        #     has_errors = True
-        #     river_error = 'River is required.'
+            # Validate
+            if not title:
+                has_errors = True
+                title_error = 'Title is required.'
 
-        if not date_built:
-            has_errors = True
-            date_error = 'Date Built is required.'
+            if not fname:
+                has_errors = True
+                fname_error = 'Filename is required'
 
-        if not author:
-            has_errors = True
-            river_error = 'Author is required.'
+            if not owner:
+                has_errors = True
+                owner_error = 'Owner is required.'
+            
+            if not username:
+                has_errors = True
+                username_error = 'Username is required.'
+            
+            if not password:
+                has_errors = True
+                password_error = 'Password is required.'
 
-        if not coauthor:
-            has_errors = True
-            date_error = 'Author is required.'
+            # if not river:
+            #     has_errors = True
+            #     river_error = 'River is required.'
 
-        if not has_errors:
-            # Do stuff here
-            auth = HydroShareAuthBasic(username= username, password= password)
-            hs = HydroShare(auth=auth)
-            abstract = date_built
-            keywords = owner.split(', ')
-            rtype = 'GenericResource'
-            fpath = 'Shapefiles usually' #fpath = 'tethysapp/geocode/workspaces/app_workspace/output.txt'
-            metadata = '[{"coverage":{"type":"period", "value":{"start":"01/01/2000", "end":"12/12/2010"}}}, {"creator":{"name":"'+author+'"}}, {"creator":{"name":"'+coauthor+'"}}]'
-            extra_metadata = '{"key-1": "value-1", "key-2": "value-2"}'
-            resource_id = hs.createResource(rtype, title, resource_file=fpath, keywords=keywords, abstract=abstract, metadata=metadata, extra_metadata=extra_metadata)
-            return redirect(reverse('hydroshare_python:home'))
+            if not date_built:
+                has_errors = True
+                date_error = 'Date Built is required.'
 
-        messages.error(request, "Please fix errors.")
+            if not author:
+                has_errors = True
+                river_error = 'Author is required.'
+
+            if not coauthor:
+                has_errors = True
+                date_error = 'Author is required.'
+
+            if not has_errors:
+                # Do stuff here
+                auth = HydroShareAuthBasic(username= username, password= password)
+                hs = HydroShare(auth=auth)
+                abstract = date_built
+                keywords = owner.split(', ')
+                rtype = 'GenericResource'
+                fpath = temp_zip_path #fpath = 'tethysapp/geocode/workspaces/app_workspace/output.txt'
+                metadata = '[{"coverage":{"type":"period", "value":{"start":"01/01/2000", "end":"12/12/2010"}}}, {"creator":{"name":"'+author+'"}}, {"creator":{"name":"'+coauthor+'"}}]'
+                extra_metadata = '{"key-1": "value-1", "key-2": "value-2"}'
+                resource_id = hs.createResource(rtype, title, resource_file=fpath, keywords=keywords, abstract=abstract, metadata=metadata, extra_metadata=extra_metadata)
+                return redirect(reverse('hydroshare_python:home'))
+
+            messages.error(request, "Please fix errors.")
 
     # Define form gizmos
     title_input = TextInput(
@@ -186,6 +223,12 @@ def get_file(request):
         display_text='Keywords',
         name='owner',
         placeholder='eg: shapefiles, datasets, etc..'
+    )
+
+    fname_input = TextInput(
+        display_text='File name',
+        name='fname',
+        placeholder='Enter the name of the file'
     )
 
     username_input = TextInput(
@@ -245,6 +288,7 @@ def get_file(request):
         'password_input': password_input,
         # 'river_input': river_input,
         'date_built_input': date_built,
+        'fname_input': fname_input,
         'author_input': author_input,
         'coauthor_input': coauthor_input,
         'add_button': add_button,
@@ -637,3 +681,86 @@ def delete_file(request):
     }
 
     return render(request, 'hydroshare_python/delete_file.html', context)
+
+@login_required()
+def find_resource(request):
+    """
+    Controller for the Add Dam page.
+    """
+    # Default Values
+    username = ''
+    password = ''
+    resourcesv = []
+
+    # Errors
+    username_error = ''
+    password_error = ''
+
+    # Handle form submission
+    if request.POST and 'add-button' in request.POST:
+        # Get values
+        has_errors = False
+        # filename = request.POST.get('filename', None)
+        username = request.POST.get('username', None)
+        password = request.POST.get('password', None)
+
+        # Validate
+
+        if not username:
+            has_errors = True
+            username_error = 'Username is required.'
+    
+        if not password:
+            has_errors = True
+            password_error = 'Password is required.'
+        
+        if has_errors:
+            messages.error(request, "Please fix errors.")
+
+        if not has_errors:
+            auth = HydroShareAuthBasic(username= username, password= password)
+            hs = HydroShare(auth=auth)
+            for resource in hs.resources():
+                print(resource)
+                resourcesv.append(resource)
+        #Utah Municipal resource id
+
+    # Define form gizmos
+
+    username_input = TextInput(
+        display_text='Username',
+        name='username',
+        placeholder='Enter your username'
+    )
+
+    password_input = TextInput(
+        display_text='Password',
+        name='password',
+        placeholder='Enter your password'
+    )
+
+    add_button = Button(
+        display_text='Add',
+        name='add-button',
+        icon='glyphicon glyphicon-plus',
+        style='success',
+        attributes={'form': 'add-dam-form'},
+        submit=True
+    )
+
+    cancel_button = Button(
+        display_text='Cancel',
+        name='cancel-button',
+        href=reverse('hydroshare_python:home')
+    )
+
+    context = {
+        'username_input': username_input,
+        'password_input': password_input,
+        'add_button': add_button,
+        'cancel_button': cancel_button,
+        'resourcesv' : resourcesv
+    }
+
+    return render(request, 'hydroshare_python/find_resource.html', context)
+

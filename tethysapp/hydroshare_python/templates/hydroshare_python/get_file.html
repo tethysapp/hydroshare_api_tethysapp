@@ -4,7 +4,7 @@
 {% block app_content %}
   <h1>Create a resource</h1>
   <p>This feature in the app will help with creating a resource in Hydroshare </p>
-  <form id="add-dam-form" method="post">
+  <form id="add-dam-form" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     
     {% gizmo username_input %}
@@ -14,6 +14,9 @@
     {% gizmo title_input %}
     {% gizmo owner_input %}
     {% gizmo date_built_input %}
+
+    {% gizmo fname_input %}
+    <input id="uploaded-file" type="file" name="uploadedfile"/>
 
     
 
