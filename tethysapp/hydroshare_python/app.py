@@ -6,12 +6,12 @@ class HydrosharePython(TethysAppBase):
     Tethys app class for Hydroshare library.
     """
 
-    name = 'Hydroshare library'
+    name = 'HydroShare Python API Demonstration'
     index = 'hydroshare_python:home'
     icon = 'hydroshare_python/images/icon.gif'
     package = 'hydroshare_python'
     root_url = 'hydroshare-python'
-    color = '#330033'
+    color = '#531253'
     description = '"An app which has the basic functions of the Hydroshare python client library"'
     tags = 'Python library, Hydroshare'
     enable_feedback = False
@@ -58,6 +58,21 @@ class HydrosharePython(TethysAppBase):
                 name='find_resource',
                 url='hydroshare-python/find_resource',
                 controller='hydroshare_python.controllers.find_resource'
+            ),
+            UrlMap(
+                name='download_file',
+                url='hydroshare-python/download_file',
+                controller='hydroshare_python.controllers.download_file'
+            ),
+            UrlMap(
+                name='about',
+                url='hydroshare-python/about',
+                controller='hydroshare_python.controllers.about'
+            ),
+            UrlMap(
+                name='filev',
+                url='hydroshare-python/filev',
+                controller='hydroshare_python.controllers.filev'
             ),
             
         )

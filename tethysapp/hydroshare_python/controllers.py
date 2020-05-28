@@ -4,12 +4,10 @@ from tethys_sdk.gizmos import Button
 from tethys_sdk.gizmos import TextInput, DatePicker, SelectInput
 from tethys_sdk.gizmos import DataTableView
 from tethys_services.backends.hs_restclient_helper import get_oauth_hs
-# from .model import get_all_dams
 from django.shortcuts import redirect, reverse
 from django.contrib import messages
+from django.http import HttpResponse
 from hs_restclient import HydroShare, HydroShareAuthBasic
-# from hs_restclient import HydroShareAuthOAuth2
-# from oauthlib.oauth2 import TokenExpiredError
 import os
 import tempfile
 import zipfile
@@ -105,7 +103,78 @@ def home(request):
 
     return render(request, 'hydroshare_python/home.html', context)
 
-   
+@login_required()
+def about(request):
+    """
+    Controller for the app home page.
+    """
+    save_button = Button(
+        display_text='',
+        name='save-button',
+        icon='glyphicon glyphicon-floppy-disk',
+        style='success',
+        attributes={
+            'data-toggle':'tooltip',
+            'data-placement':'top',
+            'title':'Save'
+        }
+    )
+
+    edit_button = Button(
+        display_text='',
+        name='edit-button',
+        icon='glyphicon glyphicon-edit',
+        style='warning',
+        attributes={
+            'data-toggle':'tooltip',
+            'data-placement':'top',
+            'title':'Edit'
+        }
+    )
+
+    remove_button = Button(
+        display_text='',
+        name='remove-button',
+        icon='glyphicon glyphicon-remove',
+        style='danger',
+        attributes={
+            'data-toggle':'tooltip',
+            'data-placement':'top',
+            'title':'Remove'
+        }
+    )
+
+    previous_button = Button(
+        display_text='Previous',
+        name='previous-button',
+        attributes={
+            'data-toggle':'tooltip',
+            'data-placement':'top',
+            'title':'Previous'
+        }
+    )
+
+    next_button = Button(
+        display_text='Next',
+        name='next-button',
+        attributes={
+            'data-toggle':'tooltip',
+            'data-placement':'top',
+            'title':'Next'
+        }
+    ) 
+
+    context = {
+        'save_button': save_button,
+        'edit_button': edit_button,
+        'remove_button': remove_button,
+        'previous_button': previous_button,
+        'next_button': next_button
+    }
+
+    return render(request, 'hydroshare_python/about.html', context)
+
+      
 
 @login_required()
 def get_file(request):
@@ -202,6 +271,7 @@ def get_file(request):
                 # Do stuff here
                 auth = HydroShareAuthBasic(username= username, password= password)
                 hs = HydroShare(auth=auth)
+                # hs.setAccessRules(public=True)
                 abstract = date_built
                 keywords = owner.split(', ')
                 rtype = 'GenericResource'
@@ -565,6 +635,65 @@ def delete_resource(request):
 
 
 @login_required()
+def filev(request):
+    """
+    Controller for the Add Dam page.
+    """
+    # Default Values
+    # filename = ''
+    username = ''
+    password = ''
+    resourcein = ''
+    # owner = 'Reclamation'
+    # river = ''
+    # date_built = ''
+
+    # Errors
+    title_error = ''
+    # filename_error = ''
+    resourcein_error = ''
+    username_error = ''
+    password_error = ''
+    # date_error = ''
+
+    # Handle form submission
+    if request.POST:
+        # Get values
+        has_errors = False
+        # filename = request.POST.get('filename', None)
+        resourcein = request.POST.get('resourcein', None)
+        username = request.POST.get('username', None)
+        password = request.POST.get('password', None)
+        
+        # Validate
+
+        if not resourcein:
+            has_errors = True
+            resourcein_error = 'Resource ID is required.'
+        
+        if not username:
+            has_errors = True
+            username_error = 'Username is required.'
+        
+        if not password:
+            has_errors = True
+            password_error = 'Password is required.'
+
+        # if not river:
+        #     has_errors = True
+        #     river_error = 'River is required.'
+
+        if not has_errors:
+            # Do stuff here
+            auth = HydroShareAuthBasic(username= username, password= password)
+            hs = HydroShare(auth=auth)
+            resourcefiles=hs.resource(resourcein).files.all().content
+            return HttpResponse(resourcefiles)
+
+        return HttpResponse('')
+           
+
+@login_required()
 def delete_file(request):
     """
     Controller for the Add Dam page.
@@ -575,6 +704,7 @@ def delete_file(request):
     username = ''
     password = ''
     resourcein = ''
+    filev = []
     # owner = 'Reclamation'
     # river = ''
     # date_built = ''
@@ -593,7 +723,7 @@ def delete_file(request):
         has_errors = False
         # filename = request.POST.get('filename', None)
         resourcein = request.POST.get('resourcein', None)
-        title = request.POST.get('title', None)
+        title = request.POST.get('title_input', None)
         username = request.POST.get('username', None)
         password = request.POST.get('password', None)
         
@@ -604,9 +734,6 @@ def delete_file(request):
             has_errors = True
             resourcein_error = 'Resource ID is required.'
 
-        if not title:
-            has_errors = True
-            title_error = 'Title is required.'
         
         if not username:
             has_errors = True
@@ -624,8 +751,7 @@ def delete_file(request):
             # Do stuff here
             auth = HydroShareAuthBasic(username= username, password= password)
             hs = HydroShare(auth=auth)
-            fname = title
-            resource_id = hs.deleteResourceFile(resourcein, fname)
+            resource_id = hs.deleteResourceFile(resourcein, title)
             return redirect(reverse('hydroshare_python:home'))
 
         messages.error(request, "Please fix errors.")
@@ -636,11 +762,6 @@ def delete_file(request):
         name='resourcein'
     )
 
-    title_input = TextInput(
-        display_text='File name that you want to delete',
-        name='title',
-        placeholder='eg: filename.shp'
-    )
 
     username_input = TextInput(
         display_text='Username',
@@ -672,11 +793,11 @@ def delete_file(request):
 
     context = {
         'resourcein_input': resourcein_input,
-        'title_input': title_input,
         'username_input': username_input,
         'password_input': password_input,
         'add_button': add_button,
-        'cancel_button': cancel_button
+        'cancel_button': cancel_button,
+        'filev': filev
 
     }
 
@@ -764,3 +885,119 @@ def find_resource(request):
 
     return render(request, 'hydroshare_python/find_resource.html', context)
 
+@login_required()
+def download_file(request):
+    """
+    Controller for the Add Dam page.
+    """
+    # Default Values
+    title = ''
+    # filename = ''
+    username = ''
+    password = ''
+    resourcein = ''
+    # owner = 'Reclamation'
+    # river = ''
+    # date_built = ''
+
+    # Errors
+    title_error = ''
+    # filename_error = ''
+    resourcein_error = ''
+    username_error = ''
+    password_error = ''
+    # date_error = ''
+
+    # Handle form submission
+    if request.POST and 'add-button' in request.POST:
+        # Get values
+        has_errors = False
+        # filename = request.POST.get('filename', None)
+        resourcein = request.POST.get('resourcein', None)
+        title = request.POST.get('title', None)
+        username = request.POST.get('username', None)
+        password = request.POST.get('password', None)
+        
+
+        # Validate
+
+        if not resourcein:
+            has_errors = True
+            resourcein_error = 'Resource ID is required.'
+
+        if not title:
+            has_errors = True
+            title_error = 'Title is required.'
+        
+        if not username:
+            has_errors = True
+            username_error = 'Username is required.'
+        
+        if not password:
+            has_errors = True
+            password_error = 'Password is required.'
+
+        # if not river:
+        #     has_errors = True
+        #     river_error = 'River is required.'
+
+        if not has_errors:
+            # Do stuff here
+            auth = HydroShareAuthBasic(username= username, password= password)
+            hs = HydroShare(auth=auth)
+            fname = title
+            fpath = hs.getResourceFile(resourcein, fname, destination= '...')
+            return redirect(reverse('hydroshare_python:home'))
+        messages.error(request, "Please fix errors.")
+
+    # Define form gizmos
+    resourcein_input = TextInput(
+        display_text='Resource ID',
+        name='resourcein'
+    )
+
+    title_input = TextInput(
+        display_text='Name of the file you want to download including the extension',
+        name='title',
+        placeholder='eg: filename.shp or filename.txt'
+    )
+
+    username_input = TextInput(
+        display_text='Username',
+        name='username',
+        placeholder='Enter your username'
+    )
+
+    password_input = TextInput(
+        display_text='Password',
+        name='password',
+        placeholder='Enter your password'
+    ) 
+
+
+    add_button = Button(
+        display_text='Add',
+        name='add-button',
+        icon='glyphicon glyphicon-plus',
+        style='success',
+        attributes={'form': 'add-dam-form'},
+        submit=True
+    )
+
+    cancel_button = Button(
+        display_text='Cancel',
+        name='cancel-button',
+        href=reverse('hydroshare_python:home')
+    )
+
+    context = {
+        'resourcein_input': resourcein_input,
+        'title_input': title_input,
+        'username_input': username_input,
+        'password_input': password_input,
+        'add_button': add_button,
+        'cancel_button': cancel_button
+
+    }
+
+    return render(request, 'hydroshare_python/download_file.html', context)

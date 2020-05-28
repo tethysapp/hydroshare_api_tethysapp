@@ -2,7 +2,7 @@
 {% load tethys_gizmos %}
 
 {% block app_content %}
-  <h1>Delete a File from a Resource</h1>
+  <h1>Download a file from a resource</h1>
 
   <p>This app is in development stage and so the browse for resource option is still under development</p>
   <p>But this feature works smoothly without any glitches, just try copying the resource id from the HTTP hyperlink when you open your resource in Hydroshare.</p>
@@ -14,13 +14,9 @@
 
 
     {% gizmo username_input %}
-    <input type="password" name="password" id="password">
+    <input type="password" name = password>
+    {% gizmo title_input %}
     {% gizmo resourcein_input %}
-    <button type="button" id="fetchfile">Find files</button>
-    <select name="title_input" id="title_input">
-        <option>Select a file</option>
-    </select>
-    
 
     
     
