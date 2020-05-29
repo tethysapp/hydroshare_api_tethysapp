@@ -8,7 +8,8 @@
 //     zoomOffset: -1,
 //     accessToken: 'your.mapbox.access.token'
 //     }).addTo(mymap);
-
+var newbutton = document.getElementById('podu')
+newbutton.addEventListener('click', alert("Hello! I am an alert box!!"));
 
 let button = document.getElementById('fetchfile')
 button.addEventListener('click', async function(){

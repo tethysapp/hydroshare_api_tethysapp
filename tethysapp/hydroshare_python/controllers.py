@@ -443,7 +443,7 @@ def add_file(request):
                 hs = HydroShare(auth=auth)
                 fpath = temp_zip_path #'/Users/abu/Desktop/resources/nyu_2451_34514.shp.zip'
                 resource_id = hs.addResourceFile(resourcein, fpath) #"remove_original_after_zip": True
-                return redirect(reverse('hydroshare_python:home'))
+                return {"status": success }
             #Utah Municipal resource id
             messages.error(request, "Please fix errors.")
 
