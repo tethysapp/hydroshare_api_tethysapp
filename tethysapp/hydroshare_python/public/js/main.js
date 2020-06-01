@@ -8,11 +8,22 @@
 //     zoomOffset: -1,
 //     accessToken: 'your.mapbox.access.token'
 //     }).addTo(mymap);
-var newbutton = document.getElementById('podu')
-newbutton.addEventListener('click', alert("Hello! I am an alert box!!"));
+
+const clickevent = (event) => {
+    var r = confirm("Are you sure ?")
+    if (r==false){
+        event.preventDefault()
+    }
+}
+
+var addbutton = document.querySelector("[name=add-button]")
+addbutton.addEventListener('click', clickevent);
+
+var createbutton = document.querySelector("[name=create-button]")
+createbutton.addEventListener('click', clickevent);
 
 let button = document.getElementById('fetchfile')
-button.addEventListener('click', async function(){
+button.addEventListener('click', async function () {
     const username = document.getElementById('username')
     const password = document.getElementById('password')
     const resourceid = document.getElementById('resourcein')
@@ -31,13 +42,13 @@ button.addEventListener('click', async function(){
     });
 
     const responseData = await response.json()
-    
 
-    var child = fileSelector.lastElementChild;  
+
+    var child = fileSelector.lastElementChild;
     while (child) {
-        fileSelector.removeChild(child); 
-        child = fileSelector.lastElementChild; 
-    } 
+        fileSelector.removeChild(child);
+        child = fileSelector.lastElementChild;
+    }
     // Default option
     const option = document.createElement('option');
     option.textContent = "Select a file";

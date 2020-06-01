@@ -17,6 +17,16 @@
     
 
   </form>
+
+
+  <pre class="line-numbers">
+    <code class="language-python">
+      auth = HydroShareAuthBasic(username= username, password= password)
+      hs = HydroShare(auth=auth)
+      hs.deleteResource(resourcein)
+      return redirect(reverse('hydroshare_python:home'))
+    </code>
+  </pre>
 {% endblock %}
 
 {% block app_actions %}

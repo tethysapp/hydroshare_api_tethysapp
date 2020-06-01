@@ -21,9 +21,24 @@
     
 
   </form>
+
+  <pre class="line-numbers">
+    <code class="language-python">
+      auth = HydroShareAuthBasic(username= username, password= password)
+      hs = HydroShare(auth=auth)
+      abstract = date_built
+      keywords = owner.split(', ')
+      rtype = 'GenericResource'
+      fpath = temp_zip_path #fpath = 'tethysapp/geocode/workspaces/app_workspace/output.txt'
+      metadata = '[{"coverage":{"type":"period", "value":{"start":"01/01/2000", "end":"12/12/2010"}}}, {"creator":{"name":"'+author+'"}}, {"creator":{"name":"'+coauthor+'"}}]'
+      extra_metadata = '{"key-1": "value-1", "key-2": "value-2"}'
+      resource_id = hs.createResource(rtype, title, resource_file=fpath, keywords=keywords, abstract=abstract, metadata=metadata, extra_metadata=extra_metadata)
+      return redirect(reverse('hydroshare_python:home'))
+    </code>
+  </pre>
 {% endblock %}
 
 {% block app_actions %}
   {% gizmo cancel_button %}
-  {% gizmo add_button %}
+  {% gizmo create_button %}
 {% endblock %}

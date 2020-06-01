@@ -20,12 +20,21 @@
     <select name="title_input" id="title_input">
         <option>Select a file</option>
     </select>
-    
-
-    
-    
-
   </form>
+
+  
+    <pre class="line-numbers">
+      <code class="language-python">
+        auth = HydroShareAuthBasic(username= username, password= password)
+        hs = HydroShare(auth=auth)
+        resource_id = hs.deleteResourceFile(resourcein, title)
+        return redirect(reverse('hydroshare_python:home'))
+      </code>
+    </pre>
+    
+    
+
+  
 {% endblock %}
 
 {% block app_actions %}

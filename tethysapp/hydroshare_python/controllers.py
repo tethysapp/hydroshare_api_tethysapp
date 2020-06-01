@@ -279,9 +279,11 @@ def get_file(request):
                 metadata = '[{"coverage":{"type":"period", "value":{"start":"01/01/2000", "end":"12/12/2010"}}}, {"creator":{"name":"'+author+'"}}, {"creator":{"name":"'+coauthor+'"}}]'
                 extra_metadata = '{"key-1": "value-1", "key-2": "value-2"}'
                 resource_id = hs.createResource(rtype, title, resource_file=fpath, keywords=keywords, abstract=abstract, metadata=metadata, extra_metadata=extra_metadata)
-                return redirect(reverse('hydroshare_python:home'))
-
-            messages.error(request, "Please fix errors.")
+                messages.error(request, "File added successfully")
+                # return {"status": success }
+            if has_errors:    
+            #Utah Municipal resource id
+                messages.error(request, "Please fix errors.")
 
     # Define form gizmos
     title_input = TextInput(
@@ -336,8 +338,8 @@ def get_file(request):
         name='coauthor'
     )
 
-    add_button = Button(
-        display_text='Add',
+    create_button = Button(
+        display_text='Create',
         name='add-button',
         icon='glyphicon glyphicon-plus',
         style='success',
@@ -361,7 +363,7 @@ def get_file(request):
         'fname_input': fname_input,
         'author_input': author_input,
         'coauthor_input': coauthor_input,
-        'add_button': add_button,
+        'create_button': create_button,
         'cancel_button': cancel_button,
     }
 
@@ -443,9 +445,11 @@ def add_file(request):
                 hs = HydroShare(auth=auth)
                 fpath = temp_zip_path #'/Users/abu/Desktop/resources/nyu_2451_34514.shp.zip'
                 resource_id = hs.addResourceFile(resourcein, fpath) #"remove_original_after_zip": True
-                return {"status": success }
+                messages.error(request, "File added successfully")
+                # return {"status": success }
+            if has_errors:    
             #Utah Municipal resource id
-            messages.error(request, "Please fix errors.")
+                messages.error(request, "Please fix errors.")
 
     # Define form gizmos
     title_input = TextInput(
