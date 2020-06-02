@@ -101,7 +101,7 @@ def home(request):
         'next_button': next_button
     }
 
-    return render(request, 'hydroshare_python/home.html', context)
+    return render(request, 'hydroshare_python/about.html', context)
 
 @login_required()
 def about(request):
@@ -206,7 +206,7 @@ def get_file(request):
 
 
     # Handle form submission
-    if request.POST and 'add-button' in request.POST:
+    if request.POST and 'create-button' in request.POST:
         # Get values
         has_errors = False
         username = request.POST.get('username', None)
@@ -217,10 +217,11 @@ def get_file(request):
         author = request.POST.get('author', None)
         coauthor = request.POST.get('coauthor', None)
         title = request.POST.get('title', None)
-        fname = request.POST.get('fname', None)
+        fname = request.POST.get('fname', '')
         print(dict(request.FILES))
         uploaded_file = request.FILES['uploadedfile']
-
+        print('fname')
+        print(fname)
         with tempfile.TemporaryDirectory() as temp_dir:
             temp_zip_path = os.path.join(temp_dir, fname+'.shp')
             print(temp_zip_path)
@@ -235,7 +236,7 @@ def get_file(request):
                 has_errors = True
                 title_error = 'Title is required.'
 
-            if not fname:
+            if fname == '':
                 has_errors = True
                 fname_error = 'Filename is required'
 
@@ -340,7 +341,7 @@ def get_file(request):
 
     create_button = Button(
         display_text='Create',
-        name='add-button',
+        name='create-button',
         icon='glyphicon glyphicon-plus',
         style='success',
         attributes={'form': 'add-dam-form'},
@@ -403,7 +404,7 @@ def add_file(request):
         username = request.POST.get('username', None)
         password = request.POST.get('password', None)
         resourcein = request.POST.get('resourcein', None)
-        title = request.POST.get('title', None)
+        title = request.POST.get('title', '')
         print(dict(request.FILES))
         uploaded_file = request.FILES['addfile']
 
@@ -417,7 +418,7 @@ def add_file(request):
                     temp_zip.write(chunk)
 
             # Validate
-            if not title:
+            if title == '':
                 has_errors = True
                 title_error = 'Title is required.'
 

@@ -1,13 +1,16 @@
 {% extends "hydroshare_python/base.html" %}
 {% load tethys_gizmos %}
+{% load static %}
 
 {% block app_content %}
-  <h1>Add file</h1>
+  <h1 style="color:purple;">Add file</h1>
 
-  <p>This app is in development stage and so the browse for resource option is still under development</p>
-  <p>But this feature works smoothly without any glitches, just try copying the resource id from the HTTP hyperlink when you open your resource in Hydroshare.</p>
+  
+  <p>This feature works smoothly without any glitches, just try copying the resource id from the HTTP hyperlink when you open your resource in Hydroshare.</p>
+  <img src="{% static 'hydroshare_python/images/Resource_id.png'%}" alt="Resource ID" height="600">
+  <p></p>
   <p>Like for example, this is an example hyperlink https://www.hydroshare.org/resource/08c6e88adaa647cd9bb28e5d619178e0/ from which the 32 letter combination at the end is called the resource id. And so the resource id from the example hyperlink is <mark>08c6e88adaa647cd9bb28e5d619178e0</mark> </p>
- 
+  
   <form id="add-dam-form" method="post" enctype="multipart/form-data">
     
     {% csrf_token %}
@@ -15,29 +18,33 @@
 
     {% gizmo username_input %}
     <input type="password" name = password>
-    {% gizmo title_input %}
     {% gizmo resourcein_input %}
 
     <input id="add-file" type="file" name="addfile"/>
     
 
   </form>
-
+  {% gizmo title_input %}
+  <p></p>
+  <p>The code used to execute this functionality is displayed in the snippet below :</p>
   <pre class="line-numbers">
     <code class="language-python">
       auth = HydroShareAuthBasic(username= username, password= password)
-      hs = HydroShare(auth=auth)
-      fpath = temp_zip_path #'/Users/abu/Desktop/resources/nyu_2451_34514.shp.zip'
-      resource_id = hs.addResourceFile(resourcein, fpath) #"remove_original_after_zip": True
-      return redirect(reverse('hydroshare_python:home'))
+                hs = HydroShare(auth=auth)
+                fpath = temp_zip_path 
+                resource_id = hs.addResourceFile(resourcein, fpath) 
+                messages.error(request, "File added successfully")
+            if has_errors:    
+                messages.error(request, "Please fix errors.")
     </code>
   </pre>
 
-  <button type="button" id="podu">Add the file</button>
+  
 {% endblock %}
 
 {% block app_actions %}
   {% gizmo cancel_button %}
   {% gizmo add_button %}
-{% endblock %}
+  {% endblock %}
+
 

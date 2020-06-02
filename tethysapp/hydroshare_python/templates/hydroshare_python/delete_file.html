@@ -1,5 +1,7 @@
 {% extends "hydroshare_python/base.html" %}
 {% load tethys_gizmos %}
+{% load static %}
+
 
 {% block app_content %}
   <h1>Delete a File from a Resource</h1>
@@ -22,7 +24,7 @@
     </select>
   </form>
 
-  
+
     <pre class="line-numbers">
       <code class="language-python">
         auth = HydroShareAuthBasic(username= username, password= password)
@@ -42,3 +44,7 @@
   {% gizmo add_button %}
 {% endblock %}
 
+{% block scripts %}
+  {{ block.super }}
+  <script src="{% static 'hydroshare_python/js/second.js' %}" type="text/javascript"></script>
+  {% endblock %}

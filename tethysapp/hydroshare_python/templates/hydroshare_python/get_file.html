@@ -2,13 +2,13 @@
 {% load tethys_gizmos %}
 
 {% block app_content %}
-  <h1>Create a resource</h1>
-  <p>This feature in the app will help with creating a resource in Hydroshare </p>
+  <h1 style="color:purple;">Create a Resource</h1>
+  <p>The 'Create a Resource' feature is as the name suggests to create a new resource in your HydroShare account which would contain all the files you intend to upload. The resources in your HydroShare account are created with a certain amount of prerequisites like Author name, keywords, metadata and the title of your resource. The Python API provided by HydroShare helps us in fullfilling this task.  </p>
   <form id="add-dam-form" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     
     {% gizmo username_input %}
-    <input type="password" name = password>
+    <input type="password" name="password">
     {% gizmo author_input %}
     {% gizmo coauthor_input %}
     {% gizmo title_input %}
@@ -21,19 +21,24 @@
     
 
   </form>
-
+  <p></p>
+  <p>The code used in the controllers file of the tethys app is as shown below :</p>
   <pre class="line-numbers">
     <code class="language-python">
       auth = HydroShareAuthBasic(username= username, password= password)
-      hs = HydroShare(auth=auth)
-      abstract = date_built
-      keywords = owner.split(', ')
-      rtype = 'GenericResource'
-      fpath = temp_zip_path #fpath = 'tethysapp/geocode/workspaces/app_workspace/output.txt'
-      metadata = '[{"coverage":{"type":"period", "value":{"start":"01/01/2000", "end":"12/12/2010"}}}, {"creator":{"name":"'+author+'"}}, {"creator":{"name":"'+coauthor+'"}}]'
-      extra_metadata = '{"key-1": "value-1", "key-2": "value-2"}'
-      resource_id = hs.createResource(rtype, title, resource_file=fpath, keywords=keywords, abstract=abstract, metadata=metadata, extra_metadata=extra_metadata)
-      return redirect(reverse('hydroshare_python:home'))
+                hs = HydroShare(auth=auth)
+                # hs.setAccessRules(public=True)
+                abstract = date_built
+                keywords = owner.split(', ')
+                rtype = 'GenericResource'
+                fpath = temp_zip_path #fpath = 'tethysapp/geocode/workspaces/app_workspace/output.txt'
+                metadata = '[{"coverage":{"type":"period", "value":{"start":"01/01/2000", "end":"12/12/2010"}}}, {"creator":{"name":"'+author+'"}}, {"creator":{"name":"'+coauthor+'"}}]'
+                extra_metadata = '{"key-1": "value-1", "key-2": "value-2"}'
+                resource_id = hs.createResource(rtype, title, resource_file=fpath, keywords=keywords, abstract=abstract, metadata=metadata, extra_metadata=extra_metadata)
+                messages.error(request, "File added successfully")
+            if has_errors:
+                messages.error(request, "Please fix errors.")
+
     </code>
   </pre>
 {% endblock %}
