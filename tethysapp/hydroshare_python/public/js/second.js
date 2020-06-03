@@ -1,4 +1,5 @@
 
+
 let button = document.getElementById('fetchfile')
 button.addEventListener('click', async function () {
     const username = document.getElementById('username')
@@ -39,3 +40,13 @@ button.addEventListener('click', async function () {
         fileSelector.append(option)
     })
 })
+
+const clickevent = (event) => {
+    var r = confirm("Are you sure ?")
+    if (r==false){
+        event.preventDefault()
+    }
+}
+
+var deletebutton = document.querySelector("[name=delete-button]")
+deletebutton.addEventListener('click', clickevent);

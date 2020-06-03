@@ -11,7 +11,7 @@ class HydrosharePython(TethysAppBase):
     icon = 'hydroshare_python/images/icon.gif'
     package = 'hydroshare_python'
     root_url = 'hydroshare-python'
-    color = '#531253'
+    color = '#C62908'
     description = 'This app is to demonstrate the functions of the HydroShare Python api (hs_restclient)'
     tags = 'Python library, Hydroshare'
     enable_feedback = False

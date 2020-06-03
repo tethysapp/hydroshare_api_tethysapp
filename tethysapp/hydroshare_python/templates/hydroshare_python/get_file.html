@@ -1,8 +1,9 @@
 {% extends "hydroshare_python/base.html" %}
 {% load tethys_gizmos %}
+{% load static %}
 
 {% block app_content %}
-  <h1 style="color:purple;">Create a Resource</h1>
+  <h1 style="color:rgb(95, 4, 4);">Create a Resource</h1>
   <p>The 'Create a Resource' feature is as the name suggests to create a new resource in your HydroShare account which would contain all the files you intend to upload. The resources in your HydroShare account are created with a certain amount of prerequisites like Author name, keywords, metadata and the title of your resource. The Python API provided by HydroShare helps us in fullfilling this task.  </p>
   <form id="add-dam-form" method="post" enctype="multipart/form-data">
     {% csrf_token %}
@@ -25,9 +26,8 @@
   <p>The code used in the controllers file of the tethys app is as shown below :</p>
   <pre class="line-numbers">
     <code class="language-python">
-      auth = HydroShareAuthBasic(username= username, password= password)
+                auth = HydroShareAuthBasic(username= username, password= password)
                 hs = HydroShare(auth=auth)
-                # hs.setAccessRules(public=True)
                 abstract = date_built
                 keywords = owner.split(', ')
                 rtype = 'GenericResource'
@@ -35,8 +35,9 @@
                 metadata = '[{"coverage":{"type":"period", "value":{"start":"01/01/2000", "end":"12/12/2010"}}}, {"creator":{"name":"'+author+'"}}, {"creator":{"name":"'+coauthor+'"}}]'
                 extra_metadata = '{"key-1": "value-1", "key-2": "value-2"}'
                 resource_id = hs.createResource(rtype, title, resource_file=fpath, keywords=keywords, abstract=abstract, metadata=metadata, extra_metadata=extra_metadata)
-                messages.error(request, "File added successfully")
-            if has_errors:
+                messages.error(request, "Resource created successfully")
+                # return {"status": success }
+            if has_errors:    
                 messages.error(request, "Please fix errors.")
 
     </code>
@@ -46,4 +47,10 @@
 {% block app_actions %}
   {% gizmo cancel_button %}
   {% gizmo create_button %}
+{% endblock %}
+
+
+{% block scripts %}
+{{ block.super }}
+<script src="{% static 'hydroshare_python/js/main.js' %}" type="text/javascript"></script>
 {% endblock %}

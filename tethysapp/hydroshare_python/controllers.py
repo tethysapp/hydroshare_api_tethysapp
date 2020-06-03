@@ -280,7 +280,7 @@ def get_file(request):
                 metadata = '[{"coverage":{"type":"period", "value":{"start":"01/01/2000", "end":"12/12/2010"}}}, {"creator":{"name":"'+author+'"}}, {"creator":{"name":"'+coauthor+'"}}]'
                 extra_metadata = '{"key-1": "value-1", "key-2": "value-2"}'
                 resource_id = hs.createResource(rtype, title, resource_file=fpath, keywords=keywords, abstract=abstract, metadata=metadata, extra_metadata=extra_metadata)
-                messages.error(request, "File added successfully")
+                messages.error(request, "Resource created successfully")
                 # return {"status": success }
             if has_errors:    
             #Utah Municipal resource id
@@ -556,7 +556,7 @@ def delete_resource(request):
     # date_error = ''
 
     # Handle form submission
-    if request.POST and 'add-button' in request.POST:
+    if request.POST and 'delete-button' in request.POST:
         # Get values
         has_errors = False
         username = request.POST.get('username', None)
@@ -589,9 +589,12 @@ def delete_resource(request):
             auth = HydroShareAuthBasic(username= username, password= password)
             hs = HydroShare(auth=auth)
             hs.deleteResource(resourcein)
-            return redirect(reverse('hydroshare_python:home'))
+            messages.error(request, "Resource deleted successfully")
+        if has_errors:    
+            #Utah Municipal resource id
+            messages.error(request, "Please fix errors.")
 
-        messages.error(request, "Please fix errors.")
+        
 
     # Define form gizmos
     resourcein_input = TextInput(
@@ -612,9 +615,9 @@ def delete_resource(request):
     ) 
 
 
-    add_button = Button(
-        display_text='Add',
-        name='add-button',
+    delete_button = Button(
+        display_text='Delete Resource',
+        name='delete-button',
         icon='glyphicon glyphicon-plus',
         style='success',
         attributes={'form': 'add-dam-form'},
@@ -631,7 +634,7 @@ def delete_resource(request):
         'resourcein_input': resourcein_input,
         'username_input': username_input,
         'password_input': password_input,
-        'add_button': add_button,
+        'delete_button': delete_button,
         'cancel_button': cancel_button
 
     }
@@ -723,7 +726,7 @@ def delete_file(request):
     # date_error = ''
 
     # Handle form submission
-    if request.POST and 'add-button' in request.POST:
+    if request.POST and 'delete-button' in request.POST:
         # Get values
         has_errors = False
         # filename = request.POST.get('filename', None)
@@ -781,9 +784,9 @@ def delete_file(request):
     ) 
 
 
-    add_button = Button(
-        display_text='Add',
-        name='add-button',
+    delete_button = Button(
+        display_text='Delete File',
+        name='delete-button',
         icon='glyphicon glyphicon-plus',
         style='success',
         attributes={'form': 'add-dam-form'},
@@ -800,7 +803,7 @@ def delete_file(request):
         'resourcein_input': resourcein_input,
         'username_input': username_input,
         'password_input': password_input,
-        'add_button': add_button,
+        'delete_button': delete_button,
         'cancel_button': cancel_button,
         'filev': filev
 

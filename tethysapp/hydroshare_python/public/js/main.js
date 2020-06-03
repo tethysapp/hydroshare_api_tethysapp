@@ -21,3 +21,7 @@ addbutton.addEventListener('click', clickevent);
 
 var createbutton = document.querySelector("[name=create-button]")
 createbutton.addEventListener('click', clickevent);
+
+
+var deletebutton = document.querySelector("[name=delete-button]")
+deletebutton.addEventListener('click', clickevent);
