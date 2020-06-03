@@ -954,7 +954,7 @@ def download_file(request):
             auth = HydroShareAuthBasic(username= username, password= password)
             hs = HydroShare(auth=auth)
             fname = title
-            fpath = hs.getResourceFile(resourcein, fname, destination= '...')
+            fpath = hs.getResourceFile(resourcein, fname, destination= '/tmp')
             return redirect(reverse('hydroshare_python:home'))
         messages.error(request, "Please fix errors.")
 

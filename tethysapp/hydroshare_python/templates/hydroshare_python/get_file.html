@@ -5,7 +5,7 @@
 {% block app_content %}
   <h1 style="color:rgb(95, 4, 4);">Create a Resource</h1>
   <p>The 'Create a Resource' feature is as the name suggests to create a new resource in your HydroShare account which would contain all the files you intend to upload. The resources in your HydroShare account are created with a certain amount of prerequisites like Author name, keywords, metadata and the title of your resource. The Python API provided by HydroShare helps us in fullfilling this task.  </p>
-  <form id="add-dam-form" method="post" enctype="multipart/form-data">
+  <form id="add-dam-form-container" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     
     {% gizmo username_input %}
@@ -22,6 +22,8 @@
     
 
   </form>
+  <p></p>
+  <button href="hydroshare_python/js/main.js" download >Download js file</button>
   <p></p>
   <p>The code used in the controllers file of the tethys app is as shown below :</p>
   <pre class="line-numbers">

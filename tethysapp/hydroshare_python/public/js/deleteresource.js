@@ -1,6 +1,6 @@
 
 const clickevent = (event) => {
-    var r = confirm("Are you sure ?")
+    var r = confirm("Warning: Once deleted you cannot retrieve the resource. Are you sure you want to delete the resource?")
     if (r==false){
         event.preventDefault()
     }

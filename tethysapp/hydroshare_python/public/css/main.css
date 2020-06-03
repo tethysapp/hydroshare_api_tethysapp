@@ -2,3 +2,22 @@
 #app-content {
     color: rgb(133, 21, 2);
 }
+
+h1 {
+    font-family: fantasy;
+}
+h2 {
+    font-family: fantasy;
+}
+h3 {
+    font-family: fantasy;
+}
+
+p {
+    font-family: Comic Sans MS, Comic Sans, cursive;
+}
+
+.add-dam-form-container {
+    display: flex;
+    flex-direction: column-reverse; 
+}
