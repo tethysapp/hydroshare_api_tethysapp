@@ -220,8 +220,6 @@ def get_file(request):
         fname = request.POST.get('fname', '')
         print(dict(request.FILES))
         uploaded_file = request.FILES['uploadedfile']
-        print('fname')
-        print(fname)
         with tempfile.TemporaryDirectory() as temp_dir:
             temp_zip_path = os.path.join(temp_dir, fname+'.shp')
             print(temp_zip_path)
@@ -954,7 +952,7 @@ def download_file(request):
             auth = HydroShareAuthBasic(username= username, password= password)
             hs = HydroShare(auth=auth)
             fname = title
-            fpath = hs.getResourceFile(resourcein, fname, destination= '/tmp')
+            fpath = hs.getResourceFile(resourcein, fname, destination= '/Users/abhishek/Desktop')
             return redirect(reverse('hydroshare_python:home'))
         messages.error(request, "Please fix errors.")
 
