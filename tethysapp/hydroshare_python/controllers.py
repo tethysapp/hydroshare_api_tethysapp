@@ -311,6 +311,7 @@ def get_file(request):
     password_input = TextInput(
         display_text='Password',
         name='password',
+        attributes={"type":"password"},
         placeholder='Enter your password'
     ) 
 
@@ -471,8 +472,9 @@ def add_file(request):
     password_input = TextInput(
         display_text='Password',
         name='password',
+        attributes={"type":"password"},
         placeholder='Enter your password'
-    )
+    ) 
 
     # filename_input = TextInput(
     #     display_text='File name',
@@ -609,6 +611,7 @@ def delete_resource(request):
     password_input = TextInput(
         display_text='Password',
         name='password',
+        attributes={"type":"password"},
         placeholder='Enter your password'
     ) 
 
@@ -778,6 +781,7 @@ def delete_file(request):
     password_input = TextInput(
         display_text='Password',
         name='password',
+        attributes={"type":"password"},
         placeholder='Enter your password'
     ) 
 

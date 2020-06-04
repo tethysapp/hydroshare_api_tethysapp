@@ -1,3 +1,6 @@
+
+
+
 const clickevent = (event) => {
     var r = confirm("Are you sure ?")
     if (r==false){
@@ -8,4 +11,3 @@ const clickevent = (event) => {
 var addbutton = document.querySelector("[name=add-button]")
 addbutton.addEventListener('click', clickevent);
 
-document.getElementById("password").placeholder = "Type your password";
