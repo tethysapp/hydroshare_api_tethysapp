@@ -7,3 +7,5 @@ const clickevent = (event) => {
 
 var addbutton = document.querySelector("[name=add-button]")
 addbutton.addEventListener('click', clickevent);
+
+document.getElementById("password").placeholder = "Type your password";

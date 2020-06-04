@@ -15,7 +15,7 @@ const clickevent = (event) => {
         event.preventDefault()
     }
 }
-var createbutton = document.querySelector("[name=create_button]")
+var createbutton = document.querySelector("[name=create-button]")
 createbutton.addEventListener('click', clickevent);
 
 

@@ -38,7 +38,6 @@
                 extra_metadata = '{"key-1": "value-1", "key-2": "value-2"}'
                 resource_id = hs.createResource(rtype, title, resource_file=fpath, keywords=keywords, abstract=abstract, metadata=metadata, extra_metadata=extra_metadata)
                 messages.error(request, "Resource created successfully")
-                # return {"status": success }
             if has_errors:    
                 messages.error(request, "Please fix errors.")
 

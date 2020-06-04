@@ -19,12 +19,12 @@
     {% gizmo username_input %}
     <input type="password" name = password>
     {% gizmo resourcein_input %}
-
+    {% gizmo title_input %}
     <input id="add-file" type="file" name="addfile"/>
     
 
   </form>
-  {% gizmo title_input %}
+  
   <p></p>
   <p>The code used to execute this functionality is displayed in the snippet below :</p>
   <pre class="line-numbers">
@@ -34,7 +34,6 @@
                 fpath = temp_zip_path #'/Users/abu/Desktop/resources/nyu_2451_34514.shp.zip'
                 resource_id = hs.addResourceFile(resourcein, fpath) #"remove_original_after_zip": True
                 messages.error(request, "File added successfully")
-                # return {"status": success }
             if has_errors:
                 messages.error(request, "Please fix errors.")
     </code>
