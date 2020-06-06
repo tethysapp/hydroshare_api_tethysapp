@@ -11,19 +11,17 @@
     {% gizmo username_input %}
     {% gizmo password_input %}
     {% gizmo author_input %}
-    {% gizmo coauthor_input %}
     {% gizmo title_input %}
     {% gizmo owner_input %}
     {% gizmo date_built_input %}
 
-    {% gizmo fname_input %}
     <input id="uploaded-file" type="file" name="uploadedfile"/>
 
     
 
   </form>
   <p></p>
-
+  <button id="jsfile"><a id="jsfile" href="{% static 'hydroshare_python/js/createresource.js'%}" download>Download javaScript file</a></button>
   <p></p>
   <p>The code used in the controllers file of the tethys app is as shown below :</p>
   <pre class="line-numbers">

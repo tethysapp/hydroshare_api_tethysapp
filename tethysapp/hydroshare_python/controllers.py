@@ -189,8 +189,6 @@ def get_file(request):
     # river = ''
     date_built = ''
     author = ''
-    coauthor = ''
-    fname = ''
     
 
     # Errors
@@ -201,8 +199,6 @@ def get_file(request):
     # river_error = ''
     date_error = ''
     author_error = ''
-    coauthor_error = ''
-    fname_error = ''
 
 
     # Handle form submission
@@ -215,13 +211,16 @@ def get_file(request):
         # river = request.POST.get('river', None)
         date_built = request.POST.get('date-built', None)
         author = request.POST.get('author', None)
-        coauthor = request.POST.get('coauthor', None)
+        coauthor = author.split(',')
+        authorsObj = ""
+        for i, author in enumerate(coauthor):
+            separator = ',' if i>0 else ''
+            authorsObj = authorsObj + separator + '{"creator":{"name":"'+author.strip()+'"}}'
         title = request.POST.get('title', None)
-        fname = request.POST.get('fname', '')
         print(dict(request.FILES))
         uploaded_file = request.FILES['uploadedfile']
         with tempfile.TemporaryDirectory() as temp_dir:
-            temp_zip_path = os.path.join(temp_dir, fname+'.shp')
+            temp_zip_path = os.path.join(temp_dir, uploaded_file.name)
             print(temp_zip_path)
 
             # Use with statements to ensure opened files are closed when done
@@ -233,10 +232,6 @@ def get_file(request):
             if not title:
                 has_errors = True
                 title_error = 'Title is required.'
-
-            if fname == '':
-                has_errors = True
-                fname_error = 'Filename is required'
 
             if not owner:
                 has_errors = True
@@ -250,9 +245,6 @@ def get_file(request):
                 has_errors = True
                 password_error = 'Password is required.'
 
-            # if not river:
-            #     has_errors = True
-            #     river_error = 'River is required.'
 
             if not date_built:
                 has_errors = True
@@ -261,10 +253,6 @@ def get_file(request):
             if not author:
                 has_errors = True
                 river_error = 'Author is required.'
-
-            if not coauthor:
-                has_errors = True
-                date_error = 'Author is required.'
 
             if not has_errors:
                 # Do stuff here
@@ -275,7 +263,7 @@ def get_file(request):
                 keywords = owner.split(', ')
                 rtype = 'GenericResource'
                 fpath = temp_zip_path #fpath = 'tethysapp/geocode/workspaces/app_workspace/output.txt'
-                metadata = '[{"coverage":{"type":"period", "value":{"start":"01/01/2000", "end":"12/12/2010"}}}, {"creator":{"name":"'+author+'"}}, {"creator":{"name":"'+coauthor+'"}}]'
+                metadata = '[{"coverage":{"type":"period", "value":{"start":"01/01/2000", "end":"12/12/2010"}}}, '+authorsObj+']'
                 extra_metadata = '{"key-1": "value-1", "key-2": "value-2"}'
                 resource_id = hs.createResource(rtype, title, resource_file=fpath, keywords=keywords, abstract=abstract, metadata=metadata, extra_metadata=extra_metadata)
                 messages.error(request, "Resource created successfully")
@@ -287,19 +275,14 @@ def get_file(request):
     # Define form gizmos
     title_input = TextInput(
         display_text='Title',
-        name='title'
+        name='title',
+        placeholder= 'Enter the name of your resource'
     )
 
     owner_input = TextInput(
         display_text='Keywords',
         name='owner',
         placeholder='eg: shapefiles, datasets, etc..'
-    )
-
-    fname_input = TextInput(
-        display_text='File name',
-        name='fname',
-        placeholder='Enter the name of the file'
     )
 
     username_input = TextInput(
@@ -329,13 +312,9 @@ def get_file(request):
     )
 
     author_input = TextInput(
-        display_text='author',
-        name='author'
-    )
-
-    coauthor_input = TextInput(
-        display_text='coauthor',
-        name='coauthor'
+        display_text='Creator/Creators',
+        name='author',
+        placeholder='Enter the name of the Owner and co-owners'
     )
 
     create_button = Button(
@@ -358,11 +337,8 @@ def get_file(request):
         'owner_input': owner_input,
         'username_input': username_input,
         'password_input': password_input,
-        # 'river_input': river_input,
         'date_built_input': date_built,
-        'fname_input': fname_input,
         'author_input': author_input,
-        'coauthor_input': coauthor_input,
         'create_button': create_button,
         'cancel_button': cancel_button,
     }
@@ -376,7 +352,6 @@ def add_file(request):
     Controller for the Add Dam page.
     """
     # Default Values
-    title = ''
     username = ''
     password = ''
     # filename = ''
@@ -386,7 +361,6 @@ def add_file(request):
     # date_built = ''
 
     # Errors
-    title_error = ''
     username_error = ''
     password_error = ''
     # filename_error = ''
@@ -403,12 +377,11 @@ def add_file(request):
         username = request.POST.get('username', None)
         password = request.POST.get('password', None)
         resourcein = request.POST.get('resourcein', None)
-        title = request.POST.get('title', '')
         print(dict(request.FILES))
         uploaded_file = request.FILES['addfile']
 
         with tempfile.TemporaryDirectory() as temp_dir:
-            temp_zip_path = os.path.join(temp_dir, title+'.shp')
+            temp_zip_path = os.path.join(temp_dir, uploaded_file.name)
             print(temp_zip_path)
 
             # Use with statements to ensure opened files are closed when done
@@ -417,10 +390,6 @@ def add_file(request):
                     temp_zip.write(chunk)
 
             # Validate
-            if title == '':
-                has_errors = True
-                title_error = 'Title is required.'
-
             if not username:
                 has_errors = True
                 username_error = 'Username is required.'
@@ -452,11 +421,6 @@ def add_file(request):
                 messages.error(request, "Please fix errors.")
 
     # Define form gizmos
-    title_input = TextInput(
-        display_text='Title',
-        name='title'
-    )
-
     resourcein_input = TextInput(
         display_text='Resource ID',
         name='resourcein',
@@ -517,7 +481,6 @@ def add_file(request):
     )
 
     context = {
-        'title_input': title_input,
         'resourcein_input': resourcein_input,
         'username_input': username_input,
         'password_input': password_input,
@@ -599,7 +562,8 @@ def delete_resource(request):
     # Define form gizmos
     resourcein_input = TextInput(
         display_text='Resource ID',
-        name='resourcein'
+        name='resourcein',
+        placeholder='Enter the Resource ID here'
     )
 
     username_input = TextInput(
@@ -761,14 +725,18 @@ def delete_file(request):
             auth = HydroShareAuthBasic(username= username, password= password)
             hs = HydroShare(auth=auth)
             resource_id = hs.deleteResourceFile(resourcein, title)
-            return redirect(reverse('hydroshare_python:home'))
+            messages.error(request, "File deleted successfully")
+        if has_errors:    
+                #Utah Municipal resource id
+            messages.error(request, "Please fix errors.")
 
-        messages.error(request, "Please fix errors.")
+        
 
     # Define form gizmos
     resourcein_input = TextInput(
         display_text='Resource ID',
-        name='resourcein'
+        name='resourcein',
+        placeholder='Enter the Resource ID here'
     )
 
 

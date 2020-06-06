@@ -5,19 +5,36 @@
 
 h1 {
     font-family: fantasy;
+    text-decoration: underline;
 }
 h2 {
     font-family: fantasy;
 }
 h3 {
     font-family: fantasy;
+    
 }
 
 p {
     font-family: Comic Sans MS, Comic Sans, cursive;
 }
 
-.add-dam-form-container {
-    display: flex;
-    flex-direction: column-reverse; 
+#add-dam-form {
+    background-color: rgb(203, 229, 255);
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    border-radius: 7px;
+    box-shadow: gray;
+    padding: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 10px;
+    gap: 20px;
+}
+
+/* body {
+    background-color: rgb(203, 229, 255);
+} */
+
+#jsfile {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
