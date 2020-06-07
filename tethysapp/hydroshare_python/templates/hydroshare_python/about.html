@@ -10,7 +10,7 @@
 <p>HydroShare is the Consortium of Universities for the Advancement of Hydrologic Science, Inc. (CUAHSI)'s web based hydrologic information system for users to share and publish data and models in a variety of flexible formats, and to make this information available in a citable, shareable and discoverable manner. It enables users to collaborate and work as teams in a web based collaborative environment, thereby enhancing research, education and application of hydrologic knowledge. Hydroshare includes tools (web apps) that can act on content in HydroShare providing users with a gateway to computing and analysis. HydroShare is being developed by a CUAHSI team supported by National Science Foundation awards ACI-1148453, ACI-1148090, EAR-1338606, OAC-1664018, OAC-1664061, OAC-1664119.
 
   CUAHSI is an organization representing more than 130 U.S. universities and international water-science-related organizations and is sponsored by the National Science Foundation to provide infrastructure and services to advance the development of hydrologic science and education in the United States.</p>
-  <img src="{% static 'hydroshare_python/images/homepage.jpeg'%}" alt="Resource ID" height="500">
+  <a href="https://www.hydroshare.org/home"><img src="{% static 'hydroshare_python/images/homepage.jpeg'%}" alt="Resource ID" height="500"></a>
 <p></p>    
 <h3>What is an API?</h3>
 <p></p>
@@ -23,6 +23,12 @@
   
   The waiter takes your order, delivers it to the kitchen, telling the kitchen what to do. It then delivers the response, in this case, the food, back to you. Moreover, if the API is designed correctly, hopefully, your order won’t crash!</p>
   <img src="{% static 'hydroshare_python/images/apidiagram.jpeg'%}" alt="Resource ID" height="326">
+<p></p>
+<h3>HydroShare (hs_restclient) API </h3>
+<p>The API provided by Hydroshare is python based and very simple to use. The functions in HydroShare can be used very smoothly using their API. 
+   
+    To install this restclient in your shell, you can do using pip. The command is '<mark> pip install hs_restclient </mark>'</p>
+  
 {% endblock %}
 
 {% block app_actions %}

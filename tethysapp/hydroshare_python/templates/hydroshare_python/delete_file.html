@@ -10,7 +10,7 @@
   <p>But this feature works smoothly without any glitches, just try copying the resource id from the HTTP hyperlink when you open your resource in Hydroshare.</p>
   <img src="{% static 'hydroshare_python/images/resourceid.jpeg'%}" alt="Resource ID" height="50">
   <p>Like for example, this is an example hyperlink https://www.hydroshare.org/resource/08c6e88adaa647cd9bb28e5d619178e0/ from which the 32 letter combination at the end is called the resource id. And so the resource id from the example hyperlink is <mark>08c6e88adaa647cd9bb28e5d619178e0</mark> </p>
-  <button id="jsfile"><a id="jsfile" href="{% static 'hydroshare_python/js/second.js'%}" download>Download javaScript file</a></button>
+  
   <form id="add-dam-form" method="post" enctype="multipart/form-data">
     
     {% csrf_token %}
@@ -25,7 +25,7 @@
     </select>
   </form>
 
-
+  <button id="jsfile"><a id="jsfile" href="{% static 'hydroshare_python/js/second.js'%}" download>Download javaScript file</a></button>
     <pre class="line-numbers">
       <code class="language-python">
         auth = HydroShareAuthBasic(username= username, password= password)
