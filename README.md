@@ -3,12 +3,15 @@
 A basic app to display and use hydroshare python client library functions.
 
 Welcome to the Tethys app for HydroShare Python API Demonstration
+
 Introduction to HydroShare
+
 What is HydroShare?
 
 HydroShare is the Consortium of Universities for the Advancement of Hydrologic Science, Inc. (CUAHSI)'s web based hydrologic information system for users to share and publish data and models in a variety of flexible formats, and to make this information available in a citable, shareable and discoverable manner. It enables users to collaborate and work as teams in a web based collaborative environment, thereby enhancing research, education and application of hydrologic knowledge. Hydroshare includes tools (web apps) that can act on content in HydroShare providing users with a gateway to computing and analysis. HydroShare is being developed by a CUAHSI team supported by National Science Foundation awards ACI-1148453, ACI-1148090, EAR-1338606, OAC-1664018, OAC-1664061, OAC-1664119. CUAHSI is an organization representing more than 130 U.S. universities and international water-science-related organizations and is sponsored by the National Science Foundation to provide infrastructure and services to advance the development of hydrologic science and education in the United States.
 
 Resource ID
+
 What is an API?
 
 API stands for Application Programming Interface. An API is a software intermediary that allows two applications to talk to each other. In other words, an API is the messenger that delivers your request to the provider that you’re requesting it from and then delivers the response back to you.

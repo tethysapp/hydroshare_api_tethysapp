@@ -8,29 +8,12 @@ from django.shortcuts import redirect, reverse
 from django.contrib import messages
 from django.http import HttpResponse
 from hs_restclient import HydroShare, HydroShareAuthBasic
+from django.utils.encoding import smart_str
 import os
 import tempfile
 import zipfile
 
 
-# import helper function
-
-# @login_required()
-# # your controller function
-# def home1(request):
-
-#     # put codes in a 'try..except...' statement
-#     try:
-#         # pass in request object
-#         hs = get_oauth_hs(request)
-
-#         # your logic goes here. For example: list all HydroShare resources
-#         for resource in hs.getResourceList():
-#             print(resource)
-
-#     except Exception as e:
-#         # handle exceptions
-#         pass
 
 @login_required()
 def home(request):
@@ -173,8 +156,6 @@ def about(request):
     }
 
     return render(request, 'hydroshare_python/about.html', context)
-
-      
 
 @login_required()
 def get_file(request):
@@ -345,7 +326,6 @@ def get_file(request):
 
     return render(request, 'hydroshare_python/get_file.html', context)
 
-
 @login_required()
 def add_file(request):
     """
@@ -494,7 +474,6 @@ def add_file(request):
 
     return render(request, 'hydroshare_python/add_file.html', context)
 
-
 @login_required()
 def delete_resource(request):
     """
@@ -606,7 +585,6 @@ def delete_resource(request):
 
     return render(request, 'hydroshare_python/delete_resource.html', context)
 
-
 @login_required()
 def filev(request):
     """
@@ -665,7 +643,6 @@ def filev(request):
 
         return HttpResponse('')
            
-
 @login_required()
 def delete_file(request):
     """
@@ -924,8 +901,17 @@ def download_file(request):
             auth = HydroShareAuthBasic(username= username, password= password)
             hs = HydroShare(auth=auth)
             fname = title
-            fpath = hs.getResourceFile(resourcein, fname, destination= '/Users/abhishek/Desktop')
-            return redirect(reverse('hydroshare_python:home'))
+            fpath = hs.getResourceFile(resourcein, fname, destination= '/tmp')
+            
+
+            response = HttpResponse( content_type='application/force-download')
+            response['Content-Disposition'] = 'attachment; filename=%s' % smart_str(fname)
+
+            response['X-Sendfile'] = smart_str('/tmp')
+# It's usually a good idea to set the 'Content-Length' header too.
+# You can also set any other required headers: Cache-Control, etc.
+            messages.error(request, "File downloaded succesfully")
+            return response
         messages.error(request, "Please fix errors.")
 
     # Define form gizmos
