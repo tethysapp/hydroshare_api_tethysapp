@@ -6,45 +6,60 @@
   <h1 style="color:rgb(95, 4, 4);">Add file</h1>
 
   
-  <p>This feature works smoothly without any glitches, just try copying the resource id from the HTTP hyperlink when you open your resource in Hydroshare.</p>
-  <img src="{% static 'hydroshare_python/images/resourceid.jpeg'%}" alt="Resource ID" height="50">
-  <p></p>
-  <p>Like for example, this is an example hyperlink https://www.hydroshare.org/resource/08c6e88adaa647cd9bb28e5d619178e0/ from which the 32 letter combination at the end is called the resource id. And so the resource id from the example hyperlink is <mark>08c6e88adaa647cd9bb28e5d619178e0</mark> </p>
+  <p>The 'add file' feature is to as the name indicates to help you with adding a file to a resource in your HydroShare account. This feature works smoothly without any glitches.</p>
   
   <form id="add-dam-form" method="post" enctype="multipart/form-data">
     
     {% csrf_token %}
+    <p>The way you could go about performing this function is by following the instructions below:</p>
+    <h3>Step 1: Sign into HydroShare using your credentials</h3>
+    
 
-
+    <p>In the boxes below you enter your HydroShare username and its password. If you have to make an HydroShare account, <a href="https://www.hydroshare.org/sign-up/?next=">click here</a>.</p>
     {% gizmo username_input %}
     {% gizmo password_input %}
-    
+  <p></p>
+  <h3>Step2: Enter in the Resource ID and choose the file you wish to upload</h3>
+  
+    <p>The resource Id is a unique identifier for every resource on Hydroshare. You can findit by browsing to your HydroShare resource copying the ID from the URL. Like for example, this is an example hyperlink https://www.hydroshare.org/resource/08c6e88adaa647cd9bb28e5d619178e0/ from which the 32 letter combination at the end is called the resource id. And so the resource id from the example hyperlink is <mark>08c6e88adaa647cd9bb28e5d619178e0</mark> </p>
+    <img src="{% static 'hydroshare_python/images/resourceid.jpeg'%}" alt="Resource ID" height="30">
+    <p></p>
     {% gizmo resourcein_input %}
+    <p>The resource ID will help you locate the resource that you wish to add the file to the respective resource.</p>
+    <p>Now chose the file that you wish to upload</p>
     <input id="add-file" type="file" name="addfile"/>
-    
+    <p>Once the file is selected, Click the 'Add' button below to add it to the resource.</p>
+    <p></p>
+    {% gizmo add_button %}
 
   </form>
-  <button id="jsfile"><a id="jsfile" href="{% static 'hydroshare_python/js/addfile.js'%}" download>Download javaScript file</a></button>
   <p></p>
-  <p>The code used to execute this functionality is displayed in the snippet below :</p>
+  <h4>Learn more:</h4>
+  <p>To try this on your own, you can use the code snippet below, or download the full javascript file that is used in this demonstration</p>
   <pre class="line-numbers">
     <code class="language-python">
-                auth = HydroShareAuthBasic(username= username, password= password)
-                hs = HydroShare(auth=auth)
-                fpath = temp_zip_path #'/Users/abu/Desktop/resources/nyu_2451_34514.shp.zip'
-                resource_id = hs.addResourceFile(resourcein, fpath) #"remove_original_after_zip": True
-                messages.error(request, "File added successfully")
-            if has_errors:
-                messages.error(request, "Please fix errors.")
+      auth = HydroShareAuthBasic(username= username, password= password)
+      hs = HydroShare(auth=auth)
+      fpath = temp_zip_path 
+      resource_id = hs.addResourceFile(resourcein, fpath) 
+      messages.error(request, "File added successfully")
+      
+if has_errors:    
+  
+      messages.error(request, "Please fix errors.")
+
     </code>
   </pre>
+  <p></p>
+  <button id="jsfile"><a id="jsfile" href="{% static 'hydroshare_python/js/addfile.js'%}" download>Download javaScript file</a></button>
+  <p></p>
 
   
 {% endblock %}
 
 {% block app_actions %}
   {% gizmo cancel_button %}
-  {% gizmo add_button %}
+  
   {% endblock %}
 
   {% block scripts %}

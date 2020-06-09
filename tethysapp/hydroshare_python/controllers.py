@@ -293,9 +293,9 @@ def get_file(request):
     )
 
     author_input = TextInput(
-        display_text='Creator/Creators',
+        display_text='Author/Co-authors',
         name='author',
-        placeholder='Enter the name of the Owner and co-owners'
+        placeholder='Enter the name of the Author and Co-authors'
     )
 
     create_button = Button(
@@ -392,12 +392,10 @@ def add_file(request):
                 # filename = filename
                 auth = HydroShareAuthBasic(username= username, password= password)
                 hs = HydroShare(auth=auth)
-                fpath = temp_zip_path #'/Users/abu/Desktop/resources/nyu_2451_34514.shp.zip'
-                resource_id = hs.addResourceFile(resourcein, fpath) #"remove_original_after_zip": True
+                fpath = temp_zip_path 
+                resource_id = hs.addResourceFile(resourcein, fpath) 
                 messages.error(request, "File added successfully")
-                # return {"status": success }
-            if has_errors:    
-            #Utah Municipal resource id
+            if has_errors:
                 messages.error(request, "Please fix errors.")
 
     # Define form gizmos

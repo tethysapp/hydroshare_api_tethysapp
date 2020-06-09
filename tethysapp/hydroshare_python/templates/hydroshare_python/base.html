@@ -30,18 +30,17 @@
  <li class="{% if request.path == about_url %}active{% endif %}"><a href="{{ about_url }}">About <mark>HydroShare</mark></a></li> 
 
 {% url 'hydroshare_python:get_file' as get_file_url %}  
-  <li class="{% if request.path == get_file_url %}active{% endif %}"><a href="{{ get_file_url }}">1. Create a resource</a></li>  
+  <li class="{% if request.path == get_file_url %}active{% endif %}"><a href="{{ get_file_url }}">Create a resource</a></li>  
 {% url 'hydroshare_python:add_file' as add_file_url %}  
-  <li class="{% if request.path == add_file_url %}active{% endif %}"><a href="{{ add_file_url }}">2. Add file</a></li>   
+  <li class="{% if request.path == add_file_url %}active{% endif %}"><a href="{{ add_file_url }}">Add file</a></li>   
 {% url 'hydroshare_python:delete_resource' as delete_resource_url %}  
-  <li class="{% if request.path == delete_resource_url %}active{% endif %}"><a href="{{ delete_resource_url }}">3. Delete Resource</a></li>  
+  <li class="{% if request.path == delete_resource_url %}active{% endif %}"><a href="{{ delete_resource_url }}">Delete Resource</a></li>  
 {% url 'hydroshare_python:delete_file' as delete_file_url %} 
-  <li class="{% if request.path == delete_file_url %}active{% endif %}"><a href="{{ delete_file_url }}">4. Delete a file</a></li>
-{% url 'hydroshare_python:find_resource' as find_resource_url %} 
-  <li class="{% if request.path == find_resource_url %}active{% endif %}"><a href="{{ find_resource_url }}">5. Browse for a resource</a></li> 
+  <li class="{% if request.path == delete_file_url %}active{% endif %}"><a href="{{ delete_file_url }}">Delete a file</a></li>
 {% url 'hydroshare_python:download_file' as download_file_url %} 
-  <li class="{% if request.path == download_file_url %}active{% endif %}"><a href="{{ download_file_url }}">6. Download a File</a></li> 
-    
+  <li class="{% if request.path == download_file_url %}active{% endif %}"><a href="{{ download_file_url }}">Download a File</a></li> 
+{% url 'hydroshare_python:find_resource' as find_resource_url %} 
+  <li class="{% if request.path == find_resource_url %}active{% endif %}"><a href="{{ find_resource_url }}">Browse for a resource</a></li>     
   <li class="separator"></li>
   <li class="title"><a href="/apps/hydroshare-python/">Map Visualization(work in progress)</a></li>
   <li>

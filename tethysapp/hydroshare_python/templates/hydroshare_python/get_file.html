@@ -5,47 +5,69 @@
 {% block app_content %}
   <h1 style="color:rgb(95, 4, 4);">Create a Resource</h1>
   <p>The 'Create a Resource' feature is as the name suggests to create a new resource in your HydroShare account which would contain all the files you intend to upload. The resources in your HydroShare account are created with a certain amount of prerequisites like Author name, keywords, metadata and the title of your resource. The Python API provided by HydroShare helps us in fullfilling this task.  </p>
+  <p></p>
   <form id="add-dam-form" method="post" enctype="multipart/form-data">
     {% csrf_token %}
+    <p>The way you could go about performing this function is by following the instructions below:</p>
+    <h3>Step 1: Sign into HydroShare using your credentials</h3>
     
+
+    <p>In the boxes below you enter your HydroShare username and its password. If you have to make an HydroShare account, <a href="https://www.hydroshare.org/sign-up/?next=">click here</a>.</p>
     {% gizmo username_input %}
     {% gizmo password_input %}
+    <p></p>
+    <h3>Step 2: Enter the metaadata as indicated below</h3>
+    <p></p>
+    <p>Enter the name of the Author and co-authors if you have any, this helps with sharing access and making things available to people who could contribute to the project.</p>
+    <p></p>
     {% gizmo author_input %}
+    <p></p>
+    <p>The title of the project is basically the name of your resource. Try to keep it short but descriptive. This way, it helps with avoiding confusion. </p>
     {% gizmo title_input %}
-    {% gizmo owner_input %}
+    <p></p>
+    <p>The keywords are used to sort your resource with respect to its type and helps with especially in searching for a resource.</p>
+    {% gizmo owner_input %} 
+    <p></p>
+    <p>Type in your abstract in the tab below that would help explain your resource to another fellow user. Try not using more than 200 words.</p>
     {% gizmo date_built_input %}
+    <p></p>
+    <h3>Step3: Choose the file that you want to upload to the new resource that you are creating and click the 'Create' button below:</h3>
 
     <input id="uploaded-file" type="file" name="uploadedfile"/>
-
+    <p></p>
+    {% gizmo create_button %}
     
 
   </form>
   <p></p>
-  <button id="jsfile"><a id="jsfile" href="{% static 'hydroshare_python/js/createresource.js'%}" download>Download javaScript file</a></button>
-  <p></p>
-  <p>The code used in the controllers file of the tethys app is as shown below :</p>
+ 
+  <h4>Learn more:</h4>
+  <p>To try this on your own, you can use the code snippet below, or download the full javascript file that is used in this demonstration</p>
   <pre class="line-numbers">
     <code class="language-python">
-                auth = HydroShareAuthBasic(username= username, password= password)
-                hs = HydroShare(auth=auth)
-                abstract = date_built
-                keywords = owner.split(', ')
-                rtype = 'GenericResource'
-                fpath = temp_zip_path #fpath = 'tethysapp/geocode/workspaces/app_workspace/output.txt'
-                metadata = '[{"coverage":{"type":"period", "value":{"start":"01/01/2000", "end":"12/12/2010"}}}, {"creator":{"name":"'+author+'"}}, {"creator":{"name":"'+coauthor+'"}}]'
-                extra_metadata = '{"key-1": "value-1", "key-2": "value-2"}'
-                resource_id = hs.createResource(rtype, title, resource_file=fpath, keywords=keywords, abstract=abstract, metadata=metadata, extra_metadata=extra_metadata)
-                messages.error(request, "Resource created successfully")
-            if has_errors:    
-                messages.error(request, "Please fix errors.")
+      auth = HydroShareAuthBasic(username= username, password= password)
+      hs = HydroShare(auth=auth)
+      abstract = date_built
+      keywords = owner.split(', ')
+      rtype = 'GenericResource'
+      fpath = temp_zip_path #fpath = 'tethysapp/geocode/workspaces/app_workspace/output.txt'
+      metadata = '[{"coverage":{"type":"period", "value":{"start":"01/01/2000", "end":"12/12/2010"}}}, '+authorsObj+']'
+      extra_metadata = '{"key-1": "value-1", "key-2": "value-2"}'
+      resource_id = hs.createResource(rtype, title, resource_file=fpath, keywords=keywords, abstract=abstract, metadata=metadata, extra_metadata=extra_metadata)
+      messages.error(request, "Resource created successfully")
+  if has_errors:    
+      messages.error(request, "Please fix errors.")
 
     </code>
   </pre>
+  <p></p>
+  <button id="jsfile"><a id="jsfile" href="{% static 'hydroshare_python/js/addfile.js'%}" download>Download javaScript file</a></button>
+  <p></p>
 {% endblock %}
 
 {% block app_actions %}
   {% gizmo cancel_button %}
-  {% gizmo create_button %}
+  
 {% endblock %}
 
 

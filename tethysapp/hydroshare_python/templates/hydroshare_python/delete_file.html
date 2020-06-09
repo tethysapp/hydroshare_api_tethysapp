@@ -6,34 +6,50 @@
 {% block app_content %}
   <h1 style="color:rgb(95, 4, 4);">Delete a File from a Resource</h1>
 
-  <p>This app is in development stage and so the browse for resource option is still under development</p>
-  <p>But this feature works smoothly without any glitches, just try copying the resource id from the HTTP hyperlink when you open your resource in Hydroshare.</p>
-  <img src="{% static 'hydroshare_python/images/resourceid.jpeg'%}" alt="Resource ID" height="50">
-  <p>Like for example, this is an example hyperlink https://www.hydroshare.org/resource/08c6e88adaa647cd9bb28e5d619178e0/ from which the 32 letter combination at the end is called the resource id. And so the resource id from the example hyperlink is <mark>08c6e88adaa647cd9bb28e5d619178e0</mark> </p>
+  <p>This code snippet will show you how to delete a single file from a HydroShare rsource using the HydroShare API. This could be a useful function in the case where you need to replace a file in a resource with a newer updated version of the same resource. You could also use this function to allow your code to clean up a resource by deleting unneeded files. Keep in mind, that all deletions of files using this method are PERMENANT, so be careful ! But this feature works smoothly without any glitches, just try copying the resource id from the HTTP hyperlink when you open your resource in Hydroshare.</p>
+  <p>Our demonstration code here is comprised of two steps. Step 1 will query the resource and generate a list of files available therein. Step 2 will actually delete a selected file from a resource. </p>
+  <p></p>
+  <h3>Step 1: Get a list of files in a resource from HydroShare: </h3>
   
   <form id="add-dam-form" method="post" enctype="multipart/form-data">
     
     {% csrf_token %}
 
-
+  <p></p>
+    <p>In the boxes below you enter your HydroShare username and its password. If you have to make an HydroShare account, <a href="https://www.hydroshare.org/sign-up/?next=">click here</a>.</p>
     {% gizmo username_input %}
     {% gizmo password_input %}
+    <p></p>
+    <p>The resource Id is a unique identifier for every resource on Hydroshare. You can findit by browsing to your HydroShare resource copying the ID from the URL. Like for example, this is an example hyperlink https://www.hydroshare.org/resource/08c6e88adaa647cd9bb28e5d619178e0/ from which the 32 letter combination at the end is called the resource id. And so the resource id from the example hyperlink is <mark>08c6e88adaa647cd9bb28e5d619178e0</mark> </p>
+    <img src="{% static 'hydroshare_python/images/resourceid.jpeg'%}" alt="Resource ID" height="30">
     {% gizmo resourcein_input %}
     <button type="button" id="fetchfile">Find files</button>
+    <p></p>
+  <h3>Step 2: Choose a file in the resource and delete it:</h3>  
     <select name="title_input" id="title_input">
         <option>Select a file</option>
     </select>
   </form>
+<p></p>
+{% gizmo delete_button %}
+<p></p>
+  
+<h4>Learn more:</h4>
+<p>To try this on your own, you can use the code snippet below, or download the full javascript file that is used in this demonstration</p>
 
-  <button id="jsfile"><a id="jsfile" href="{% static 'hydroshare_python/js/second.js'%}" download>Download javaScript file</a></button>
+<p></p>
     <pre class="line-numbers">
       <code class="language-python">
         auth = HydroShareAuthBasic(username= username, password= password)
-        hs = HydroShare(auth=auth)
-        resource_id = hs.deleteResourceFile(resourcein, title)
-        return redirect(reverse('hydroshare_python:home'))
+            hs = HydroShare(auth=auth)
+            resource_id = hs.deleteResourceFile(resourcein, title)
+            messages.error(request, "File deleted successfully")
+        if has_errors:    
+            messages.error(request, "Please fix errors.")
       </code>
     </pre>
+<button id="jsfile"><a id="jsfile" href="{% static 'hydroshare_python/js/second.js'%}" download>Download javaScript file</a></button>
+<p></p>
     
     
 
@@ -42,7 +58,7 @@
 
 {% block app_actions %}
   {% gizmo cancel_button %}
-  {% gizmo delete_button %}
+  
 {% endblock %}
 
 {% block scripts %}
