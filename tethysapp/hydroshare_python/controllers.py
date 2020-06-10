@@ -849,6 +849,7 @@ def download_file(request):
     username = ''
     password = ''
     resourcein = ''
+    filev = []
     # owner = 'Reclamation'
     # river = ''
     # date_built = ''
@@ -862,16 +863,16 @@ def download_file(request):
     # date_error = ''
 
     # Handle form submission
-    if request.POST and 'add-button' in request.POST:
+    if request.POST and 'download-button' in request.POST:
         # Get values
         has_errors = False
         # filename = request.POST.get('filename', None)
         resourcein = request.POST.get('resourcein', None)
-        title = request.POST.get('title', None)
+        title = request.POST.get('title_input', None)
         username = request.POST.get('username', None)
         password = request.POST.get('password', None)
         
-
+        
         # Validate
 
         if not resourcein:
@@ -900,17 +901,13 @@ def download_file(request):
             hs = HydroShare(auth=auth)
             fname = title
             fpath = hs.getResourceFile(resourcein, fname, destination= '/tmp')
-            
-
             response = HttpResponse( content_type='application/force-download')
             response['Content-Disposition'] = 'attachment; filename=%s' % smart_str(fname)
-
             response['X-Sendfile'] = smart_str('/tmp')
-# It's usually a good idea to set the 'Content-Length' header too.
-# You can also set any other required headers: Cache-Control, etc.
             messages.error(request, "File downloaded succesfully")
-            return response
-        messages.error(request, "Please fix errors.")
+        if has_errors:    
+                #Utah Municipal resource id
+            messages.error(request, "Please fix errors.")
 
     # Define form gizmos
     resourcein_input = TextInput(
@@ -933,13 +930,14 @@ def download_file(request):
     password_input = TextInput(
         display_text='Password',
         name='password',
+        attributes={"type":"password"},
         placeholder='Enter your password'
     ) 
 
 
     add_button = Button(
-        display_text='Add',
-        name='add-button',
+        display_text='Download',
+        name='download-button',
         icon='glyphicon glyphicon-plus',
         style='success',
         attributes={'form': 'add-dam-form'},
@@ -958,7 +956,8 @@ def download_file(request):
         'username_input': username_input,
         'password_input': password_input,
         'add_button': add_button,
-        'cancel_button': cancel_button
+        'cancel_button': cancel_button,
+        'filev':filev
 
     }
 
