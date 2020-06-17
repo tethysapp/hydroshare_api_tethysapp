@@ -1,58 +1,35 @@
 {% extends "hydroshare_python/base.html" %}
 {% load tethys_gizmos %}
-
-{% block header_buttons %}
-  <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
-    integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
-    crossorigin=""></script>
-  <style>#mapid { height: 600px; }</style>
-{% endblock %}
+{% load static %}
 
 {% block app_content %}
-  <div id="mapid"></div>
-  <script>
-    var L
-    var mymap = L.map('mapid').setView([51.505, -0.09], 13);
+<h1>Welcome to the Tethys app for HydroShare Python API Demonstration</h3>
 
-    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-        maxZoom: 18,
-        id: 'mapbox/streets-v11',
-        tileSize: 512,
-        zoomOffset: -1,
-        accessToken: 'your.mapbox.access.token'
-        }).addTo(mymap);
-  </script>
+<h2>Introduction to HydroShare</h4>
+<h3>What is HydroShare?</h5>
+<p>HydroShare is the Consortium of Universities for the Advancement of Hydrologic Science, Inc. (CUAHSI)'s web based hydrologic information system for users to share and publish data and models in a variety of flexible formats, and to make this information available in a citable, shareable and discoverable manner. It enables users to collaborate and work as teams in a web based collaborative environment, thereby enhancing research, education and application of hydrologic knowledge. Hydroshare includes tools (web apps) that can act on content in HydroShare providing users with a gateway to computing and analysis. HydroShare is being developed by a CUAHSI team supported by National Science Foundation awards ACI-1148453, ACI-1148090, EAR-1338606, OAC-1664018, OAC-1664061, OAC-1664119.
+
+  CUAHSI is an organization representing more than 130 U.S. universities and international water-science-related organizations and is sponsored by the National Science Foundation to provide infrastructure and services to advance the development of hydrologic science and education in the United States.</p>
+  <a href="https://www.hydroshare.org/home"><img src="{% static 'hydroshare_python/images/homepage.jpeg'%}" alt="Resource ID" height="500"></a>
+<p></p>    
+<h3>What is an API?</h3>
+<p></p>
+<p>API stands for Application Programming Interface. An API is a software intermediary that allows two applications to talk to each other.  In other words, an API is the messenger that delivers your request to the provider that you’re requesting it from and then delivers the response back to you.</p>
+<p></p>
+<h3>How do APIs work?</h3>
+<p>Imagine a waiter in a restaurant.  You, the customer, are sitting at the table with a menu of choices to order from, and the kitchen is the provider who will fulfill your order.
+
+  You need a link to communicate your order to the kitchen and then to deliver your food back to your table. It can’t be the chef because she’s cooking in the kitchen. You need something to connect the customer who’s ordering food and the chef who prepares it.  That’s where the waiter — or the API —  enters the picture.
+  
+  The waiter takes your order, delivers it to the kitchen, telling the kitchen what to do. It then delivers the response, in this case, the food, back to you. Moreover, if the API is designed correctly, hopefully, your order won’t crash!</p>
+  <img src="{% static 'hydroshare_python/images/apidiagram.jpeg'%}" alt="Resource ID" height="326">
+<p></p>
+<h3>HydroShare (hs_restclient) API </h3>
+<p>The API provided by Hydroshare is python based and very simple to use. The functions in HydroShare can be used very smoothly using their API. 
+   
+    To install this restclient in your shell, you can do using pip. The command is '<mark> pip install hs_restclient </mark>'</p>
   
 {% endblock %}
 
-{# Use the after_app_content block for modals #}
-{% block after_app_content %}
-  <div class="modal fade" id="help-modal" tabindex="-1" role="dialog" aria-labelledby="help-modal-label">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h5 class="modal-title" id="help-modal-label">Example Modal</h5>
-        </div>
-        <div class="modal-body">
-          <p>You can add custom buttons to the app header using the <code>header_buttons</code> block. Use anchor/link tags for the button and wrap it in a div with the class <code>header-button</code>. For buttons with the gliphyicons, add the <code>glyphicon-button</code> class as well.</p>
-          <p>Ever have trouble using a modal in a Tethys app? Use the <code>after_app_content</code> block for modal content to allow them to function properly. See: <a href="https://getbootstrap.com/javascript/#modals">Bootstrap Modals</a></p>
-          <p>Add tooltips to any element by adding the <code>data-toggle</code>, <code>data-placement</code>, and <code>title</code> attributes to the button. See: <a href="https://getbootstrap.com/javascript/#tooltips">Bootstrap Tooltips</a></p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
-        </div>
-      </div>
-    </div>
-  </div>
-{% endblock %}
-
 {% block app_actions %}
-  {% gizmo save_button %}
-  {% gizmo edit_button %}
-  {% gizmo remove_button %}
-  {% gizmo previous_button %}
-  {% gizmo next_button %}
 {% endblock %}

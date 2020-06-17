@@ -1,0 +1,84 @@
+{% extends "hydroshare_python/base.html" %}
+{% load tethys_gizmos %}
+{% load static %}
+
+{% block app_content %}
+  <h1 style="color:rgb(95, 4, 4);">Metadata</h1>
+
+  
+  <p>HydroShare has a python api for adding metadata information to an author who is the chief contributor of the resource. Metadata helps with the user to know more about the Authors of the resource.</p>
+  
+  <form id="add-dam-form" method="post" enctype="multipart/form-data">
+    
+    {% csrf_token %}
+    <p>The way you could go about performing this function is by following the instructions below:</p>
+    <h3>Step 1: Sign into HydroShare using your credentials</h3>
+    
+
+    <p>In the boxes below you enter your HydroShare username and its password. If you have to make an HydroShare account, <a href="https://www.hydroshare.org/sign-up/?next=">click here</a>.</p>
+    {% gizmo username_input %}
+    {% gizmo password_input %}
+  <p></p>
+  <h3>Step2: Enter the name of the Author or Chief contributor to the resource.</h3>
+  {% gizmo creator1_input %}
+  <p>Now enter the names of the Co-Authors of the resource</p>
+  {% gizmo creator2_input %}
+  <p></p>
+    <p>The resource Id is a unique identifier for every resource on Hydroshare. You can findit by browsing to your HydroShare resource copying the ID from the URL. Like for example, this is an example hyperlink https://www.hydroshare.org/resource/08c6e88adaa647cd9bb28e5d619178e0/ from which the 32 letter combination at the end is called the resource id. And so the resource id from the example hyperlink is <mark>08c6e88adaa647cd9bb28e5d619178e0</mark> </p>
+    <img src="{% static 'hydroshare_python/images/resourceid.jpeg'%}" alt="Resource ID" height="30">
+    {% gizmo resourcein_input %}
+   <p></p>
+  <p></p>
+  <h3>Step3: Add information to the fields shown below.</h3>  
+  <p></p>
+  <p>The fields are very descriptive and are displayed as mentioned in the HydroShare website</p>
+  <p></p>
+  {% gizmo organization_input %}
+  {% gizmo Phone_input %}
+  {% gizmo Email_input %}
+  {% gizmo Address_input %}
+    <p></p>
+    <p></p>
+
+    {% gizmo detail1_input %}
+    {% gizmo detail2_input %} 
+    <p></p>
+    <p>Once you are ready to update the added information, you can go ahead and click the submit button shown below</p>
+    {% gizmo add_button %}
+    
+    
+    
+
+  </form>
+  <p></p>
+  <h4>Learn more:</h4>
+  <p>To try this on your own, you can use the code snippet below, or download the full javascript file that is used in this demonstration</p>
+  <pre class="line-numbers">
+    <code class="language-python">
+      auth = HydroShareAuthBasic(username= username, password= password)
+      hs = HydroShare(auth=auth)
+      fpath = temp_zip_path 
+      resource_id = hs.addResourceFile(resourcein, fpath) 
+      messages.error(request, "File added successfully")
+      
+if has_errors:    
+  
+      messages.error(request, "Please fix errors.")
+
+    </code>
+  </pre>
+  <p></p>
+  <button id="jsfile"><a id="jsfile" href="{% static 'hydroshare_python/js/addfile.js'%}" download>Download javaScript file</a></button>
+  <p></p>
+
+  
+{% endblock %}
+
+{% block app_actions %}
+  {% gizmo cancel_button %}
+  
+  {% endblock %}
+
+  {% block scripts %}
+  {{ block.super }}
+  {% endblock %}

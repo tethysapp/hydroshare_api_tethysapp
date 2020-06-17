@@ -55,9 +55,9 @@ class HydrosharePython(TethysAppBase):
                 controller='hydroshare_python.controllers.delete_file'
             ),
             UrlMap(
-                name='find_resource',
-                url='hydroshare-python/find_resource',
-                controller='hydroshare_python.controllers.find_resource'
+                name='viewer',
+                url='hydroshare-python/viewer',
+                controller='hydroshare_python.controllers.viewer'
             ),
             UrlMap(
                 name='download_file',
@@ -65,14 +65,24 @@ class HydrosharePython(TethysAppBase):
                 controller='hydroshare_python.controllers.download_file'
             ),
             UrlMap(
-                name='about',
-                url='hydroshare-python/about',
-                controller='hydroshare_python.controllers.about'
+                name='mapview',
+                url='hydroshare-python/mapview',
+                controller='hydroshare_python.controllers.mapview'
             ),
             UrlMap(
                 name='filev',
                 url='hydroshare-python/filev',
                 controller='hydroshare_python.controllers.filev'
+            ),
+            UrlMap(
+                name='combinedui',
+                url='hydroshare-python/combinedui',
+                controller='hydroshare_python.controllers.combinedui'
+            ),
+            UrlMap(
+                name='metadata',
+                url='hydroshare-python/metadata',
+                controller='hydroshare_python.controllers.metadata'
             ),
             
         )
