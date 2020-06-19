@@ -19,7 +19,7 @@
     {% gizmo username_input %}
     {% gizmo password_input %}
   <p></p>
-  <h3>Step2: Enter the name of the Author or Chief contributor to the resource.</h3>
+  <h3>Step 2: Enter the name of the Author or Chief contributor to the resource.</h3>
   {% gizmo creator1_input %}
   <p>Now enter the names of the Co-Authors of the resource</p>
   {% gizmo creator2_input %}
@@ -29,7 +29,7 @@
     {% gizmo resourcein_input %}
    <p></p>
   <p></p>
-  <h3>Step3: Add information to the fields shown below.</h3>  
+  <h3>Step 3: Add information to the fields shown below.</h3>  
   <p></p>
   <p>The fields are very descriptive and are displayed as mentioned in the HydroShare website</p>
   <p></p>
@@ -52,24 +52,35 @@
   </form>
   <p></p>
   <h4>Learn more:</h4>
-  <p>To try this on your own, you can use the code snippet below, or download the full javascript file that is used in this demonstration</p>
+  <p>To try this on your own, you can use the code snippet below that is used in this demonstration.</p>
   <pre class="line-numbers">
     <code class="language-python">
       auth = HydroShareAuthBasic(username= username, password= password)
-      hs = HydroShare(auth=auth)
-      fpath = temp_zip_path 
-      resource_id = hs.addResourceFile(resourcein, fpath) 
-      messages.error(request, "File added successfully")
-      
-if has_errors:    
-  
-      messages.error(request, "Please fix errors.")
+            hs = HydroShare(auth=auth)
+            print(creator1)
+            metadata = {
+                "coverages": [
+                    {"type": "period", "value": {"start": detail1, "end": detail2}}
+                ],
+                "creators": [
+                    {"name": creator1 , "organization": organization , "email": Email , "address": Address , "phone": Phone},
+                ]
+            }
+
+            for i, author in enumerate(coauthor):
+                metadata["creators"].append({ "name": author.strip() })
+
+            print(metadata)
+            science_metadata_json = hs.updateScienceMetadata(resourcein, metadata=metadata)
+            messages.error(request, "Metadata added successfully")
+        if has_errors:
+            messages.error(request, "Please fix errors.")
+
 
     </code>
   </pre>
   <p></p>
-  <button id="jsfile"><a id="jsfile" href="{% static 'hydroshare_python/js/addfile.js'%}" download>Download javaScript file</a></button>
-  <p></p>
+ <p></p>
 
   
 {% endblock %}

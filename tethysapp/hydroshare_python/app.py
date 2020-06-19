@@ -75,11 +75,6 @@ class HydrosharePython(TethysAppBase):
                 controller='hydroshare_python.controllers.filev'
             ),
             UrlMap(
-                name='combinedui',
-                url='hydroshare-python/combinedui',
-                controller='hydroshare_python.controllers.combinedui'
-            ),
-            UrlMap(
                 name='metadata',
                 url='hydroshare-python/metadata',
                 controller='hydroshare_python.controllers.metadata'

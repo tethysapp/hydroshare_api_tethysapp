@@ -19,7 +19,7 @@
     {% gizmo username_input %}
     {% gizmo password_input %}
   <p></p>
-  <h3>Step2: Enter in the Resource ID and choose the file you wish to upload</h3>
+  <h3>Step 2: Enter in the Resource ID and choose the file you wish to upload</h3>
   
     <p>The resource Id is a unique identifier for every resource on Hydroshare. You can findit by browsing to your HydroShare resource copying the ID from the URL. Like for example, this is an example hyperlink https://www.hydroshare.org/resource/08c6e88adaa647cd9bb28e5d619178e0/ from which the 32 letter combination at the end is called the resource id. And so the resource id from the example hyperlink is <mark>08c6e88adaa647cd9bb28e5d619178e0</mark> </p>
     <img src="{% static 'hydroshare_python/images/resourceid.jpeg'%}" alt="Resource ID" height="30">
@@ -35,7 +35,7 @@
   </form>
   <p></p>
   <h4>Learn more:</h4>
-  <p>To try this on your own, you can use the code snippet below, or download the full javascript file that is used in this demonstration</p>
+  <p>To try this on your own, you can use the code snippet below that is used in this demonstration.</p>
   <pre class="line-numbers">
     <code class="language-python">
       auth = HydroShareAuthBasic(username= username, password= password)
@@ -51,7 +51,6 @@ if has_errors:
     </code>
   </pre>
   <p></p>
-  <button id="jsfile"><a id="jsfile" href="{% static 'hydroshare_python/js/addfile.js'%}" download>Download javaScript file</a></button>
   <p></p>
 
   

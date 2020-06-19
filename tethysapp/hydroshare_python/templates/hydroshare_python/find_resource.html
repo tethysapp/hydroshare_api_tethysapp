@@ -14,7 +14,7 @@
     {% csrf_token %}
 
   <p></p>
-  <h4>Step 1: Enter in your username and password</h4>
+  <h3>Step 1: Enter in your username and password</h3>
     <p>In the boxes below you enter your HydroShare username and its password. If you have to make an HydroShare account, <a href="https://www.hydroshare.org/sign-up/?next=">click here</a>.</p>
     {% gizmo username_input %}
     {% gizmo password_input %}
@@ -35,14 +35,29 @@
     <div>Resource id of the selected Resource: <span id="selected_resource"></span></div>
   </form>
 
-  
+  <p>To try this on your own, you can use the code snippet below, or download the full javascript file that is used in this demonstration.</p>
+  <pre class="line-numbers">
+    <code class="language-python">
+      auth = HydroShareAuthBasic(username= username, password= password)
+      hs = HydroShare(auth=auth)
 
+      result = hs.resources(subject=viewr)
+
+      resourceList = []
+      for resource in result:
+          resourceList.append(resource)
+
+      return HttpResponse(json.dumps(resourceList))
+
+    </code>
+  </pre>
+  <p></p>
+  <button id="jsfile"><a id="jsfile" href="{% static 'hydroshare_python/js/findresource.js'%}" download>Download javaScript file</a></button>
 
 {% endblock %}
 
 {% block app_actions %}
   {% gizmo cancel_button %}
-  {% gizmo add_button %}
 {% endblock %}
 
 {% block scripts %}
