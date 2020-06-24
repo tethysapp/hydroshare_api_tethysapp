@@ -31,6 +31,10 @@
 
 {% url 'hydroshare_python:get_file' as get_file_url %}  
   <li class="{% if request.path == get_file_url %}active{% endif %}"><a href="{{ get_file_url }}">Create a resource</a></li>  
+{% url 'hydroshare_python:viewer' as viewer_url %} 
+  <li class="{% if request.path == viewer_url %}active{% endif %}"><a href="{{ viewer_url }}">Browse for a resource</a></li>  
+{% url 'hydroshare_python:mapview' as mapview_url %} 
+  <li class="{% if request.path == mapview_url %}active{% endif %}"><a href="{{ mapview_url }}">View a resource on a <mark>Map</mark></a></li> 
 {% url 'hydroshare_python:add_file' as add_file_url %}  
   <li class="{% if request.path == add_file_url %}active{% endif %}"><a href="{{ add_file_url }}">Add file</a></li>   
 {% url 'hydroshare_python:delete_resource' as delete_resource_url %}  
@@ -41,10 +45,7 @@
   <li class="{% if request.path == download_file_url %}active{% endif %}"><a href="{{ download_file_url }}">Download a File</a></li> 
 {% url 'hydroshare_python:metadata' as metadata_url %} 
   <li class="{% if request.path == metadata_url %}active{% endif %}"><a href="{{ metadata_url }}">Metadata</a></li>      
-{% url 'hydroshare_python:viewer' as viewer_url %} 
-  <li class="{% if request.path == viewer_url %}active{% endif %}"><a href="{{ viewer_url }}">Browse for a resource</a></li>  
-{% url 'hydroshare_python:mapview' as mapview_url %} 
-  <li class="{% if request.path == mapview_url %}active{% endif %}"><a href="{{ mapview_url }}">HydroShare <mark>Map</mark></a></li>    
+   
 
   <li>
 {% endblock %}
