@@ -1,5 +1,6 @@
 {% extends "hydroshare_python/base.html" %}
 {% load tethys_gizmos %}
+{% load static %}
 
 {% block header_buttons %}
   <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
@@ -9,19 +10,40 @@
 {% endblock %}
 
 {% block app_content %}
+
+<form id="add-dam-form" method="post" enctype="multipart/form-data">
+    
+  {% csrf_token %}
+  <p>The way you could go about performing this function is by following the instructions below:</p>
+  <h3>Step 1: Sign into HydroShare using your credentials</h3>
+  
+
+  <p>In the boxes below you enter your HydroShare username and its password. If you have to make an HydroShare account, <a href="https://www.hydroshare.org/sign-up/?next=">click here</a>.</p>
+  {% gizmo username_input %}
+  {% gizmo password_input %}
+
+  <h3>Step 2: Type in your subject of the resource you are looking for</h3> 
+  {% gizmo viewr_input %}
+    <p></p>
+<button type="button" id="fetchfile">Find Resources</button>
+  <p></p>
+    <select name="title_input" id="title_input">
+
+      <p>The resources related to the above mentioned subject will appear in the scroll below. Depending on the number of the resources with respect to the subject in HydroShare, it could take seconds to a few minutes:</p>
+        <option>Select the Resource</option>
+    </select>
+    <p></p>
+    <p>The resource id is what you could use in other features of the app like adding a file or downloading a file or even deleting a file from a resource.</p>
+    <div>Resource id of the selected Resource: <span id="selected_resource"></span></div>
+    <p></p>
+    {% gizmo add_button %}
+    {% gizmo cancel_button %}
+    <p></p>
+  </form>
+
   <div id="mapid"></div>
   <script>
-    var L
-    var mymap = L.map('mapid').setView([51.505, -0.09], 13);
-
-    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-        maxZoom: 18,
-        id: 'mapbox/streets-v11',
-        tileSize: 512,
-        zoomOffset: -1,
-        accessToken: 'pk.eyJ1IjoiYWJoaXNoZWthbWFsMTgiLCJhIjoiY2s1eTVxNGExMmQ5MDNubjExaWY5MjdvbSJ9.3nmdjWZmUCDNyRdlPo5gbg'
-        }).addTo(mymap);
+    
   </script>
   
 {% endblock %}
@@ -50,9 +72,10 @@
 {% endblock %}
 
 {% block app_actions %}
-  {% gizmo save_button %}
-  {% gizmo edit_button %}
-  {% gizmo remove_button %}
-  {% gizmo previous_button %}
-  {% gizmo next_button %}
+  
 {% endblock %}
+
+{% block scripts %}
+  {{ block.super }}
+  <script src="{% static 'hydroshare_python/js/mapview.js' %}" type="text/javascript"></script>
+  {% endblock %}

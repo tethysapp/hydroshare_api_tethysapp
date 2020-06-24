@@ -92,68 +92,99 @@ def mapview(request):
     """
     Controller for the app home page.
     """
-    save_button = Button(
-        display_text='',
-        name='save-button',
-        icon='glyphicon glyphicon-floppy-disk',
+    username = ''
+    password = ''
+    resourcev=[]
+    viewr = ''
+
+    username_error = ''
+    password_error = ''
+    viewr_error = ''
+
+    # Handle form submission
+    print('POST REQUEST RECEIVED')
+    if request.POST and not 'add-button' in request.POST:
+        print('POST REQUEST STARTED')
+        # Get values
+        has_errors = False
+        username = request.POST.get('username', None)
+        password = request.POST.get('password', None)
+        viewr = request.POST.get('viewr', None)
+
+            # Validate
+        
+        if not username:
+            has_errors = True
+            username_error = 'Username is required.'
+        
+        if not password:
+            has_errors = True
+            password_error = 'Password is required.'
+
+        if not viewr:
+            has_errors = True
+            viewr_error = 'Subject is required.'
+
+
+        if not has_errors:
+            # Do stuff here
+            auth = HydroShareAuthBasic(username= username, password= password)
+            hs = HydroShare(auth=auth)
+            # hs.setAccessRules(public=True)
+            result = hs.resources(subject=viewr)
+
+            resourceList = []
+            for resource in result:
+                resourceList.append(resource)
+
+            return HttpResponse(json.dumps(resourceList))
+            # return {"status": success }
+
+        if has_errors:    
+        #Utah Municipal resource id
+            messages.error(request, "Please fix errors.")
+
+    username_input = TextInput(
+        display_text='Username',
+        name='username',
+        placeholder='Enter your username'
+    )
+
+    password_input = TextInput(
+        display_text='Password',
+        name='password',
+        attributes={"type":"password"},
+        placeholder='Enter your password'
+    )
+
+    viewr_input = TextInput(
+        display_text='Subject',
+        name='viewr',
+        placeholder='Enter your subject'
+    )
+
+    add_button = Button(
+        display_text='View on Map',
+        name='add-button',
+        icon='glyphicon glyphicon-plus',
         style='success',
-        attributes={
-            'data-toggle':'tooltip',
-            'data-placement':'top',
-            'title':'Save'
-        }
+        attributes={'form': 'add-dam-form'},
+        submit=True
     )
 
-    edit_button = Button(
-        display_text='',
-        name='edit-button',
-        icon='glyphicon glyphicon-edit',
-        style='warning',
-        attributes={
-            'data-toggle':'tooltip',
-            'data-placement':'top',
-            'title':'Edit'
-        }
+    cancel_button = Button(
+        display_text='Cancel',
+        name='cancel-button',
+        href=reverse('hydroshare_python:home')
     )
-
-    remove_button = Button(
-        display_text='',
-        name='remove-button',
-        icon='glyphicon glyphicon-remove',
-        style='danger',
-        attributes={
-            'data-toggle':'tooltip',
-            'data-placement':'top',
-            'title':'Remove'
-        }
-    )
-
-    previous_button = Button(
-        display_text='Previous',
-        name='previous-button',
-        attributes={
-            'data-toggle':'tooltip',
-            'data-placement':'top',
-            'title':'Previous'
-        }
-    )
-
-    next_button = Button(
-        display_text='Next',
-        name='next-button',
-        attributes={
-            'data-toggle':'tooltip',
-            'data-placement':'top',
-            'title':'Next'
-        }
-    ) 
 
     context = {
-        'save_button': save_button,
-        'edit_button': edit_button,
-        'remove_button': remove_button,
-        'previous_button': previous_button,
-        'next_button': next_button
+        'username_input': username_input,
+        'password_input': password_input,
+        'viewr_input': viewr_input,
+        'add_button': add_button,
+        'cancel_button': cancel_button,
+        'resourcev': resourcev,
     }
 
     return render(request, 'hydroshare_python/mapview.html', context)
@@ -1263,5 +1294,4 @@ def viewer(request):
     }
 
     return render(request, 'hydroshare_python/find_resource.html', context)
-
 
