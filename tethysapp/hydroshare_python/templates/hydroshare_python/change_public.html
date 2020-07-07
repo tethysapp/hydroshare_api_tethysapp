@@ -1,0 +1,55 @@
+
+{% extends "hydroshare_python/base.html" %}
+{% load tethys_gizmos %}
+{% load static %}
+
+{% block app_content %}
+  <h1 style="color:rgb(95, 4, 4);">Change the type of resource from 'Private' to 'Public' </h1>
+
+  <p>This feature of the app helps changing the type of a resource that is present on the HydroShare database. The option to change it from private to public works very smoothly and it is required because the resources that are private are not very accessible to the general user at HydroShare.</p>
+  <p></p>
+  
+  <form id="add-dam-form" method="post" enctype="multipart/form-data">
+    
+    {% csrf_token %}
+
+  <p></p>
+  <h3>Step 1: Enter in your username and password</h3>
+    <p>In the boxes below you enter your HydroShare username and its password. If you have to make an HydroShare account, <a href="https://www.hydroshare.org/sign-up/?next=">click here</a>.</p>
+    {% gizmo username_input %}
+    {% gizmo password_input %}
+    <p></p>
+    <h3>Step 2: Enter in the Resource ID and choose the file you wish to upload</h3>
+  
+    <p>The resource Id is a unique identifier for every resource on Hydroshare. You can findit by browsing to your HydroShare resource copying the ID from the URL. Like for example, this is an example hyperlink https://www.hydroshare.org/resource/08c6e88adaa647cd9bb28e5d619178e0/ from which the 32 letter combination at the end is called the resource id. And so the resource id from the example hyperlink is <mark>08c6e88adaa647cd9bb28e5d619178e0</mark> </p>
+    <img src="{% static 'hydroshare_python/images/resourceid.jpeg'%}" alt="Resource ID" height="30">
+    <p></p>
+  {% gizmo title_input %}
+  {% gizmo public_button %}
+   
+  </form>
+
+  <p>To try this on your own, you can use the code snippet below, or download the full javascript file that is used in this demonstration.</p>
+  <pre class="line-numbers">
+    <code class="language-python">
+            auth = HydroShareAuthBasic(username= username, password= password)
+            hs = HydroShare(auth=auth)
+            hs.setAccessRules(title, public=True)
+            messages.error(request, "Resource is now public")
+
+    </code>
+  </pre>
+  <p></p>
+  <button id="jsfile"><a id="jsfile" href="{% static 'hydroshare_python/js/findresource.js'%}" download>Download javaScript file</a></button>
+
+{% endblock %}
+
+{% block app_actions %}
+  
+{% endblock %}
+
+{% block scripts %}
+  {{ block.super }}
+  <script src="{% static 'hydroshare_python/js/findresource.js' %}" type="text/javascript"></script>
+  {% endblock %}
+

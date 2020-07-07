@@ -9,6 +9,7 @@ from django.contrib import messages
 from django.http import HttpResponse
 from hs_restclient import HydroShare, HydroShareAuthBasic
 from django.utils.encoding import smart_str
+from wsgiref.util import FileWrapper
 import os
 import tempfile
 import zipfile
@@ -563,7 +564,6 @@ def delete_resource(request):
             hs.deleteResource(resourcein)
             messages.error(request, "Resource deleted successfully")
         if has_errors:    
-            #Utah Municipal resource id
             messages.error(request, "Please fix errors.")
 
         
@@ -851,10 +851,23 @@ def download_file(request):
             hs = HydroShare(auth=auth)
             fname = title
             fpath = hs.getResourceFile(resourcein, fname, destination= '/tmp')
-            response = HttpResponse( content_type='application/force-download')
-            response['Content-Disposition'] = 'attachment; filename=%s' % smart_str(fname)
-            response['X-Sendfile'] = smart_str('/tmp')
-            messages.error(request, "File downloaded succesfully")
+            # response = HttpResponse( content_type='application/force-download')
+            # response['Content-Disposition'] = 'attachment; filename=%s' % smart_str(fname)
+            # response['X-Sendfile'] = smart_str('/tmp')
+            # return response
+            fpath='/tmp/%s' % title
+            #hs.getResource(title, destination='/tmp')
+            # response = HttpResponse( content_type='application/force-download')
+            # response['Content-Disposition'] = 'attachment; filename=%s.zip' % smart_str(title)
+            # response['X-Sendfile'] = smart_str('/tmp')
+            # response['Content-Length'] = os.path.getsize(fpath)
+            # print(os.path.getsize(fpath))
+
+            wrapper = FileWrapper(open(os.path.abspath(fpath), 'rb')) 
+            response = HttpResponse(wrapper, content_type='text/plain') 
+            response['Content-Disposition'] = 'attachment; filename=%s' % os.path.basename(fpath) 
+            response['Content-Length'] = os.path.getsize(fpath)
+            return response
         if has_errors:    
                 #Utah Municipal resource id
             messages.error(request, "Please fix errors.")
@@ -1295,3 +1308,339 @@ def viewer(request):
 
     return render(request, 'hydroshare_python/find_resource.html', context)
 
+@login_required()
+def download_resource(request):
+    """
+    Controller for the Add Dam page.
+    """
+    # Default Values
+    title = ''
+    username = ''
+    password = ''
+    
+
+    # Errors
+    title_error = ''
+    username_error = ''
+    password_error = ''
+
+    # Handle form submission
+    if request.POST and 'download-button' in request.POST:
+        # Get values
+        has_errors = False
+        username = request.POST.get('username', None)
+        password = request.POST.get('password', None)
+        title = request.POST.get('title', None)
+        
+
+        # Validate
+        if not title:
+            has_errors = True
+            title_error = 'Title is required.'
+
+        
+        if not username:
+            has_errors = True
+            username_error = 'Username is required.'
+        
+        if not password:
+            has_errors = True
+            password_error = 'Password is required.'
+
+        if not has_errors:
+            # Do stuff here
+            auth = HydroShareAuthBasic(username= username, password= password)
+            hs = HydroShare(auth=auth)
+            fpath='/tmp/%s.zip' % title
+            hs.getResource(title, destination='/tmp')
+            # response = HttpResponse( content_type='application/force-download')
+            # response['Content-Disposition'] = 'attachment; filename=%s.zip' % smart_str(title)
+            # response['X-Sendfile'] = smart_str('/tmp')
+            # response['Content-Length'] = os.path.getsize(fpath)
+            # print(os.path.getsize(fpath))
+
+            wrapper = FileWrapper(open(os.path.abspath(fpath), 'rb')) 
+            response = HttpResponse(wrapper, content_type='text/plain') 
+            response['Content-Disposition'] = 'attachment; filename=%s' % os.path.basename(fpath) 
+            response['Content-Length'] = os.path.getsize(fpath)
+            return response
+            # hs.setAccessRules(public=True)
+            
+        if has_errors:    
+        #Utah Municipal resource id
+            messages.error(request, "Please fix errors.")
+
+    # Define form gizmos
+    title_input = TextInput(
+        display_text='Enter your resource ID of the Resource',
+        name='title',
+        placeholder= 'Ex: decbdccf486d4df4b1d18031a4e63aa3'
+    )
+
+    username_input = TextInput(
+        display_text='Username',
+        name='username',
+        placeholder='Enter your username'
+    )
+
+    password_input = TextInput(
+        display_text='Password',
+        name='password',
+        attributes={"type":"password"},
+        placeholder='Enter your password'
+    ) 
+
+    # river_input = TextInput(
+    #     display_text='Name of Creator',
+    #     name='river',
+    #     placeholder='e.g: John Smith'
+    # )
+
+
+    download_button = Button(
+        display_text='Download',
+        name='download-button',
+        icon='glyphicon glyphicon-plus',
+        style='success',
+        attributes={'form': 'add-dam-form'},
+        submit=True
+    )
+
+    cancel_button = Button(
+        display_text='Cancel',
+        name='cancel-button',
+        href=reverse('hydroshare_python:home')
+    )
+
+    context = {
+        'title_input': title_input,
+        'username_input': username_input,
+        'password_input': password_input,
+        'download_button': download_button,
+        'cancel_button': cancel_button,
+    }
+
+    return render(request, 'hydroshare_python/download_resource.html', context)
+
+
+@login_required()
+def create_folder(request):
+    """
+    Controller for the Add Dam page.
+    """
+    # Default Values
+    username = ''
+    password = ''
+    # river = ''
+    resourcein = ''
+    foldername = ''
+    
+
+    # Errors
+    username_error = ''
+    password_error = ''
+    # river_error = ''
+    resourcein_error = ''
+    foldername_error = ''
+
+
+    # Handle form submission
+    if request.POST and 'create-button' in request.POST:
+        # Get values
+        has_errors = False
+        username = request.POST.get('username', None)
+        password = request.POST.get('password', None)
+        # river = request.POST.get('river', None)
+        resourcein = request.POST.get('resourcein', None)
+        foldername = request.POST.get('foldername', None)
+        
+
+        # Validate
+        if not username:
+            has_errors = True
+            username_error = 'Username is required.'
+        
+        if not password:
+            has_errors = True
+            password_error = 'Password is required.'
+
+        if not resourcein:
+            has_errors = True
+            resourcein_error = 'Resource ID is required.'
+        
+        if not foldername:
+            has_errors = True
+            foldername_error = 'Folder name is required.'
+
+        if not has_errors:
+            # Do stuff here
+            auth = HydroShareAuthBasic(username= username, password= password)
+            hs = HydroShare(auth=auth)
+            folder_to_create = foldername
+            response_json = hs.createResourceFolder(resourcein, pathname=folder_to_create)
+            messages.success(request, "Folder created successfully")
+        if has_errors:    
+            messages.error(request, "Please fix errors.")
+
+    # Define form gizmos
+    username_input = TextInput(
+        display_text='Username',
+        name='username',
+        placeholder='Enter your username'
+    )
+
+    password_input = TextInput(
+        display_text='Password',
+        name='password',
+        attributes={"type":"password"},
+        placeholder='Enter your password'
+    ) 
+
+    # river_input = TextInput(
+    #     display_text='Name of Creator',
+    #     name='river',
+    #     placeholder='e.g: John Smith'
+    # )
+
+    resourcein_input = TextInput(
+        display_text='Resource ID',
+        name='resourcein',
+        placeholder='Enter the name of the Resource ID'
+    )
+    
+    foldername_input = TextInput(
+        display_text='Name of the Folder',
+        name='foldername',
+        placeholder='Enter the name of the folder'
+    )
+
+    create_button = Button(
+        display_text='Create Folder',
+        name='create-button',
+        icon='glyphicon glyphicon-plus',
+        style='success',
+        attributes={'form': 'add-dam-form'},
+        submit=True
+    )
+
+    cancel_button = Button(
+        display_text='Cancel',
+        name='cancel-button',
+        href=reverse('hydroshare_python:home')
+    )
+
+    context = {
+        'resourcein_input': resourcein_input,
+        'username_input': username_input,
+        'password_input': password_input,
+        'create_button': create_button,
+        'cancel_button': cancel_button,
+        'foldername_input': foldername_input,
+    }
+
+    return render(request, 'hydroshare_python/create_folder.html', context)
+
+
+
+@login_required()
+def change_public(request):
+    """
+    Controller for the Add Dam page.
+    """
+    # Default Values
+    title = ''
+    username = ''
+    password = ''
+    
+
+    # Errors
+    title_error = ''
+    username_error = ''
+    password_error = ''
+
+    # Handle form submission
+    if request.POST and 'public-button' in request.POST:
+        # Get values
+        has_errors = False
+        username = request.POST.get('username', None)
+        password = request.POST.get('password', None)
+        title = request.POST.get('title', None)
+        
+
+        # Validate
+        if not title:
+            has_errors = True
+            title_error = 'Title is required.'
+
+        
+        if not username:
+            has_errors = True
+            username_error = 'Username is required.'
+        
+        if not password:
+            has_errors = True
+            password_error = 'Password is required.'
+
+        if not has_errors:
+            # Do stuff here
+            auth = HydroShareAuthBasic(username= username, password= password)
+            hs = HydroShare(auth=auth)
+            hs.setAccessRules(title, public=True)
+            messages.error(request, "Resource is now public")
+            # hs.setAccessRules(public=True)
+            
+        if has_errors:    
+        #Utah Municipal resource id
+            messages.error(request, "Please fix errors.")
+
+    # Define form gizmos
+    title_input = TextInput(
+        display_text='Enter your resource ID of the Resource',
+        name='title',
+        placeholder= 'Ex: decbdccf486d4df4b1d18031a4e63aa3'
+    )
+
+    username_input = TextInput(
+        display_text='Username',
+        name='username',
+        placeholder='Enter your username'
+    )
+
+    password_input = TextInput(
+        display_text='Password',
+        name='password',
+        attributes={"type":"password"},
+        placeholder='Enter your password'
+    ) 
+
+    # river_input = TextInput(
+    #     display_text='Name of Creator',
+    #     name='river',
+    #     placeholder='e.g: John Smith'
+    # )
+
+
+    public_button = Button(
+        display_text='Change to Public',
+        name='public-button',
+        icon='glyphicon glyphicon-plus',
+        style='success',
+        attributes={'form': 'add-dam-form'},
+        submit=True
+    )
+
+    cancel_button = Button(
+        display_text='Cancel',
+        name='cancel-button',
+        href=reverse('hydroshare_python:home')
+    )
+
+    context = {
+        'title_input': title_input,
+        'username_input': username_input,
+        'password_input': password_input,
+        'public_button': public_button,
+        'cancel_button': cancel_button,
+    }
+
+    return render(request, 'hydroshare_python/change_public.html', context)
