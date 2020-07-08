@@ -94,6 +94,11 @@ class HydrosharePython(TethysAppBase):
                 url='hydroshare-python/tuorial',
                 controller='hydroshare_python.controllers.tutorial'
             ),
+            UrlMap(
+                name='featurespage',
+                url='hydroshare-python/featurespage',
+                controller='hydroshare_python.controllers.featurespage'
+            ),
             
         )
 

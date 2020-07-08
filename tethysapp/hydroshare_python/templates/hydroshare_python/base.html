@@ -54,6 +54,8 @@
    
 {% url 'hydroshare_python:tutorial' as tutorial_url %} 
   <li class="{% if request.path == tutorial_url %}active{% endif %}"><a href="{{ tutorial_url }}">Tutorial</a></li>      
+{% url 'hydroshare_python:featurespage' as featurespage_url %} 
+  <li class="{% if request.path == featurespage_url %}active{% endif %}"><a href="{{ featurespage_url }}">Limitations</a></li>      
    
 
   <li>
