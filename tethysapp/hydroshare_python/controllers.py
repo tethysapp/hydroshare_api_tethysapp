@@ -89,6 +89,77 @@ def home(request):
     return render(request, 'hydroshare_python/home.html', context)
 
 @login_required()
+def tutorial(request):
+    """
+    Controller for the app home page.
+    """
+    save_button = Button(
+        display_text='',
+        name='save-button',
+        icon='glyphicon glyphicon-floppy-disk',
+        style='success',
+        attributes={
+            'data-toggle':'tooltip',
+            'data-placement':'top',
+            'title':'Save'
+        }
+    )
+
+    edit_button = Button(
+        display_text='',
+        name='edit-button',
+        icon='glyphicon glyphicon-edit',
+        style='warning',
+        attributes={
+            'data-toggle':'tooltip',
+            'data-placement':'top',
+            'title':'Edit'
+        }
+    )
+
+    remove_button = Button(
+        display_text='',
+        name='remove-button',
+        icon='glyphicon glyphicon-remove',
+        style='danger',
+        attributes={
+            'data-toggle':'tooltip',
+            'data-placement':'top',
+            'title':'Remove'
+        }
+    )
+
+    previous_button = Button(
+        display_text='Previous',
+        name='previous-button',
+        attributes={
+            'data-toggle':'tooltip',
+            'data-placement':'top',
+            'title':'Previous'
+        }
+    )
+
+    next_button = Button(
+        display_text='Next',
+        name='next-button',
+        attributes={
+            'data-toggle':'tooltip',
+            'data-placement':'top',
+            'title':'Next'
+        }
+    )
+
+    context = {
+        'save_button': save_button,
+        'edit_button': edit_button,
+        'remove_button': remove_button,
+        'previous_button': previous_button,
+        'next_button': next_button
+    }
+
+    return render(request, 'hydroshare_python/tutorial.html', context)
+
+@login_required()
 def mapview(request):
     """
     Controller for the app home page.
@@ -427,7 +498,7 @@ def add_file(request):
                 hs = HydroShare(auth=auth)
                 fpath = temp_zip_path 
                 resource_id = hs.addResourceFile(resourcein, fpath) 
-                messages.error(request, "File added successfully")
+                messages.success(request, "File added successfully")
             if has_errors:
                 messages.error(request, "Please fix errors.")
 
@@ -562,7 +633,7 @@ def delete_resource(request):
             auth = HydroShareAuthBasic(username= username, password= password)
             hs = HydroShare(auth=auth)
             hs.deleteResource(resourcein)
-            messages.error(request, "Resource deleted successfully")
+            messages.success(request, "Resource deleted successfully")
         if has_errors:    
             messages.error(request, "Please fix errors.")
 
@@ -732,7 +803,7 @@ def delete_file(request):
             auth = HydroShareAuthBasic(username= username, password= password)
             hs = HydroShare(auth=auth)
             resource_id = hs.deleteResourceFile(resourcein, title)
-            messages.error(request, "File deleted successfully")
+            messages.success(request, "File deleted successfully")
         if has_errors:    
                 #Utah Municipal resource id
             messages.error(request, "Please fix errors.")
@@ -1049,7 +1120,7 @@ def metadata(request):
 
             print(metadata)
             science_metadata_json = hs.updateScienceMetadata(resourcein, metadata=metadata)
-            messages.error(request, "Metadata added successfully")
+            messages.success(request, "Metadata added successfully")
         if has_errors:
             messages.error(request, "Please fix errors.")
 
@@ -1463,10 +1534,12 @@ def create_folder(request):
         if not password:
             has_errors = True
             password_error = 'Password is required.'
-
+        
         if not resourcein:
             has_errors = True
-            resourcein_error = 'Resource ID is required.'
+            resourcein_error = 'resourcein is required.'
+
+        
         
         if not foldername:
             has_errors = True
@@ -1496,22 +1569,17 @@ def create_folder(request):
         placeholder='Enter your password'
     ) 
 
-    # river_input = TextInput(
-    #     display_text='Name of Creator',
-    #     name='river',
-    #     placeholder='e.g: John Smith'
-    # )
-
-    resourcein_input = TextInput(
-        display_text='Resource ID',
-        name='resourcein',
-        placeholder='Enter the name of the Resource ID'
-    )
     
     foldername_input = TextInput(
         display_text='Name of the Folder',
         name='foldername',
         placeholder='Enter the name of the folder'
+    )
+    
+    resourcein_input = TextInput(
+        display_text='Resource ID',
+        name='resourcein',
+        placeholder='Enter the Resource ID'
     )
 
     create_button = Button(
@@ -1530,9 +1598,9 @@ def create_folder(request):
     )
 
     context = {
-        'resourcein_input': resourcein_input,
         'username_input': username_input,
         'password_input': password_input,
+        'resourcein_input': resourcein_input,
         'create_button': create_button,
         'cancel_button': cancel_button,
         'foldername_input': foldername_input,
@@ -1586,7 +1654,7 @@ def change_public(request):
             auth = HydroShareAuthBasic(username= username, password= password)
             hs = HydroShare(auth=auth)
             hs.setAccessRules(title, public=True)
-            messages.error(request, "Resource is now public")
+            messages.success(request, "Resource is now public")
             # hs.setAccessRules(public=True)
             
         if has_errors:    

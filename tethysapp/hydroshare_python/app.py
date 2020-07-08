@@ -11,7 +11,7 @@ class HydrosharePython(TethysAppBase):
     icon = 'hydroshare_python/images/icon.gif'
     package = 'hydroshare_python'
     root_url = 'hydroshare-python'
-    color = '#B22222'
+    color = '#008000'
     description = 'This app is to demonstrate the functions of the HydroShare Python api (hs_restclient)'
     tags = 'Python library, Hydroshare'
     enable_feedback = False
@@ -88,6 +88,11 @@ class HydrosharePython(TethysAppBase):
                 name='create_folder',
                 url='hydroshare-python/create_folder',
                 controller='hydroshare_python.controllers.create_folder'
+            ),
+            UrlMap(
+                name='tutorial',
+                url='hydroshare-python/tuorial',
+                controller='hydroshare_python.controllers.tutorial'
             ),
             
         )

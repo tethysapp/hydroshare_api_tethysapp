@@ -1,0 +1,98 @@
+{% extends "hydroshare_python/base.html" %}
+{% load tethys_gizmos %}
+{% load static %}
+
+
+
+{% block app_content %}
+<h1 style="color:rgb(16, 73, 14);">Tutorial on how to get this app running</h1>
+
+<h3>Python Shell in your local terminal</h3>
+<p></p>
+<p>The api provided from the HydroShare python library is very direct and easy to use. However to run it smoothly, you will need to perform a few functions as shown below to get efficient results: </p>
+<p></p>
+<p>Step 1: You will need to download install the hs_restclient before you can start programming with the api. So in the terminal, type</p>
+<pre class="line-numbers">
+    <code class="language-python">
+        pip install hs_restclient
+
+    </code>
+  </pre>
+
+<p>Step 2: Now initiate by typing 'python' or 'python3'</p>
+<p></p>
+<p>Now we can start programming in Python</p>
+<p>You will need to import a few modules depending on the api provided by HydroShare. For example let us consider this simple api of adding a file to a resource that belongs to us in HydroShare.</p>
+<p>The api to do that is as follows,</p>
+<pre class="line-numbers">
+    <code class="language-python">
+        from hs_restclient import HydroShare, HydroShareAuthBasic
+        auth = HydroShareAuthBasic(username='myusername', password='mypassword')
+        hs = HydroShare(auth=auth)
+        fpath = '/path/to/somefile.txt'
+        resource_id = hs.addResourceFile('ID OF RESOURCE GOES HERE', fpath)
+    </code>
+  </pre>
+
+<p>The HydroShare, HydroShareAuthBasic modules are imported from HydroShare which help carry out the api functions.</p>
+<p>You could replace the <mark>'myusername'</mark> with your HydroShare username and the <mark>'mypassword'</mark> with your password of your HydroShare account.</p>
+<p>Next, enter the path of file which you would want to upload and it is eneterd with <mark>fpath</mark>. This will help with pushing the file  from that location to the HydroShare database.</p>
+<p>The Resource ID should be entered in the place of <mark>'ID OF RESOURCE GOES HERE'</mark>  </p>
+<p>The resource Id is a unique identifier for every resource on HydroShare. You can findit by browsing to your HydroShare resource copying the ID from the URL. Like for example, this is an example hyperlink https://www.hydroshare.org/resource/08c6e88adaa647cd9bb28e5d619178e0/ from which the 32 letter combination at the end is called the resource id. And so the resource id from the example hyperlink is <mark>08c6e88adaa647cd9bb28e5d619178e0</mark> </p>
+    <img src="{% static 'hydroshare_python/images/resourceid.jpeg'%}" alt="Resource ID" height="50">
+    <p></p>
+
+<h3>Online Python Shell</h3>
+<p>You can also try working each of the api functions online. It is the same process as doing it in the terminal, only that you will need not install hs_restclient using pip.</p>
+<p>So you could use the code as shown below as a demo, which is the same case of adding a file to a resource that belongs to you in HydroShare.</p>
+<p>The api to do that is as follows,</p>
+<pre class="line-numbers">
+    <code class="language-python">
+        from hs_restclient import HydroShare, HydroShareAuthBasic
+        auth = HydroShareAuthBasic(username='myusername', password='mypassword')
+        hs = HydroShare(auth=auth)
+        fpath = '/path/to/somefile.txt'
+        resource_id = hs.addResourceFile('ID OF RESOURCE GOES HERE', fpath)
+    </code>
+  </pre>
+<p>The HydroShare, HydroShareAuthBasic modules are imported from HydroShare which help carry out the api functions.</p>
+<p>You could replace the <mark>'myusername'</mark> with your HydroShare username and the <mark>'mypassword'</mark> with your password of your HydroShare account.</p>
+<p>Next, enter the path of file which you would want to upload and it is eneterd with <mark>fpath</mark>. This will help with pushing the file  from that location to the HydroShare database.</p>
+<p>The Resource ID should be entered in the place of <mark>'ID OF RESOURCE GOES HERE'</mark>  </p>
+<p>Here is the <a href="https://repl.it/languages/python3">online Python IDE</a> that will help you practise the code shown above.</p>
+<h3><b>Tethys Development Platform</b></h3>
+<p>The tethys platform helps with using all these functions in the webapp. But in order to use them with the same ease and functionality you will have to install this app in your local tethys virtual environment.</p>
+<p>In order to learn about the installation of tethys, you can click <a href="http://docs.tethysplatform.org/en/stable/index.html">here</a>.</p>
+<p>Once you have installed tethys in your local and have learnt how to install an app in development, you can go ahead and clone the source code from <a href="https://github.com/BYU-Hydroinformatics/hydroshare_api_tethysapp">here</a> and install it.</p>
+<p>I have enabled HydroShare authentication for login but in order for that to work, you will have to edit your 'portal_config.yml' file which can be found in this location path '/Users/(your_username)/.tethys/portal_config.yml' </p>
+<p>The content found below can be copied and be used to replace it with the existing data in your yml file.</p>
+<pre class="line-numbers">
+    <code class="language-python">
+    # Portal Level Config File
+
+    # see tethys documentation for how to setup this file
+    version: 1.0
+    name:
+    apps: {}
+    settings:
+    SECRET_KEY: zcaK7mnAszRLZxUci0m66o65cShSukF33qGXKkcIB5LegvvVsO
+    AUTHENTICATION_BACKENDS:
+        - tethys_services.backends.hydroshare.HydroShareOAuth2
+    OAUTH_CONFIGS:
+        SOCIAL_AUTH_HYDROSHARE_KEY: 'NAltmPyhuPITKrId2ZFdc7U0unHCAc5qHa4M3oLz'
+        SOCIAL_AUTH_HYDROSHARE_SECRET: 'leWjRXtmUDmDL2YePG0KfRFbqUi0FX5XgvXiLsFGA3uVEWEaUnww7m7POjl0yqPKgNddgVFhVeremgiRqce74YjgxA2o2gkoek1q1lB7okuaJmyJQVIqM322mbpiIU0L'
+    site_content: {}
+
+
+
+
+    </code>
+  </pre>
+
+{% endblock %}
+
+{% block app_actions %}
+  
+{% endblock %}
+
+

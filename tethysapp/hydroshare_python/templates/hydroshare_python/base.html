@@ -52,6 +52,9 @@
 {% url 'hydroshare_python:metadata' as metadata_url %} 
   <li class="{% if request.path == metadata_url %}active{% endif %}"><a href="{{ metadata_url }}">Metadata</a></li>      
    
+{% url 'hydroshare_python:tutorial' as tutorial_url %} 
+  <li class="{% if request.path == tutorial_url %}active{% endif %}"><a href="{{ tutorial_url }}">Tutorial</a></li>      
+   
 
   <li>
 {% endblock %}
