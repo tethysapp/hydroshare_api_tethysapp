@@ -47,10 +47,14 @@
   <li class="{% if request.path == delete_file_url %}active{% endif %}"><a href="{{ delete_file_url }}">Delete a file</a></li>
 {% url 'hydroshare_python:create_folder' as create_folder_url %} 
   <li class="{% if request.path == create_folder_url %}active{% endif %}"><a href="{{ create_folder_url }}">Create a Folder</a></li>
+{% url 'hydroshare_python:deletefolder' as deletefolder_url %} 
+  <li class="{% if request.path == deletefolder_url %}active{% endif %}"><a href="{{ deletefolder_url }}">Delete a Folder</a></li>
 {% url 'hydroshare_python:download_file' as download_file_url %} 
   <li class="{% if request.path == download_file_url %}active{% endif %}"><a href="{{ download_file_url }}">Download a File</a></li> 
 {% url 'hydroshare_python:metadata' as metadata_url %} 
   <li class="{% if request.path == metadata_url %}active{% endif %}"><a href="{{ metadata_url }}">Metadata</a></li>      
+{% url 'hydroshare_python:getfile_metadata' as getfile_metadata_url %} 
+  <li class="{% if request.path == getfile_metadata_url %}active{% endif %}"><a href="{{ getfile_metadata_url }}">Get science Metadata</a></li>      
    
 {% url 'hydroshare_python:tutorial' as tutorial_url %} 
   <li class="{% if request.path == tutorial_url %}active{% endif %}"><a href="{{ tutorial_url }}">Tutorial</a></li>      

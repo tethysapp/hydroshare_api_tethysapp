@@ -10,9 +10,9 @@ requirements:
     channels:
       - conda-forge
     packages:
-      - pyshp=2.0.0
-      - geojson
-      - shapely
+      # - pyshp=2.0.0
+      # - geojson
+      # - shapely
       - hs_restclient
 
   pip:

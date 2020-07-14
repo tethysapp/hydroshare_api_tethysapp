@@ -11,38 +11,25 @@
 <p>A few features found in the page of HydroShare are not present here in this tethys app. These limitations are due to two factors on which I would be expanding further below. </p>
 <p>The factors being, <b>a) features that are very similar to the ones already present on the page</b> and <b>b) the restclient is yet to bring out api to support some features</b>.</p>
 <p></p>
+<h3>Features yet to be added to the restclient</h3>
+<p></p>
+<ul>
+<p>Adding users as contributors</p>
+<p>Different ways to filter resources</p>
+<p>Making groups and communities in HydroShare</p>
+<p>'Sort by' reference feature</p>
+</ul>
+<p>The above mentioned features are present in the HydroShare page but are not available in this tethys app as there is no api yet to support their functioning.</p>
+<p>However, the page is updated periodically and there will be support added for more features in the near future.</p>
+<p>Here is the link for the restclient - <b><a href="https://hs-restclient.readthedocs.io/en/latest/index.html">'HydroShare REST API Python client library'</a></b></p>
+
+
+
+
+<p></p>
 <h3> Features skipped that were very similar to the existent app features:</h3>
 <p></p>
 <ol>
-<p>Get system metadata for a particular resource</p>
-<pre class="line-numbers">
-    <code class="language-python">
-    from hs_restclient import HydroShare
-    hs = HydroShare()
-    resource_md = hs.getSystemMetadata('e62a438bec384087b6c00ddcd1b6475a')
-    print(resource_md['resource_title'])
-    </code>
-  </pre>
-<p>Get resource map xml data</p>
-<pre class="line-numbers">
-    <code class="language-python">
-     from hs_restclient import HydroShare, HydroShareAuthBasic
-     auth = HydroShareAuthBasic(username='myusername', password='mypassword')
-     hs = HydroShare(auth=auth)
-     science_metadata_xml = hs.getScienceMetadataRDF('ID OF RESOURCE GOES HERE')
-    </code>
-  </pre>
-<p> Delete a folder</p>
-<pre class="line-numbers">
-    <code class="language-python">
-         from hs_restclient import HydroShare, HydroShareAuthBasic
-         auth = HydroShareAuthBasic(username='myusername', password='mypassword')
-         hs = HydroShare(auth=auth)
-         folder_to_delete = "folder_1/folder_2"
-         response_json = hs.deleteResourceFolder('ID OF RESOURCE GOES HERE', pathname=folder_to_delete)
-
-    </code>
-  </pre>
 <p>Update  science metadata</p>
 <pre class="line-numbers">
     <code class="language-python">
@@ -69,20 +56,6 @@
   </pre>
 </ol>
 <p></p>
-<h3>Features yet to be added to the restclient</h3>
-<p></p>
-<ul>
-<p>Adding users as contributors</p>
-<p>Different ways to filter resources</p>
-<p>Making groups and communities in HydroShare</p>
-<p>'Sort by' reference feature</p>
-</ul>
-<p>The above mentioned features are present in the HydroShare page but are not available in this tethys app as there is no api yet to support their functioning.</p>
-<p>However, the page is updated periodically and there will be support added for more features in the near future.</p>
-<p>Here is the link for the restclient - <b><a href="https://hs-restclient.readthedocs.io/en/latest/index.html">'HydroShare REST API Python client library'</a></b></p>
-
-
-
 
 
 

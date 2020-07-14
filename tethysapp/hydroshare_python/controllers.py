@@ -6,7 +6,7 @@ from tethys_sdk.gizmos import DataTableView
 from tethys_services.backends.hs_restclient_helper import get_oauth_hs
 from django.shortcuts import redirect, reverse
 from django.contrib import messages
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from hs_restclient import HydroShare, HydroShareAuthBasic
 from django.utils.encoding import smart_str
 from wsgiref.util import FileWrapper
@@ -14,6 +14,8 @@ import os
 import tempfile
 import zipfile
 import json
+from django.core import serializers
+
 
 
 
@@ -346,6 +348,7 @@ def get_file(request):
     # river = ''
     date_built = ''
     author = ''
+
     
 
     # Errors
@@ -401,7 +404,6 @@ def get_file(request):
             if not password:
                 has_errors = True
                 password_error = 'Password is required.'
-
 
             if not date_built:
                 has_errors = True
@@ -815,121 +817,6 @@ def filev(request):
             return HttpResponse(resourcefiles)
 
         return HttpResponse('')
-           
-@login_required()
-def delete_file(request):
-    """
-    Controller for the Add Dam page.
-    """
-    # Default Values
-    title = ''
-    # filename = ''
-    username = ''
-    password = ''
-    resourcein = ''
-    filev = []
-    # owner = 'Reclamation'
-    # river = ''
-    # date_built = ''
-
-    # Errors
-    title_error = ''
-    # filename_error = ''
-    resourcein_error = ''
-    username_error = ''
-    password_error = ''
-    # date_error = ''
-
-    # Handle form submission
-    if request.POST and 'delete-button' in request.POST:
-        # Get values
-        has_errors = False
-        # filename = request.POST.get('filename', None)
-        resourcein = request.POST.get('resourcein', None)
-        title = request.POST.get('title_input', None)
-        username = request.POST.get('username', None)
-        password = request.POST.get('password', None)
-        
-
-        # Validate
-
-        if not resourcein:
-            has_errors = True
-            resourcein_error = 'Resource ID is required.'
-
-        
-        if not username:
-            has_errors = True
-            username_error = 'Username is required.'
-        
-        if not password:
-            has_errors = True
-            password_error = 'Password is required.'
-
-        # if not river:
-        #     has_errors = True
-        #     river_error = 'River is required.'
-
-        if not has_errors:
-            # Do stuff here
-            auth = HydroShareAuthBasic(username= username, password= password)
-            hs = HydroShare(auth=auth)
-            resource_id = hs.deleteResourceFile(resourcein, title)
-            messages.success(request, "File deleted successfully")
-        if has_errors:    
-                #Utah Municipal resource id
-            messages.error(request, "Please fix errors.")
-
-        
-
-    # Define form gizmos
-    resourcein_input = TextInput(
-        display_text='Resource ID',
-        name='resourcein',
-        placeholder='Enter the Resource ID here'
-    )
-
-
-    username_input = TextInput(
-        display_text='Username',
-        name='username',
-        placeholder='Enter your username'
-    )
-
-    password_input = TextInput(
-        display_text='Password',
-        name='password',
-        attributes={"type":"password"},
-        placeholder='Enter your password'
-    ) 
-
-
-    delete_button = Button(
-        display_text='Delete File',
-        name='delete-button',
-        icon='glyphicon glyphicon-plus',
-        style='success',
-        attributes={'form': 'add-dam-form'},
-        submit=True
-    )
-
-    cancel_button = Button(
-        display_text='Cancel',
-        name='cancel-button',
-        href=reverse('hydroshare_python:home')
-    )
-
-    context = {
-        'resourcein_input': resourcein_input,
-        'username_input': username_input,
-        'password_input': password_input,
-        'delete_button': delete_button,
-        'cancel_button': cancel_button,
-        'filev': filev
-
-    }
-
-    return render(request, 'hydroshare_python/delete_file.html', context)
 
 @login_required()
 def download_file(request):
@@ -1068,6 +955,248 @@ def download_file(request):
     }
 
     return render(request, 'hydroshare_python/download_file.html', context)
+
+
+@login_required()
+def delete_file(request):
+    """
+    Controller for the Add Dam page.
+    """
+    # Default Values
+    title = ''
+    # filename = ''
+    username = ''
+    password = ''
+    resourcein = ''
+    filev = []
+    # owner = 'Reclamation'
+    # river = ''
+    # date_built = ''
+
+    # Errors
+    title_error = ''
+    # filename_error = ''
+    resourcein_error = ''
+    username_error = ''
+    password_error = ''
+    # date_error = ''
+
+    # Handle form submission
+    if request.POST and 'delete-button' in request.POST:
+        # Get values
+        has_errors = False
+        # filename = request.POST.get('filename', None)
+        resourcein = request.POST.get('resourcein', None)
+        title = request.POST.get('title_input', None)
+        username = request.POST.get('username', None)
+        password = request.POST.get('password', None)
+        
+
+        # Validate
+
+        if not resourcein:
+            has_errors = True
+            resourcein_error = 'Resource ID is required.'
+
+        
+        if not username:
+            has_errors = True
+            username_error = 'Username is required.'
+        
+        if not password:
+            has_errors = True
+            password_error = 'Password is required.'
+
+        # if not river:
+        #     has_errors = True
+        #     river_error = 'River is required.'
+
+        if not has_errors:
+            # Do stuff here
+            auth = HydroShareAuthBasic(username= username, password= password)
+            hs = HydroShare(auth=auth)
+            resource_id = hs.deleteResourceFile(resourcein, title)
+            messages.success(request, "File deleted successfully")
+        if has_errors:    
+                #Utah Municipal resource id
+            messages.error(request, "Please fix errors.")
+
+        
+
+    # Define form gizmos
+    resourcein_input = TextInput(
+        display_text='Resource ID',
+        name='resourcein',
+        placeholder='Enter the Resource ID here'
+    )
+
+
+    username_input = TextInput(
+        display_text='Username',
+        name='username',
+        placeholder='Enter your username'
+    )
+
+    password_input = TextInput(
+        display_text='Password',
+        name='password',
+        attributes={"type":"password"},
+        placeholder='Enter your password'
+    ) 
+
+
+    delete_button = Button(
+        display_text='Delete File',
+        name='delete-button',
+        icon='glyphicon glyphicon-plus',
+        style='success',
+        attributes={'form': 'add-dam-form'},
+        submit=True
+    )
+
+    cancel_button = Button(
+        display_text='Cancel',
+        name='cancel-button',
+        href=reverse('hydroshare_python:home')
+    )
+
+    context = {
+        'resourcein_input': resourcein_input,
+        'username_input': username_input,
+        'password_input': password_input,
+        'delete_button': delete_button,
+        'cancel_button': cancel_button,
+        'filev': filev
+
+    }
+
+    return render(request, 'hydroshare_python/delete_file.html', context)
+
+@login_required()
+def getfile_metadata(request):
+    """
+    Controller for the Add Dam page.
+    """
+    # Default Values
+    title = ''
+    # filename = ''
+    username = ''
+    password = ''
+    resourcein = ''
+    filev = []
+    # owner = 'Reclamation'
+    # river = ''
+    # date_built = ''
+
+    # Errors
+    title_error = ''
+    # filename_error = ''
+    resourcein_error = ''
+    username_error = ''
+    password_error = ''
+    # date_error = ''
+
+    # Handle form submission
+    if request.POST:
+        # Get values
+        has_errors = False
+        # filename = request.POST.get('filename', None)
+        resourcein = request.POST.get('resourcein', None)
+        title = request.POST.get('title_input', None)
+        username = request.POST.get('username', None)
+        password = request.POST.get('password', None)
+        
+        
+        # Validate
+
+        if not resourcein:
+            has_errors = True
+            resourcein_error = 'Resource ID is required.'
+
+        if not title:
+            has_errors = True
+            title_error = 'Title is required.'
+        
+        if not username:
+            has_errors = True
+            username_error = 'Username is required.'
+        
+        if not password:
+            has_errors = True
+            password_error = 'Password is required.'
+
+        # if not river:
+        #     has_errors = True
+        #     river_error = 'River is required.'
+
+        if not has_errors:
+            # Do stuff here
+            auth = HydroShareAuthBasic(username= username, password= password)
+            hs = HydroShare(auth=auth)
+            response = hs.resource(resourcein).files.metadata(title).content
+            
+            # response_serialized = serializers.serialize('json', response)
+
+            return HttpResponse(response.decode("utf-8"))
+            # return JsonResponse(response_serialized, safe=False)
+             
+        if has_errors:    
+                #Utah Municipal resource id
+            messages.error(request, "Please fix errors.")
+
+    # Define form gizmos
+    resourcein_input = TextInput(
+        display_text='Resource ID',
+        name='resourcein'
+    )
+
+    title_input = TextInput(
+        display_text='Name of the file you want to download including the extension',
+        name='title',
+        placeholder='eg: filename.shp or filename.txt'
+    )
+
+    username_input = TextInput(
+        display_text='Username',
+        name='username',
+        placeholder='Enter your username'
+    )
+
+    password_input = TextInput(
+        display_text='Password',
+        name='password',
+        attributes={"type":"password"},
+        placeholder='Enter your password'
+    ) 
+
+
+    add_button = Button(
+        display_text='Download',
+        name='download-button',
+        icon='glyphicon glyphicon-plus',
+        style='success',
+        attributes={'form': 'add-dam-form'},
+        submit=True
+    )
+
+    cancel_button = Button(
+        display_text='Cancel',
+        name='cancel-button',
+        href=reverse('hydroshare_python:home')
+    )
+
+    context = {
+        'resourcein_input': resourcein_input,
+        'title_input': title_input,
+        'username_input': username_input,
+        'password_input': password_input,
+        'add_button': add_button,
+        'cancel_button': cancel_button,
+        'filev':filev
+
+    }
+
+    return render(request, 'hydroshare_python/getfile_metadata.html', context)
 
 @login_required()
 def metadata(request):
@@ -1679,6 +1808,121 @@ def create_folder(request):
     }
 
     return render(request, 'hydroshare_python/create_folder.html', context)
+
+
+@login_required()
+def deletefolder(request):
+    """
+    Controller for the Add Dam page.
+    """
+    # Default Values
+    username = ''
+    password = ''
+    # river = ''
+    resourcein = ''
+    foldername = ''
+    
+
+    # Errors
+    username_error = ''
+    password_error = ''
+    # river_error = ''
+    resourcein_error = ''
+    foldername_error = ''
+
+
+    # Handle form submission
+    if request.POST and 'create-button' in request.POST:
+        # Get values
+        has_errors = False
+        username = request.POST.get('username', None)
+        password = request.POST.get('password', None)
+        # river = request.POST.get('river', None)
+        resourcein = request.POST.get('resourcein', None)
+        foldername = request.POST.get('foldername', None)
+        
+
+        # Validate
+        if not username:
+            has_errors = True
+            username_error = 'Username is required.'
+        
+        if not password:
+            has_errors = True
+            password_error = 'Password is required.'
+        
+        if not resourcein:
+            has_errors = True
+            resourcein_error = 'resourcein is required.'
+
+        
+        
+        if not foldername:
+            has_errors = True
+            foldername_error = 'Folder name is required.'
+
+        if not has_errors:
+            # Do stuff here
+            auth = HydroShareAuthBasic(username= username, password= password)
+            hs = HydroShare(auth=auth)
+            folder_to_create = foldername
+            response_json = hs.deleteResourceFolder(resourcein, pathname=folder_to_create)
+            messages.success(request, "Folder deleted successfully")
+        if has_errors:    
+            messages.error(request, "Please fix errors.")
+
+    # Define form gizmos
+    username_input = TextInput(
+        display_text='Username',
+        name='username',
+        placeholder='Enter your username'
+    )
+
+    password_input = TextInput(
+        display_text='Password',
+        name='password',
+        attributes={"type":"password"},
+        placeholder='Enter your password'
+    ) 
+
+    
+    foldername_input = TextInput(
+        display_text='Name of the Folder',
+        name='foldername',
+        placeholder='Enter the name of the folder'
+    )
+    
+    resourcein_input = TextInput(
+        display_text='Resource ID',
+        name='resourcein',
+        placeholder='Enter the Resource ID'
+    )
+
+    create_button = Button(
+        display_text='Delete Folder',
+        name='create-button',
+        icon='glyphicon glyphicon-plus',
+        style='success',
+        attributes={'form': 'add-dam-form'},
+        submit=True
+    )
+
+    cancel_button = Button(
+        display_text='Cancel',
+        name='cancel-button',
+        href=reverse('hydroshare_python:home')
+    )
+
+    context = {
+        'username_input': username_input,
+        'password_input': password_input,
+        'resourcein_input': resourcein_input,
+        'create_button': create_button,
+        'cancel_button': cancel_button,
+        'foldername_input': foldername_input,
+    }
+
+    return render(request, 'hydroshare_python/deletefolder.html', context)
 
 
 

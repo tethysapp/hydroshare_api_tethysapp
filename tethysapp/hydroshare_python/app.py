@@ -99,6 +99,16 @@ class HydrosharePython(TethysAppBase):
                 url='hydroshare-python/featurespage',
                 controller='hydroshare_python.controllers.featurespage'
             ),
+            UrlMap(
+                name='getfile_metadata',
+                url='hydroshare-python/getfile_metadata',
+                controller='hydroshare_python.controllers.getfile_metadata'
+            ),
+            UrlMap(
+                name='deletefolder',
+                url='hydroshare-python/deletefolder',
+                controller='hydroshare_python.controllers.deletefolder'
+            ),
             
         )
 
