@@ -3,30 +3,30 @@
 {% load static %}
 
 {% block app_content %}
-  <h1 style="color:rgb(16, 73, 14);">Add file</h1>
+  <h1 style="color:rgb(16, 73, 14);">Add a File to your Resource</h1>
 
   
-  <p>The 'add file' feature is to as the name indicates to help you with adding a file to a resource in your HydroShare account. This feature works smoothly without any glitches.</p>
+  <p>The ‘add file’ feature allows users to add any desired files to their resource in HyrdoShare. This feature works smoothly without any glitches.</p>
   
   <form id="add-dam-form" method="post" enctype="multipart/form-data">
     
     {% csrf_token %}
-    <p>The way you could go about performing this function is by following the instructions below:</p>
+    <p> Below are step by step instructions on how to add a new file to your resource in HydroShare.</p>
     <h3>Step 1: Sign into HydroShare using your credentials</h3>
     
 
-    <p>In the boxes below you enter your HydroShare username and its password. If you have to make an HydroShare account, <a href="https://www.hydroshare.org/sign-up/?next=">click here</a>.</p>
+    <p>In the boxes below, enter your HydroShare username and its password. If you need to make an HydroShare account, <a href="https://www.hydroshare.org/sign-up/?next=">click here</a>.</p>
     {% gizmo username_input %}
     {% gizmo password_input %}
   <p></p>
   <h3>Step 2: Enter in the Resource ID and choose the file you wish to upload</h3>
   
-    <p>The resource Id is a unique identifier for every resource on Hydroshare. You can findit by browsing to your HydroShare resource copying the ID from the URL. Like for example, this is an example hyperlink https://www.hydroshare.org/resource/08c6e88adaa647cd9bb28e5d619178e0/ from which the 32 letter combination at the end is called the resource id. And so the resource id from the example hyperlink is <mark>08c6e88adaa647cd9bb28e5d619178e0</mark> </p>
+    <p>The resource ID is a unique identifier for every resource on HydroShare. You can find it by clicking on your resource in HydroShare, scrolling down to the “How to Cite” section, and copying the ID from the URL. This is an example hyperlink: https://www.hydroshare.org/resource/08c6e88adaa647cd9bb28e5d619178e0/ from which The 32 letter combination at the end is called the resource ID. The resource ID from the example hyperlink is <mark>08c6e88adaa647cd9bb28e5d619178e0</mark>. </p>
     <img src="{% static 'hydroshare_python/images/resourceid.jpeg'%}" alt="Resource ID" height="30">
     <p></p>
     {% gizmo resourcein_input %}
-    <p>The resource ID will help you locate the resource that you wish to add the file to the respective resource.</p>
-    <p>Now chose the file that you wish to upload</p>
+    <p>The resource ID helps locate the resource that you wish to add the file to the respective resource.</p>
+    <p>Now choose the file that you wish to upload.</p>
     <input id="add-file" type="file" name="addfile"/>
     <p>Once the file is selected, Click the 'Add' button below to add it to the resource.</p>
     <p></p>

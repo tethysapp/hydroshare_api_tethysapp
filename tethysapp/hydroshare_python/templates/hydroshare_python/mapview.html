@@ -12,11 +12,11 @@
 {% block app_content %}
 <h1>View a Resource on a Map</h1>
 <p></p>
-<p>This feature proves to be very resourceful to view a resource on a map. This feature is found on HydroShare when you are viewing the details of a resource. The map is powered by Leaflet, a javascript library for open source web mapping services.</p>
+<p>This feature is found on HydroShare when you are viewing the details of a resource. The map is powered by Leaflet, a javascript library for open source web mapping services. </p>
 <form id="add-dam-form" method="post" enctype="multipart/form-data">
     
   {% csrf_token %}
-  <p>The way you could go about performing this function is by following the instructions below:</p>
+  <p>Below are step by step instructions on how to view a resource on a map:</p>
   <h3>Step 1: Sign into HydroShare using your credentials</h3>
   
 
@@ -35,11 +35,11 @@
         <option>Select the Resource</option>
     </select>
     <p></p>
-    <p>The resource id is what you could use in other features of the app like adding a file or downloading a file or even deleting a file from a resource.</p>
+    <p>The resource ID is what you could use in other features of the app like adding a file, downloading a file, or even deleting a file from a resource.</p>
     <div>Resource id of the selected Resource: <span id="selected_resource"></span></div>
     <p></p>
     {% gizmo add_button %}
-    <p>(This button visualizes the selected resource onto the Map shown below</p>
+    <p>(This button shows the selected resource on the map below)</p>
     {% gizmo cancel_button %}
     <p></p>
   </form>

@@ -6,12 +6,12 @@
 
 {% block app_content %}
 
-<h1>Limitations of the app:</h1>
+<h1>Limitations of the App:</h1>
 
-<p>A few features found in the page of HydroShare are not present here in this tethys app. These limitations are due to two factors on which I would be expanding further below. </p>
+<p>Some features found in HydroShare are not present in this tethys app. These limitations are due to the restclient’s API not being able to support all features present and the fact there are very similar ones already present on HydroShare. </p>
 <p>The factors being, <b>a) features that are very similar to the ones already present on the page</b> and <b>b) the restclient is yet to bring out api to support some features</b>.</p>
 <p></p>
-<h3>Features yet to be added to the restclient</h3>
+<h3>Features not displayed in this App, but displayed in the HydroShare website:</h3>
 <p></p>
 <ul>
 <p>Adding users as contributors</p>
@@ -30,7 +30,7 @@
 <h3> Features skipped that were very similar to the existent app features:</h3>
 <p></p>
 <ol>
-<p>Update  science metadata</p>
+<p>Update  science metadata:</p>
 <pre class="line-numbers">
     <code class="language-python">
          from hs_restclient import HydroShare, HydroShareAuthBasic
@@ -43,7 +43,7 @@
          result = hs.resource('ID OF RESOURCE GOES HERE').scimeta.custom(metadata)
     </code>
   </pre>
-<p>To discover resources vis other parameters</p>
+<p>To discover resources vis other parameters:</p>
 <pre class="line-numbers">
     <code class="language-python">
         >>> # Discover via creator, group, user, owner

@@ -4,11 +4,11 @@
 
 {% block app_content %}
   <h1 style="color:rgb(16, 73, 14)">Create a folder in a HydroShare resource</h1>
-  <p>The 'Create a folder' feature is as the name suggests to create a new folder in a resource of your HydroShare account which would contain all the files you intend to upload. This feature is brought about by the HydroShare api Python library.</p>
+  <p>The ‘Create a Folder’ feature allows for a new folder to be made, better organizing the HydroShare resource. This feature is run by the HydroShare API Python library. </p>
   <p></p>
   <form id="add-dam-form" method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    <p>The way you could go about performing this function is by following the instructions below:</p>
+    <p>Below are step by step instructions on how to create a folder:</p>
     <h3>Step 1: Sign into HydroShare using your credentials</h3>
     
 
@@ -17,9 +17,9 @@
     {% gizmo password_input %}
     
     
-    <h3>Step 2: Enter in the Resource ID and choose the file you wish to upload</h3>
+    <h3>Step 2: Enter in the Resource ID of the resource in which you intend to create a folder:</h3>
 
-    <p>The resource Id is a unique identifier for every resource on Hydroshare. You can findit by browsing to your HydroShare resource copying the ID from the URL. Like for example, this is an example hyperlink https://www.hydroshare.org/resource/08c6e88adaa647cd9bb28e5d619178e0/ from which the 32 letter combination at the end is called the resource id. And so the resource id from the example hyperlink is <mark>08c6e88adaa647cd9bb28e5d619178e0</mark> </p>
+    <p>The resource ID is a unique identifier for every resource on HydroShare. You can find it by clicking on your resource in HydroShare, scrolling down to the “How to Cite” section, and copying the ID from the URL. This is an example hyperlink: https://www.hydroshare.org/resource/08c6e88adaa647cd9bb28e5d619178e0/ from which The 32 letter combination at the end is called the resource ID. The resource ID from the example hyperlink is <mark>08c6e88adaa647cd9bb28e5d619178e0</mark>. </p>
     <img src="{% static 'hydroshare_python/images/resourceid.jpeg'%}" alt="Resource ID" height="30">
     <p></p>
     {% gizmo resourcein_input %}

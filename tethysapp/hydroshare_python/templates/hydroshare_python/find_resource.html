@@ -3,11 +3,11 @@
 {% load static %}
 
 {% block app_content %}
-  <h1 style="color:rgb(16, 73, 14)">Find Resource</h1>
+  <h1 style="color:rgb(16, 73, 14)">Find a Resource</h1>
 
-  <p>This feature of the app helps with browsing for a resource that is present on the HydroShare database. The option works very smoothly. This feature is brought about by the python api of HydroShare and what goes into the process is that we fetch for the resources in the HydroShare database using the fetch files button and then we can view them by just typing the subject with closest relevance to the resource that we are searching for.</p>
+  <p>This feature helps with browsing for a resource that is already present in the HydroShare database. The option works very smoothly. This feature is brought about by the python API of HydroShare and what goes into the process is that we fetch for the resources in the HydroShare database using the fetch files button and then we can view them by just typing the subject with closest relevance to the resource that we are searching for. Finding a resource is one of the most useful features of this app. </p>
   <p></p>
-  <p>Finding a resource is one of the most useful features of this app.</p>
+  <p>Finding a resource is one of the most useful features of this app and there are many parameters that could be used to find a resource but this feature in the app is brought out by using the subject parameter.</p>
   
   <form id="add-dam-form" method="post" enctype="multipart/form-data">
     
@@ -15,7 +15,7 @@
 
   <p></p>
   <h3>Step 1: Enter in your username and password</h3>
-    <p>In the boxes below you enter your HydroShare username and its password. If you have to make an HydroShare account, <a href="https://www.hydroshare.org/sign-up/?next=">click here</a>.</p>
+    <p>In the boxes below enter your HydroShare username and password. If you need to make a HydroShare account, <a href="https://www.hydroshare.org/sign-up/?next=">click here</a>.</p>
     {% gizmo username_input %}
     {% gizmo password_input %}
     <p></p>
@@ -25,14 +25,14 @@
   <h3>Step 3: Browse for the resource you are looking for</h3>  
   <button type="button" id="fetchfile">Find Resources</button>
   <p></p>
-  <p>The resources related to the above mentioned subject will appear in the scroll below. Depending on the number of the resources with respect to the subject in HydroShare, it could take seconds to a few minutes:</p>
+  <p>The resources related to the subject, mentioned above, will appear in the scroll below. Depending on the number of the resources with respect to the subject in HydroShare, it could take a couple seconds to a few minutes. </p>
     <select name="title_input" id="title_input">
 
         <option>Select the Resource</option>
     </select>
     <p></p>
-    <p>The resource id is what you could use in other features of the app like adding a file or downloading a file or even deleting a file from a resource.</p>
-    <div>Resource id of the selected Resource: <span id="selected_resource"></span></div>
+    <p>The resource ID is what you could use in other features of the app like adding a file or downloading a file or even deleting a file from a resource. </p>
+    <div>Resource ID of the selected Resource: <span id="selected_resource"></span></div>
   </form>
 
   <p>To try this on your own, you can use the code snippet below, or download the full javascript file that is used in this demonstration.</p>

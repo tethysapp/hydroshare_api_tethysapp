@@ -1346,9 +1346,9 @@ def metadata(request):
     )
 
     creator1_input = TextInput(
-        display_text='Author',
+        display_text='Author(s) and/ or Chief Contributor(s)',
         name='creator1',
-        placeholder='Enter the name of the Author'
+        placeholder='Enter the name of the Author(s) and/ or Chief Contributor(s)'
     )
 
     creator2_input = TextInput(

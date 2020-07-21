@@ -3,27 +3,28 @@
 {% load static %}
 
 {% block app_content %}
-<h1 style="color:rgb(16, 73, 14)">Download a file from a resource</h1>
+<h1 style="color:rgb(16, 73, 14)">Download a File from a Resource</h1>
 
-<p>This code snippet will show you how to download a single file from a HydroShare rsource using the HydroShare API. This could be a useful function in the case where you need to get a specific file from a resource in HydroShare. This feature works very smoothly without any glitches. </p>
+<p>The ‘Download a File’ feature allows the user to download a specific folder or file from a HydroShare resource. The instruction below consists of two steps. Step 1 will search through a given resource and then generate a list of files available. Step 2 will allow for the user to select and download a file from the resource. </p>
 <p>Our demonstration code here is comprised of two steps. Step 1 will query the resource and generate a list of files available therein. Step 2 will actually download a selected file from a resource. </p>
 <p></p>
-<h3>Step 1: Get a list of files in a resource from HydroShare: </h3>
+<h3>Step 1: Get a List of Files in a Resource from HydroShare: </h3>
 
   <form id="add-dam-form" method="post" enctype="multipart/form-data">
     
     {% csrf_token %}
 
-    <p>In the boxes below you enter your HydroShare username and its password. If you have to make an HydroShare account, <a href="https://www.hydroshare.org/sign-up/?next=">click here</a>.</p>
+    <p>In the boxes below enter the user’s personal HydroShare username and password. If needed, make a HydroShare account by <a href="https://www.hydroshare.org/sign-up/?next=">clicking here</a>.</p>
     {% gizmo username_input %}
     {% gizmo password_input %}
     <p></p>
-    <p>The resource Id is a unique identifier for every resource on Hydroshare. You can findit by browsing to your HydroShare resource copying the ID from the URL. Like for example, this is an example hyperlink https://www.hydroshare.org/resource/08c6e88adaa647cd9bb28e5d619178e0/ from which the 32 letter combination at the end is called the resource id. And so the resource id from the example hyperlink is <mark>08c6e88adaa647cd9bb28e5d619178e0</mark> </p>
+    <p>The resource ID is a unique identifier for every resource on HydroShare. You can find it by clicking on your resource in HydroShare, scrolling down to the “How to Cite” section, and copying the ID from the URL. This is an example hyperlink: https://www.hydroshare.org/resource/08c6e88adaa647cd9bb28e5d619178e0/ from which The 32 letter combination at the end is called the resource ID. The resource ID from the example hyperlink is <mark>08c6e88adaa647cd9bb28e5d619178e0</mark>. </p>
     <img src="{% static 'hydroshare_python/images/resourceid.jpeg'%}" alt="Resource ID" height="30">
+    <p></p>
     {% gizmo resourcein_input %}
     <button type="button" id="fetchfile">Find files</button>
     <p></p>
-  <h3>Step 2: Choose a file in the resource and delete it:</h3>
+  <h3>Step 2: Choose a File in the Resource and Download it:</h3>
   <p></p>
     <select name="title_input" id="title_input">
       <option>Select a file</option>

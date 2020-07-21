@@ -4,7 +4,7 @@
 
 {% block app_content %}
   <h1 style="color:rgb(16, 73, 14)">Create a Resource</h1>
-  <p>The 'Create a Resource' feature is as the name suggests to create a new resource in your HydroShare account which would contain all the files you intend to upload. The resources in your HydroShare account are created with a certain amount of prerequisites like Author name, keywords, metadata and the title of your resource. The Python API provided by HydroShare helps us in fullfilling this task.  </p>
+  <p>The ‘Create a Resource’ feature allows the user to create a new resource in their HydroShare account, which would contain all files they intend to upload. The resources in the user’s HydroShare account are created with a certain amount of prerequisites like author name, keywords, metadata and the title of your resource. The Python API provided by HydroShare helps in completing this task. Below are step by step instructions on how to create a new resource.  </p>
   <p></p>
   <form id="add-dam-form" method="post" enctype="multipart/form-data">
     {% csrf_token %}
@@ -12,7 +12,7 @@
     <h3>Step 1: Sign into HydroShare using your credentials</h3>
     
 
-    <p>In the boxes below you enter your HydroShare username and its password. If you have to make an HydroShare account, <a href="https://www.hydroshare.org/sign-up/?next=">click here</a>.</p>
+    <p>In the boxes below enter your HydroShare username and password. If you need to make a HydroShare account, <a href="https://www.hydroshare.org/sign-up/?next=">click here</a>.</p>
     {% gizmo username_input %}
     {% gizmo password_input %}
     <p></p>
@@ -22,10 +22,10 @@
     <p></p>
     {% gizmo author_input %}
     <p></p>
-    <p>The title of the project is basically the name of your resource. Try to keep it short but descriptive. This way, it helps with avoiding confusion. </p>
+    <p>The title of the project is basically the name of your resource. Try to keep it short, but descriptive in order to avoid confusion when others search for your data. </p>
     {% gizmo title_input %}
     <p></p>
-    <p>The keywords are used to sort your resource with respect to its type and helps with especially in searching for a resource.</p>
+    <p>The keywords are used to sort your resource with respect to its type and helps others find your data quickly when searching for a resource using these keywords.</p>
     {% gizmo owner_input %} 
     <p></p>
     <p>Type in your abstract in the tab below that would help explain your resource to another fellow user. Try not using more than 200 words.</p>

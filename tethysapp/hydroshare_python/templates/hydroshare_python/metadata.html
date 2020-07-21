@@ -6,20 +6,20 @@
   <h1 style="color:rgb(16, 73, 14)">Metadata</h1>
 
   
-  <p>HydroShare has a python api for adding metadata information to an author who is the chief contributor of the resource. Metadata helps with the user to know more about the Authors of the resource.</p>
+  <p>HydroShare has a Python API for adding metadata information to an  to a resource about any or all authors who have contributed to the resource. Metadata helps the viewer to know more about the authors of the resource. </p>
   
   <form id="add-dam-form" method="post" enctype="multipart/form-data">
     
     {% csrf_token %}
-    <p>The way you could go about performing this function is by following the instructions below:</p>
+    <p>Below are step by step instructions on how to create a folder:</p>
     <h3>Step 1: Sign into HydroShare using your credentials</h3>
     
 
-    <p>In the boxes below you enter your HydroShare username and its password. If you have to make an HydroShare account, <a href="https://www.hydroshare.org/sign-up/?next=">click here</a>.</p>
+    <p>In the boxes below enter the user’s personal HydroShare username and password. If needed, make a HydroShare account by <a href="https://www.hydroshare.org/sign-up/?next=">clicking here</a>.</p>
     {% gizmo username_input %}
     {% gizmo password_input %}
   <p></p>
-  <h3>Step 2: Enter the name of the Author or Chief contributor to the resource.</h3>
+  <h3>Step 2: Enter the Name of the Author(s) and/ or Chief Contributor(s) to the Resource.</h3>
   {% gizmo creator1_input %}
   <p>Now enter the names of the Co-Authors of the resource</p>
   {% gizmo creator2_input %}
@@ -29,9 +29,9 @@
     {% gizmo resourcein_input %}
    <p></p>
   <p></p>
-  <h3>Step 3: Add information to the fields shown below.</h3>  
+  <h3>Step 3: Add Information to the fields shown below:</h3>  
   <p></p>
-  <p>The fields are very descriptive and are displayed as mentioned in the HydroShare website</p>
+  <p>Metadata is meant to be descriptive and detailed. Displayed below are the fields that appear here are the same as they do on the HydroShare website. </p>
   <p></p>
   {% gizmo organization_input %}
   {% gizmo Phone_input %}
@@ -43,7 +43,7 @@
     {% gizmo detail1_input %}
     {% gizmo detail2_input %} 
     <p></p>
-    <p>Once you are ready to update the added information, you can go ahead and click the submit button shown below</p>
+    <p>Once ready, update the added information. Then go ahead and click the submit button shown below.</p>
     {% gizmo add_button %}
     
     
