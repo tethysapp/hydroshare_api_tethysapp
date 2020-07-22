@@ -3,11 +3,13 @@
 {% load static %}
 
 {% block app_content %}
-  <h1 style="color:rgb(16, 73, 14)">Download a Resource from HydroShare</h1>
+  <h1 style="color:rgb(16, 73, 14)">Download a Resource</h1>
   <p></p>
   <form id="add-dam-form" method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    <p>Below are step by step instructions on how to create a new resource: </p>
+    <p>Downloading a Resource from HydroShare is made possible and very easy with this feature. 
+      We make use of two seperate APIs from hs_restclient to accomplish this task. The browse for a Resource API using the subject parameter and the API to download a Resource. 
+      </p>
     <h3>Step 1: Sign into HydroShare using your credentials</h3>
     
 
