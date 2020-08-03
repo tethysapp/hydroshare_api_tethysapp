@@ -41,16 +41,11 @@
 <p></p>
     <pre class="line-numbers">
       <code class="language-python">
-        auth = HydroShareAuthBasic(username= username, password= password)
-            hs = HydroShare(auth=auth)
-            fname = title
-            fpath = hs.getResourceFile(resourcein, fname, destination= '/tmp')
-            response = HttpResponse( content_type='application/force-download')
-            response['Content-Disposition'] = 'attachment; filename=%s' % smart_str(fname)
-            response['X-Sendfile'] = smart_str('/tmp')
-            messages.error(request, "File downloaded succesfully")
-        if has_errors:
-            messages.error(request, "Please fix errors.")
+        <mark>from hs_restclient import HydroShare, HydroShareAuthBasic</mark>
+        auth = HydroShareAuthBasic(username='myusername', password='mypassword')
+        hs = HydroShare(auth=auth)
+        fname = 'somefile.txt'
+        fpath = hs.getResourceFile('ID OF RESOURCE GOES HERE', fname, destination='/directory/to/download/file/to')
       </code>
     </pre>
 

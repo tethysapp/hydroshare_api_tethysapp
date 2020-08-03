@@ -114,6 +114,21 @@ class HydrosharePython(TethysAppBase):
                 url='hydroshare-python/tethys',
                 controller='hydroshare_python.controllers.tethys'
             ),
+            UrlMap(
+                name='boundingbox',
+                url='hydroshare-python/boundingbox',
+                controller='hydroshare_python.controllers.boundingbox'
+            ),
+            UrlMap(
+                name='random',
+                url='hydroshare-python/random',
+                controller='hydroshare_python.controllers.random'
+            ),
+            UrlMap(
+                name='geoserver',
+                url='hydroshare-python/geoserver',
+                controller='hydroshare_python.controllers.geoserver'
+            ),
             
         )
 

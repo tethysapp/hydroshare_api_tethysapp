@@ -48,16 +48,15 @@
   <p>To try this on your own, you can use the code snippet below that is used in this demonstration.</p>
   <pre class="line-numbers">
     <code class="language-python">
-        auth = HydroShareAuthBasic(username= username, password= password)
-        hs = HydroShare(auth=auth)
-        fpath='/tmp/%s.zip' % title
-        hs.getResource(title, destination='/tmp')
-
-        wrapper = FileWrapper(open(os.path.abspath(fpath), 'rb')) 
-        response = HttpResponse(wrapper, content_type='text/plain') 
-        response['Content-Disposition'] = 'attachment; filename=%s' % os.path.basename(fpath) 
-        response['Content-Length'] = os.path.getsize(fpath)
-        return response
+      <mark>from hs_restclient import HydroShare, HydroShareAuthBasic</mark>
+      auth = HydroShareAuthBasic(username='myusername', password='mypassword')
+      hs = HydroShare(auth=auth)
+      options = {
+                       "zip_with_rel_path": "/source/path/file.zip",
+                       "remove_original_zip": True,
+                       "overwrite": False
+                                }
+      result = hs.resource('ID OF RESOURCE GOES HERE').functions.unzip(options)
 
     </code>
   </pre>

@@ -406,6 +406,436 @@ def mapview(request):
     return render(request, 'hydroshare_python/mapview.html', context)
 
 @login_required()
+def boundingbox(request):
+    """
+    Controller for the app home page.
+    """
+    username = ''
+    password = ''
+    resourcev=[]
+    viewr = ''
+
+    username_error = ''
+    password_error = ''
+    viewr_error = ''
+
+    # Handle form submission
+    print('POST REQUEST RECEIVED')
+    if request.POST and not 'add-button' in request.POST:
+        print('POST REQUEST STARTED')
+        # Get values
+        has_errors = False
+        username = request.POST.get('username', None)
+        password = request.POST.get('password', None)
+        viewr = request.POST.get('viewr', None)
+
+            # Validate
+        
+        if not username:
+            has_errors = True
+            username_error = 'Username is required.'
+        
+        if not password:
+            has_errors = True
+            password_error = 'Password is required.'
+
+        if not viewr:
+            has_errors = True
+            viewr_error = 'Subject is required.'
+
+
+        if not has_errors:
+            # Do stuff here
+            auth = HydroShareAuthBasic(username= username, password= password)
+            hs = HydroShare(auth=auth)
+            # hs.setAccessRules(public=True)
+            result = hs.resources(subject=viewr)
+
+            resourceList = []
+            for resource in result:
+                resourceList.append(resource)
+
+            return HttpResponse(json.dumps(resourceList))
+            # return {"status": success }
+
+        if has_errors:    
+        #Utah Municipal resource id
+            messages.error(request, "Please fix errors.")
+
+    username_input = TextInput(
+        display_text='Username',
+        name='username',
+        placeholder='Enter your username'
+    )
+
+    password_input = TextInput(
+        display_text='Password',
+        name='password',
+        attributes={"type":"password"},
+        placeholder='Enter your password'
+    )
+
+    viewr_input = TextInput(
+        display_text='Subject',
+        name='viewr',
+        placeholder='Enter your subject'
+    )
+
+    add_button = Button(
+        display_text='View on Map',
+        name='add-button',
+        icon='glyphicon glyphicon-plus',
+        style='success',
+        attributes={'form': 'add-dam-form'},
+        submit=True
+    )
+
+    cancel_button = Button(
+        display_text='Cancel',
+        name='cancel-button',
+        href=reverse('hydroshare_python:home')
+    )
+
+    context = {
+        'username_input': username_input,
+        'password_input': password_input,
+        'viewr_input': viewr_input,
+        'add_button': add_button,
+        'cancel_button': cancel_button,
+        'resourcev': resourcev,
+    }
+
+    return render(request, 'hydroshare_python/boundingbox.html', context)
+
+@login_required()
+def random(request):
+    """
+    Controller for the app home page.
+    """
+    username = ''
+    password = ''
+    resourcev=[]
+    viewr = ''
+    bb1 = 33.947079999999985
+    bb2 = -118.11435 
+    bb3 = 33.39009
+    bb4 = -117.413314
+    resourceid = 'HS-bf7fd5ff1ddd47209cdf499824c06fc9'
+
+    username_error = ''
+    password_error = ''
+    viewr_error = ''
+    bb1_error = ''
+    bb2_error = ''
+    bb3_error = ''
+    bb4_error = ''
+    resourceid_error = ''
+
+    # Handle form submission
+    print('POST REQUEST RECEIVED')
+    if request.POST and not 'add-button' in request.POST:
+        print('POST REQUEST STARTED')
+        # Get values
+        has_errors = False
+        username = request.POST.get('username', None)
+        password = request.POST.get('password', None)
+        viewr = request.POST.get('viewr', None)
+        bb1 = request.POST.get('bb1', None)
+        bb2 = request.POST.get('bb2', None)
+        bb3 = request.POST.get('bb3', None)
+        bb4 = request.POST.get('bb4', None)
+        resourceid_error = request.POST.get('resourceid', None)
+            # Validate
+        
+        if not username:
+            has_errors = True
+            username_error = 'Username is required.'
+        
+        if not password:
+            has_errors = True
+            password_error = 'Password is required.'
+
+        if not viewr:
+            has_errors = True
+            viewr_error = 'Subject is required.'
+
+        if not bb1:
+            has_errors = True
+            bb1_error = 'bb1 is required.'
+
+        if not bb2:
+            has_errors = True
+            bb2_error = 'bb2 is required.'
+
+        if not bb3:
+            has_errors = True
+            bb3_error = 'bb3 is required.'
+
+        if not bb4:
+            has_errors = True
+            bb4_error = 'bb4 is required.'
+
+        if not resourceid:
+            has_errors = True
+            resourceid_error = 'resourceid is required.'
+
+
+        if not has_errors:
+            # Do stuff here
+            auth = HydroShareAuthBasic(username= username, password= password)
+            hs = HydroShare(auth=auth)
+            # hs.setAccessRules(public=True)
+            result = hs.resources(subject=viewr)
+
+            resourceList = []
+            for resource in result:
+                resourceList.append(resource)
+
+            return HttpResponse(json.dumps(resourceList))
+            # return {"status": success }
+
+        if has_errors:    
+        #Utah Municipal resource id
+            messages.error(request, "Please fix errors.")
+
+    username_input = TextInput(
+        display_text='Username',
+        name='username',
+        placeholder='Enter your username'
+    )
+
+    password_input = TextInput(
+        display_text='Password',
+        name='password',
+        attributes={"type":"password"},
+        placeholder='Enter your password'
+    )
+
+    # bb1_button = Button(
+    #     display_text='bb1',
+    #     name='bb1',
+    #     submit=True
+    # )
+
+    # bb2_button = Button(
+    #     display_text='bb2',
+    #     name='bb2',
+    #     submit=True
+    # )
+
+    # bb3_button = Button(
+    #     display_text='bb3',
+    #     name='bb3',
+    #     submit=True
+    # )
+
+    # bb4_button = Button(
+    #     display_text='bb4',
+    #     name='bb4',
+    #     submit=True
+    # )
+
+    # resourceid_button = Button(
+    #     display_text='Resource ID',
+    #     name='resourceid',
+    #     submit=True
+    # )
+
+    
+
+    add_button = Button(
+        display_text='View on Map',
+        name='add-button',
+        icon='glyphicon glyphicon-plus',
+        style='success',
+        attributes={'form': 'add-dam-form'},
+        submit=True
+    )
+
+    cancel_button = Button(
+        display_text='Cancel',
+        name='cancel-button',
+        href=reverse('hydroshare_python:home')
+    )
+
+    context = {
+        'bb1':bb1,
+        'bb2':bb2,
+        'bb3':bb3,
+        'bb4':bb4,
+        'resourceid':resourceid,
+        'username_input': username_input,
+        'password_input': password_input,
+        'add_button': add_button,
+        'cancel_button': cancel_button,
+        'resourcev': resourcev,
+    }
+
+    return render(request, 'hydroshare_python/random.html', context)
+
+@login_required()
+def geoserver(request):
+    """
+    Controller for the app home page.
+    """
+    username = ''
+    password = ''
+    resourcev=[]
+    viewr = ''
+    bb1 = ''
+    bb2 = ''
+    bb3 = ''
+    resourceid = ''
+
+    username_error = ''
+    password_error = ''
+    viewr_error = ''
+    bb1_error = ''
+    bb2_error = ''
+    bb3_error = ''
+    bb4_error = ''
+    resourceid_error = ''
+
+    # Handle form submission
+    print('POST REQUEST RECEIVED')
+    if request.POST and not 'add-button' in request.POST:
+        print('POST REQUEST STARTED')
+        # Get values
+        has_errors = False
+        username = request.POST.get('username', None)
+        password = request.POST.get('password', None)
+        viewr = request.POST.get('viewr', None)
+        bb1 = request.POST.get('bb1', None)
+        bb2 = request.POST.get('bb2', None)
+        bb3 = request.POST.get('bb3', None)
+        bb4 = request.POST.get('bb4', None)
+        resourceid_error = request.POST.get('resourceid', None)
+            # Validate
+        
+        if not username:
+            has_errors = True
+            username_error = 'Username is required.'
+        
+        if not password:
+            has_errors = True
+            password_error = 'Password is required.'
+
+        if not viewr:
+            has_errors = True
+            viewr_error = 'Subject is required.'
+
+        if not bb1:
+            has_errors = True
+            bb1_error = 'bb1 is required.'
+
+        if not bb2:
+            has_errors = True
+            bb2_error = 'bb2 is required.'
+
+        if not bb3:
+            has_errors = True
+            bb3_error = 'bb3 is required.'
+
+        if not bb4:
+            has_errors = True
+            bb4_error = 'bb4 is required.'
+
+        if not resourceid:
+            has_errors = True
+            resourceid_error = 'resourceid is required.'
+
+
+        if not has_errors:
+            # Do stuff here
+            auth = HydroShareAuthBasic(username= username, password= password)
+            hs = HydroShare(auth=auth)
+            # hs.setAccessRules(public=True)
+            result = hs.resources(subject=viewr)
+
+            resourceList = []
+            for resource in result:
+                resourceList.append(resource)
+
+            return HttpResponse(json.dumps(resourceList))
+            # return {"status": success }
+
+        if has_errors:    
+        #Utah Municipal resource id
+            messages.error(request, "Please fix errors.")
+
+    username_input = TextInput(
+        display_text='Username',
+        name='username',
+        placeholder='Enter your username'
+    )
+
+    password_input = TextInput(
+        display_text='Password',
+        name='password',
+        attributes={"type":"password"},
+        placeholder='Enter your password'
+    )
+
+    bb1_input = TextInput(
+        display_text='bb1',
+        name='bb1',
+        placeholder='Enter your bounding box co-ordinate 1'
+    )
+    bb2_input = TextInput(
+        display_text='bb2',
+        name='bb2',
+        placeholder='Enter your bounding box co-ordinate 2'
+    )
+    bb3_input = TextInput(
+        display_text='bb3',
+        name='bb3',
+        placeholder='Enter your bounding box co-ordinate 3'
+    )
+    bb4_input = TextInput(
+        display_text='bb4',
+        name='bb4',
+        placeholder='Enter your bounding box co-ordinate 4'
+    )
+    resourceid_input = TextInput(
+        display_text='Resource ID',
+        name='resourceid',
+        placeholder='Enter the resource id'
+    )
+
+     
+    add_button = Button(
+        display_text='View on Map',
+        name='add-button',
+        icon='glyphicon glyphicon-plus',
+        style='success',
+        attributes={'form': 'add-dam-form'},
+        submit=True
+    )
+
+    cancel_button = Button(
+        display_text='Cancel',
+        name='cancel-button',
+        href=reverse('hydroshare_python:home')
+    )
+
+    context = {
+        'bb1_input':bb1_input,
+        'bb2_input':bb2_input,
+        'bb3_input':bb3_input,
+        'bb4_input':bb4_input,
+        'resourceid_input':resourceid_input,
+        'username_input': username_input,
+        'password_input': password_input,
+        'add_button': add_button,
+        'cancel_button': cancel_button,
+        'resourcev': resourcev,
+    }
+
+    return render(request, 'hydroshare_python/geoserver.html', context)
+
+
+
+@login_required()
 def get_file(request):
     """
     Controller for the Add Dam page.

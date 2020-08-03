@@ -40,11 +40,10 @@
 <p></p>
     <pre class="line-numbers">
       <code class="language-python">
-        auth = HydroShareAuthBasic(username= username, password= password)
+        <mark>from hs_restclient import HydroShare, HydroShareAuthBasic</mark>
+        auth = HydroShareAuthBasic(username='myusername', password='mypassword')
         hs = HydroShare(auth=auth)
-        response = hs.resource(resourcein).files.metadata(title).content
-
-        return HttpResponse(response.decode("utf-8"))
+        science_metadata_json = hs.getScienceMetadata('ID OF RESOURCE GOES HERE')
       </code>
     </pre>
 

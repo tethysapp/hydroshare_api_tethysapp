@@ -38,7 +38,8 @@
   <p>To try this on your own, you can use the code snippet below, or download the full javascript file that is used in this demonstration.</p>
   <pre class="line-numbers">
     <code class="language-python">
-      auth = HydroShareAuthBasic(username= username, password= password)
+      <mark>from hs_restclient import HydroShare, HydroShareAuthBasic</mark>
+      auth = HydroShareAuthBasic(username='username', password='password')
       hs = HydroShare(auth=auth)
 
       result = hs.resources(subject=viewr)
