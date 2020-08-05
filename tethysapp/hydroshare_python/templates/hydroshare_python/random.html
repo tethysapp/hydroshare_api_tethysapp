@@ -229,8 +229,8 @@
       // if this is just a coverage or a group of them, disable a few items,
       // and default to jpeg format
       var format = 'image/png';
-      var bounds = [ {{ bb1 }} , {{ bb2 }} ,
-      {{ bb3 }} , {{ bb4 }} ];
+      var bounds = [ {{ bb4 }}, {{ bb1 }},
+      {{ bb2 }}, {{ bb3 }} ];
       if (pureCoverage) {
         document.getElementById('antialiasSelector').disabled = true;
         document.getElementById('jpeg').selected = true;
@@ -257,7 +257,7 @@
           url: 'https://geoserver.hydroshare.org/geoserver/{{ resourceid }}/wms',
           params: {'FORMAT': format,
                    'VERSION': '1.1.1',  
-                "LAYERS": 'HS-d2bab32e7c1d4d55b8cba7221e51b02d:Admin Bounds shapefiles Federal_Declared_Counties Federal_Declared_Counties',
+                "LAYERS": '{{ resourceid }}:{{ title }}',
                 "exceptions": 'application/vnd.ogc.se_inimage',
           }
         })
@@ -270,9 +270,9 @@
           params: {'FORMAT': format, 
                    'VERSION': '1.1.1',
                    tiled: true,
-                "LAYERS": '{{ resourceid }}:Admin Bounds shapefiles Federal_Declared_Counties Federal_Declared_Counties',
+                "LAYERS": '{{ resourceid }}:{{ title }}',
                 "exceptions": 'application/vnd.ogc.se_inimage',
-             tilesOrigin: {{ bb1 }} + "," + {{ bb2 }}
+             tilesOrigin: {{ bb4 }} + "," + {{ bb1 }}
           }
         })
       });
