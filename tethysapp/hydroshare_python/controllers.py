@@ -509,7 +509,7 @@ def boundingbox(request):
 
 def filtershapefile(in_num):
 
-    return in_num['file_name'].endswith('.shp')
+    return in_num['file_name'].endswith('.shp') and in_num["logical_file_type"]=="GeoFeatureLogicalFile"
 
 @login_required()
 def random(request):
@@ -519,7 +519,7 @@ def random(request):
     # username = ''
     # password = ''
     
-    title = 'nyu_2451_34514'
+    # title = 'nyu_2451_34514'
     resource = request.GET.get('id','')
     resourceid = 'HS-'+resource
             
@@ -532,14 +532,15 @@ def random(request):
     bb2=resource_md['coverages'][0]['value']['eastlimit']
     bb3=resource_md['coverages'][0]['value']['southlimit']
     bb4=resource_md['coverages'][0]['value']['westlimit']
-    # resourcefiles=hs.resource(resource).files.all().content
+    resourcefiles=hs.resource(resource).files.all().content
 
-    # print(resourcefiles)
+    print(resourcefiles)
     
 
 # Demonstrating filter() to remove odd numbers
-    # out_filter = filter(filtershapefile, resourcefiles.results)
-    # print(out_filter)
+    out_filter = filter(filtershapefile, json.loads(resourcefiles.decode('utf-8'))['results'])
+    # print(next(out_filter))
+    title=next(out_filter,None)['file_name'].replace('.shp','')
 
     context = {
         'bb1':bb1,
@@ -892,26 +893,18 @@ def add_file(request):
     # Default Values
     username = ''
     password = ''
-    # filename = ''
     resourcein = ''
-    # owner = 'Reclamation'
-    # river = ''
-    # date_built = ''
+    
 
     # Errors
     username_error = ''
     password_error = ''
-    # filename_error = ''
     resourcein_error = ''
-    # owner_error = ''
-    # river_error = ''
-    # date_error = ''
 
     # Handle form submission
     if request.POST and 'add-button' in request.POST:
         # Get values
         has_errors = False
-        # filename = request.POST.get('filename', None)
         username = request.POST.get('username', None)
         password = request.POST.get('password', None)
         resourcein = request.POST.get('resourcein', None)
@@ -940,14 +933,8 @@ def add_file(request):
                 has_errors = True
                 resourcein_error = 'Resource is required.'
 
-            # if not filename:
-            #     has_errors = True
-            #     filename_error = 'Filename is required.'
 
             if not has_errors:
-                # Do stuff here
-                # title = title
-                # filename = filename
                 auth = HydroShareAuthBasic(username= username, password= password)
                 hs = HydroShare(auth=auth)
                 fpath = temp_zip_path 
@@ -976,31 +963,6 @@ def add_file(request):
         placeholder='Enter your password'
     ) 
 
-    # filename_input = TextInput(
-    #     display_text='File name',
-    #     name='title',
-    #     placeholder='Enter the name of file here '
-    # )
-
-    # owner_input = TextInput(
-    #     display_text='Keywords',
-    #     name='owner',
-    #     placeholder='eg: shapefiles, datasets, etc..'
-    # ) 
-
-    # river_input = TextInput(
-    #     display_text='Name of Creator',
-    #     name='river',
-    #     placeholder='e.g: John Smith'
-    # )
-
-    # date_built = TextInput(
-    #     display_text='Keywords',
-    #     name='date-built',
-    #     placeholder='e.g: Shapefiles, datasets, etc..'
-    
-    # )
-
     add_button = Button(
         display_text='Add',
         name='add-button',
@@ -1020,10 +982,6 @@ def add_file(request):
         'resourcein_input': resourcein_input,
         'username_input': username_input,
         'password_input': password_input,
-        # 'filename_input': filename_input,
-        # 'owner_input': owner_input,
-        # 'river_input': river_input,
-        # 'date_built_input': date_built,
         'add_button': add_button,
         'cancel_button': cancel_button,
     }

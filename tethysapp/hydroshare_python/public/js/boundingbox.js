@@ -1,12 +1,3 @@
-mapboxgl.accessToken = 'pk.eyJ1IjoiYWJoaXNoZWthbWFsMTgiLCJhIjoiY2s1eTVxNGExMmQ5MDNubjExaWY5MjdvbSJ9.3nmdjWZmUCDNyRdlPo5gbg';
-var map = new mapboxgl.Map({
-container: 'mapid',
-style: 'mapbox://styles/abhishekamal18/ckd7nht1p04hn1ipcddzbndkd', // stylesheet location
-center: [-74.5, 40], // starting position [lng, lat]
-zoom: 9 // starting zoom
-});
-
-
 
 let resourceslist = []
 
@@ -71,13 +62,10 @@ viewbutton.addEventListener('click', function(event){
     const selectedid = fileSelector.value
     const resource = resourceslist.find(resource=>resource.resource_id==selectedid)
     if(resource){
-        console.log("Map works")
-        const box = resource.coverages.find(coveragesItem=>coveragesItem.type=="box")
-        var bounds = [[box.value.northlimit, box.value.westlimit], [box.value.southlimit, box.value.eastlimit]];
-// create an orange rectangle
-        L.rectangle(bounds, {color: "#ff7800", weight: 3}).addTo(mymap);
-// zoom the map to the rectangle bounds
-        mymap.fitBounds(bounds);
+ const url = '/apps/hydroshare-python/random/?id='+selectedid;
+ const iframe = document.querySelector('.iframe');
+ iframe.src=url
+
     }
 })
 
