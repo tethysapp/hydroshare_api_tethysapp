@@ -46,6 +46,8 @@ const clickevent = (event) => {
     if (r==false){
         event.preventDefault()
     }
+    $('body').addClass('waiting');
+    $('body').removeClass('waiting');
 }
 
 var deletebutton = document.querySelector("[name=download-button]")

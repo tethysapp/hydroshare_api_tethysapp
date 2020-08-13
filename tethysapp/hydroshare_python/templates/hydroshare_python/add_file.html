@@ -38,16 +38,16 @@
   <p>To try this on your own, you can use the code snippet below that is used in this demonstration.</p>
   <pre class="line-numbers">
     <code class="language-python">
-      <mark>from hs_restclient import HydroShare, HydroShareAuthBasic</mark>
-      auth = HydroShareAuthBasic(username= username, password= password)
-      hs = HydroShare(auth=auth)
-      fpath = temp_zip_path 
-      resource_id = hs.addResourceFile(resourcein, fpath) 
-      messages.error(request, "File added successfully")
+<mark>from hs_restclient import HydroShare, HydroShareAuthBasic</mark>
+auth = HydroShareAuthBasic(username= username, password= password)
+hs = HydroShare(auth=auth)
+fpath = temp_zip_path 
+resource_id = hs.addResourceFile(resourcein, fpath) 
+messages.error(request, "File added successfully")
       
 if has_errors:    
-  
-      messages.error(request, "Please fix errors.")
+
+messages.error(request, "Please fix errors.")
 
     </code>
   </pre>

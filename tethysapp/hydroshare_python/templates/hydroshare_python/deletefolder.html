@@ -40,10 +40,10 @@
   <pre class="line-numbers">
     <code class="language-python">
 <mark>from hs_restclient import HydroShare, HydroShareAuthBasic</mark>
-      auth = HydroShareAuthBasic(username='myusername', password='mypassword')
-      hs = HydroShare(auth=auth)
-      folder_to_delete = "folder_1/folder_2"
-      response_json = hs.deleteResourceFolder('ID OF RESOURCE GOES HERE', pathname=folder_to_delete)
+auth = HydroShareAuthBasic(username='myusername', password='mypassword')
+hs = HydroShare(auth=auth)
+folder_to_delete = "folder_1/folder_2"
+response_json = hs.deleteResourceFolder('ID OF RESOURCE GOES HERE', pathname=folder_to_delete)
 
     </code>
   </pre>

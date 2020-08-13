@@ -39,11 +39,11 @@
   <p>To try this on your own, you can use the code snippet below that is used in this demonstration.</p>
   <pre class="line-numbers">
     <code class="language-python">
-      <mark>from hs_restclient import HydroShare, HydroShareAuthBasic</mark>
-      auth = HydroShareAuthBasic(username='myusername', password='mypassword')
-      hs = HydroShare(auth=auth)
-      folder_to_create = "folder_1/folder_2"
-      response_json = hs.createResourceFolder('ID OF RESOURCE GOES HERE', pathname=folder_to_create)
+<mark>from hs_restclient import HydroShare, HydroShareAuthBasic</mark>
+auth = HydroShareAuthBasic(username='myusername', password='mypassword')
+hs = HydroShare(auth=auth)
+folder_to_create = "folder_1/folder_2"
+response_json = hs.createResourceFolder('ID OF RESOURCE GOES HERE', pathname=folder_to_create)
 
     </code>
   </pre>

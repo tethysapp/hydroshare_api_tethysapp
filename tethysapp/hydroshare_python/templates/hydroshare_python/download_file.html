@@ -41,11 +41,11 @@
 <p></p>
     <pre class="line-numbers">
       <code class="language-python">
-        <mark>from hs_restclient import HydroShare, HydroShareAuthBasic</mark>
-        auth = HydroShareAuthBasic(username='myusername', password='mypassword')
-        hs = HydroShare(auth=auth)
-        fname = 'somefile.txt'
-        fpath = hs.getResourceFile('ID OF RESOURCE GOES HERE', fname, destination='/directory/to/download/file/to')
+<mark>from hs_restclient import HydroShare, HydroShareAuthBasic</mark>
+auth = HydroShareAuthBasic(username='myusername', password='mypassword')
+hs = HydroShare(auth=auth)
+fname = 'somefile.txt'
+fpath = hs.getResourceFile('ID OF RESOURCE GOES HERE', fname, destination='/directory/to/download/file/to')
       </code>
     </pre>
 

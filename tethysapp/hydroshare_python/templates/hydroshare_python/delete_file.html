@@ -40,11 +40,11 @@
 <p></p>
     <pre class="line-numbers">
       <code class="language-python">
-        <mark>from hs_restclient import HydroShare, HydroShareAuthBasic</mark>
-         auth = HydroShareAuthBasic(username='myusername', password='mypassword')
-         hs = HydroShare(auth=auth)
-         fname = 'somefile.txt'
-         resource_id = hs.deleteResourceFile('ID OF RESOURCE GOES HERE', fname)
+<mark>from hs_restclient import HydroShare, HydroShareAuthBasic</mark>
+auth = HydroShareAuthBasic(username='myusername', password='mypassword')
+hs = HydroShare(auth=auth)
+fname = 'somefile.txt'
+resource_id = hs.deleteResourceFile('ID OF RESOURCE GOES HERE', fname)
       </code>
     </pre>
 <button id="jsfile"><a id="jsfile" href="{% static 'hydroshare_python/js/second.js'%}" download>Download javaScript file</a></button>

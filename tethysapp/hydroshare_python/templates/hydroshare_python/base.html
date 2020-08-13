@@ -32,7 +32,7 @@
 {% url 'hydroshare_python:tethys' as tethys_url %} 
   <li class="{% if request.path == tethys_url %}active{% endif %}"><a href="{{ tethys_url }}">Tethys - A Brief Introduction</a></li>  
 {% url 'hydroshare_python:tutorial' as tutorial_url %} 
-  <li class="{% if request.path == tutorial_url %}active{% endif %}"><a href="{{ tutorial_url }}">Tutorial</a></li>  
+  <li class="{% if request.path == tutorial_url %}active{% endif %}"><a href="{{ tutorial_url }}">Tutorial on how to get this app running</a></li>  
 {% url 'hydroshare_python:get_file' as get_file_url %}  
   <li class="{% if request.path == get_file_url %}active{% endif %}"><a href="{{ get_file_url }}">Create a Resource</a></li>  
 {% url 'hydroshare_python:viewer' as viewer_url %} 
