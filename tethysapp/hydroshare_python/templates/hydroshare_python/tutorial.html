@@ -16,7 +16,7 @@
 <p>It is mandatory to download and install the hs_restclient before programming with the API. To do this, copy and paste the code shown below into the terminal</p>
 <pre class="line-numbers">
     <code class="language-python">
-        pip install hs_restclient
+pip install hs_restclient
 
     </code>
   </pre>
@@ -27,11 +27,11 @@
 <p>Some modules may need to be imported beforehand depending on the API provided by HydroShare. For example, consider the API for adding a file to a HydroShare resource. The API code for this is shown below:</p>
 <pre class="line-numbers">
     <code class="language-python">
-        from hs_restclient import HydroShare, HydroShareAuthBasic
-        auth = HydroShareAuthBasic(username='myusername', password='mypassword')
-        hs = HydroShare(auth=auth)
-        fpath = '/path/to/somefile.txt'
-        resource_id = hs.addResourceFile('ID OF RESOURCE GOES HERE', fpath)
+from hs_restclient import HydroShare, HydroShareAuthBasic
+auth = HydroShareAuthBasic(username='myusername', password='mypassword')
+hs = HydroShare(auth=auth)
+fpath = '/path/to/somefile.txt'
+resource_id = hs.addResourceFile('ID OF RESOURCE GOES HERE', fpath)
     </code>
   </pre>
 
@@ -49,11 +49,11 @@
 <p>The api to do that is as follows,</p>
 <pre class="line-numbers">
     <code class="language-python">
-        from hs_restclient import HydroShare, HydroShareAuthBasic
-        auth = HydroShareAuthBasic(username='myusername', password='mypassword')
-        hs = HydroShare(auth=auth)
-        fpath = '/path/to/somefile.txt'
-        resource_id = hs.addResourceFile('ID OF RESOURCE GOES HERE', fpath)
+from hs_restclient import HydroShare, HydroShareAuthBasic
+auth = HydroShareAuthBasic(username='myusername', password='mypassword')
+hs = HydroShare(auth=auth)
+fpath = '/path/to/somefile.txt'
+resource_id = hs.addResourceFile('ID OF RESOURCE GOES HERE', fpath)
     </code>
   </pre>
 <p>The HydroShare, HydroShareAuthBasic modules are imported from HydroShare which help carry out the api functions.</p>
@@ -69,20 +69,20 @@
 <p>The content found below can be copied and be used to replace it with the existing data in your yml file.</p>
 <pre class="line-numbers">
     <code class="language-python">
-    # Portal Level Config File
+  # Portal Level Config File
 
-    # see tethys documentation for how to setup this file
-    version: 1.0
-    name:
-    apps: {}
-    settings:
-    SECRET_KEY: zcaK7mnAszRLZxUci0m66o65cShSukF33qGXKkcIB5LegvvVsO
-    AUTHENTICATION_BACKENDS:
-        - tethys_services.backends.hydroshare.HydroShareOAuth2
-    OAUTH_CONFIGS:
-        SOCIAL_AUTH_HYDROSHARE_KEY: 'NAltmPyhuPITKrId2ZFdc7U0unHCAc5qHa4M3oLz'
-        SOCIAL_AUTH_HYDROSHARE_SECRET: 'leWjRXtmUDmDL2YePG0KfRFbqUi0FX5XgvXiLsFGA3uVEWEaUnww7m7POjl0yqPKgNddgVFhVeremgiRqce74YjgxA2o2gkoek1q1lB7okuaJmyJQVIqM322mbpiIU0L'
-    site_content: {}
+  # see tethys documentation for how to setup this file
+  version: 1.0
+  name:
+  apps: {}
+  settings:
+  SECRET_KEY: zcaK7mnAszRLZxUci0m66o65cShSukF33qGXKkcIB5LegvvVsO
+  AUTHENTICATION_BACKENDS:
+      - tethys_services.backends.hydroshare.HydroShareOAuth2
+  OAUTH_CONFIGS:
+      SOCIAL_AUTH_HYDROSHARE_KEY: 'NAltmPyhuPITKrId2ZFdc7U0unHCAc5qHa4M3oLz'
+      SOCIAL_AUTH_HYDROSHARE_SECRET: 'leWjRXtmUDmDL2YePG0KfRFbqUi0FX5XgvXiLsFGA3uVEWEaUnww7m7POjl0yqPKgNddgVFhVeremgiRqce74YjgxA2o2gkoek1q1lB7okuaJmyJQVIqM322mbpiIU0L'
+  site_content: {}
 
 
 
