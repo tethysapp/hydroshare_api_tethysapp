@@ -91,6 +91,10 @@ def home(request):
     return render(request, 'hydroshare_python/home.html', context)
 
 @login_required()
+def loading(request):
+    return render(request, 'hydroshare_python/loading.html')
+
+@login_required()
 def tutorial(request):
     """
     Controller for the app home page.
@@ -540,7 +544,9 @@ def random(request):
 # Demonstrating filter() to remove odd numbers
     out_filter = filter(filtershapefile, json.loads(resourcefiles.decode('utf-8'))['results'])
     # print(next(out_filter))
-    title=next(out_filter,None)['file_name'].replace('.shp','')
+    title=next(out_filter,None)['url'].replace('.shp','')
+    titleindex=title.index('data/contents/')
+    title=title[title.find('data/contents/'):].replace('data/contents/','').replace('/',' ')
 
     context = {
         'bb1':bb1,

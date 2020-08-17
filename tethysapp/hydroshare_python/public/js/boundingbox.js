@@ -16,13 +16,20 @@ button.addEventListener('click', async function () {
     formData.append('viewr', viewr.value);
     formData.append('csrfmiddlewaretoken', csrfToken.value);
 
+    document.body.classList.add('waiting');
+    let responseData;
+    try{
     const response = await fetch('/apps/hydroshare-python/mapview/', {
         method: 'post',
         body: formData
     });
 
-    const responseData = await response.json()
-    resourceslist = responseData
+    responseData = await response.json()
+    } catch{
+
+    }finally{
+        document.body.classList.remove('waiting');
+    }resourceslist = responseData
 
     var child = fileSelector.lastElementChild;
     while (child) {
@@ -40,7 +47,6 @@ button.addEventListener('click', async function () {
         if(!resource.coverages || resource.coverages.length==0){
             return false
         }
-        console.log(resource)
         const box = resource.coverages.find(coveragesItem=>coveragesItem.type=="box")
         if (box){return true}
         return false
@@ -64,7 +70,11 @@ viewbutton.addEventListener('click', function(event){
     if(resource){
  const url = '/apps/hydroshare-python/random/?id='+selectedid;
  const iframe = document.querySelector('.iframe');
- iframe.src=url
+ iframe.src='/apps/hydroshare-python/loading'
+ setTimeout(()=>{
+    iframe.src=url
+ }, 100)
+ 
 
     }
 })

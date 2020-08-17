@@ -129,6 +129,12 @@ class HydrosharePython(TethysAppBase):
                 url='hydroshare-python/geoserver',
                 controller='hydroshare_python.controllers.geoserver'
             ),
+            UrlMap(
+                name='loading',
+                url='hydroshare-python/loading',
+                controller='hydroshare_python.controllers.loading'
+            ),
+
             
         )
 
