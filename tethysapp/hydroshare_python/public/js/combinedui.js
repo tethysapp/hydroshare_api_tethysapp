@@ -13,13 +13,22 @@ button.addEventListener('click', async function () {
     formData.append('password', password.value);
     formData.append('resourcein', resourceid.value);
     formData.append('csrfmiddlewaretoken', csrfToken.value);
-
+    
+    document.body.classList.add('waiting');
+    let responseData;
+    try{
     const response = await fetch('/apps/hydroshare-python/filev/', {
         method: 'post',
         body: formData
     });
 
-    const responseData = await response.json()
+    responseData = await response.json()
+    } catch{
+
+    }finally{
+        document.body.classList.remove('waiting');
+    }
+     
 
 
     var child = fileSelector.lastElementChild;
