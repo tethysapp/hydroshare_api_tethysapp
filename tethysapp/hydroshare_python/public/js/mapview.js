@@ -40,22 +40,23 @@ button.addEventListener('click', async function () {
         fileSelector.removeChild(child);
         child = fileSelector.lastElementChild;
     }
-    // Default option
-    const option = document.createElement('option');
-    option.textContent = "Select a Resource";
-    fileSelector.append(option)
-
-    // File name options
-    responseData.filter(resource=>{
+    const filteredresource = responseData.filter(resource=>{
         
         if(!resource.coverages || resource.coverages.length==0){
             return false
         }
-        console.log(resource)
         const box = resource.coverages.find(coveragesItem=>coveragesItem.type=="box")
         if (box){return true}
         return false
-    }).forEach(result => {
+    })
+    // Default option
+    const option = document.createElement('option');
+    option.textContent = filteredresource.length==0?"THE SUBJECT YOU SEARCHED FOR DOES NOT HAVE RESOURCES WITH A SHAPEFILE":"Select a Resource";
+    fileSelector.append(option)
+
+    // File name options
+        
+        filteredresource.forEach(result => {
         const option = document.createElement('option');
         option.value = result.resource_id;
         option.textContent = result.resource_title;
@@ -82,5 +83,4 @@ viewbutton.addEventListener('click', function(event){
         mymap.fitBounds(bounds);
     }
 })
-
 

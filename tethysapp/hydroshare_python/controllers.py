@@ -540,13 +540,18 @@ def random(request):
 
     print(resourcefiles)
     
+    try:
+
 
 # Demonstrating filter() to remove odd numbers
-    out_filter = filter(filtershapefile, json.loads(resourcefiles.decode('utf-8'))['results'])
-    # print(next(out_filter))
-    title=next(out_filter,None)['url'].replace('.shp','')
-    titleindex=title.index('data/contents/')
-    title=title[title.find('data/contents/'):].replace('data/contents/','').replace('/',' ')
+        out_filter = filter(filtershapefile, json.loads(resourcefiles.decode('utf-8'))['results'])
+        # print(next(out_filter))
+        title=next(out_filter,None)['url'].replace('.shp','')
+        titleindex=title.index('data/contents/')
+        title=title[title.find('data/contents/'):].replace('data/contents/','').replace('/',' ')
+
+    except:
+        title = " "
 
     context = {
         'bb1':bb1,
@@ -906,6 +911,15 @@ def add_file(request):
     username_error = ''
     password_error = ''
     resourcein_error = ''
+    loggedin = False
+    try:
+            # pass in request object
+        hs = get_oauth_hs(request)
+        loggedin = True
+
+    except Exception as e:
+        pass
+        # handle exceptions
 
     # Handle form submission
     if request.POST and 'add-button' in request.POST:
@@ -927,13 +941,27 @@ def add_file(request):
                     temp_zip.write(chunk)
 
             # Validate
-            if not username:
-                has_errors = True
-                username_error = 'Username is required.'
-        
-            if not password:
-                has_errors = True
-                password_error = 'Password is required.'
+            try:
+            # pass in request object
+                hs = get_oauth_hs(request)
+
+                # your logic goes here. For example: list all HydroShare resources
+                for resource in hs.getResourceList():
+                    print(resource)
+
+            except Exception as e:
+            # handle exceptions
+                if not username:
+                    has_errors = True
+                    username_error = 'Username is required.'
+                
+                elif not password:
+                    has_errors = True
+                    password_error = 'Password is required.'
+
+                else:
+                    auth = HydroShareAuthBasic(username= username, password= password)
+                    hs = HydroShare(auth=auth)
             
             if not resourcein:
                 has_errors = True
@@ -941,8 +969,6 @@ def add_file(request):
 
 
             if not has_errors:
-                auth = HydroShareAuthBasic(username= username, password= password)
-                hs = HydroShare(auth=auth)
                 fpath = temp_zip_path 
                 resource_id = hs.addResourceFile(resourcein, fpath) 
                 messages.success(request, "File added successfully")
@@ -985,6 +1011,7 @@ def add_file(request):
     )
 
     context = {
+        'loggedin' : loggedin,
         'resourcein_input': resourcein_input,
         'username_input': username_input,
         'password_input': password_input,
@@ -1016,6 +1043,15 @@ def delete_resource(request):
     # owner_error = ''
     # river_error = ''
     # date_error = ''
+    loggedin = False
+    try:
+            # pass in request object
+        hs = get_oauth_hs(request)
+        loggedin = True
+
+    except Exception as e:
+        pass
+        # handle exceptions
 
     # Handle form submission
     if request.POST and 'delete-button' in request.POST:
@@ -1031,15 +1067,30 @@ def delete_resource(request):
         if not resourcein:
             has_errors = True
             resourcein_error = 'Resource ID is required.'
-        
-        if not username:
-            has_errors = True
-            username_error = 'Username is required.'
-        
-        if not password:
-            has_errors = True
-            password_error = 'Password is required.'
 
+        try:
+            # pass in request object
+            hs = get_oauth_hs(request)
+
+            # your logic goes here. For example: list all HydroShare resources
+            for resource in hs.getResourceList():
+                print(resource)
+
+        except Exception as e:
+        # handle exceptions
+
+        
+            if not username:
+                has_errors = True
+                username_error = 'Username is required.'
+            
+            elif not password:
+                has_errors = True
+                password_error = 'Password is required.'
+
+            else:
+                auth = HydroShareAuthBasic(username= username, password= password)
+                hs = HydroShare(auth=auth)
         # if not river:
         #     has_errors = True
         #     river_error = 'River is required.'
@@ -1048,8 +1099,6 @@ def delete_resource(request):
 
         if not has_errors:
             # Do stuff here
-            auth = HydroShareAuthBasic(username= username, password= password)
-            hs = HydroShare(auth=auth)
             hs.deleteResource(resourcein)
             messages.success(request, "Resource deleted successfully")
         if has_errors:    
@@ -1094,6 +1143,7 @@ def delete_resource(request):
     )
 
     context = {
+        'loggedin' : loggedin,
         'resourcein_input': resourcein_input,
         'username_input': username_input,
         'password_input': password_input,
