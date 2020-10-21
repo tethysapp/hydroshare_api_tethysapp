@@ -350,9 +350,9 @@ def mapview(request):
             # pass in request object
             hs = get_oauth_hs(request)
 
-            # your logic goes here. For example: list all HydroShare resources
-            for resource in hs.getResourceList():
-                print(resource)
+            # # your logic goes here. For example: list all HydroShare resources
+            # for resource in hs.getResourceList():
+            #     print(resource)
 
         except Exception as e:
         # handle exceptions
@@ -372,8 +372,6 @@ def mapview(request):
 
         if not has_errors:
             # Do stuff here
-            auth = HydroShareAuthBasic(username= username, password= password)
-            hs = HydroShare(auth=auth)
             # hs.setAccessRules(public=True)
             result = hs.resources(subject=viewr)
 
@@ -475,9 +473,9 @@ def boundingbox(request):
             # pass in request object
             hs = get_oauth_hs(request)
 
-            # your logic goes here. For example: list all HydroShare resources
-            for resource in hs.getResourceList():
-                print(resource)
+            # # your logic goes here. For example: list all HydroShare resources
+            # for resource in hs.getResourceList():
+            #     print(resource)
 
         except Exception as e:
         # handle exceptions
@@ -497,8 +495,8 @@ def boundingbox(request):
 
         if not has_errors:
             # Do stuff here
-            auth = HydroShareAuthBasic(username= username, password= password)
-            hs = HydroShare(auth=auth)
+            # auth = HydroShareAuthBasic(username= username, password= password)
+            # hs = HydroShare(auth=auth)
             # hs.setAccessRules(public=True)
             result = hs.resources(subject=viewr)
 
@@ -668,9 +666,9 @@ def geoserver(request):
             # pass in request object
             hs = get_oauth_hs(request)
 
-            # your logic goes here. For example: list all HydroShare resources
-            for resource in hs.getResourceList():
-                print(resource)
+            # # your logic goes here. For example: list all HydroShare resources
+            # for resource in hs.getResourceList():
+            #     print(resource)
 
         except Exception as e:
         # handle exceptions
@@ -711,8 +709,8 @@ def geoserver(request):
 
         if not has_errors:
             # Do stuff here
-            auth = HydroShareAuthBasic(username= username, password= password)
-            hs = HydroShare(auth=auth)
+            # auth = HydroShareAuthBasic(username= username, password= password)
+            # hs = HydroShare(auth=auth)
             # hs.setAccessRules(public=True)
             result = hs.resources(subject=viewr)
 
@@ -875,8 +873,8 @@ def get_file(request):
                 hs = get_oauth_hs(request)
 
             # your logic goes here. For example: list all HydroShare resources
-                for resource in hs.getResourceList():
-                    print(resource)
+                # for resource in hs.getResourceList():
+                #     print(resource)
 
             except Exception as e:
         # handle exceptions
@@ -901,11 +899,9 @@ def get_file(request):
                 has_errors = True
                 river_error = 'Author is required.'
 
-            if not has_errors:
-                # Do stuff here
-                auth = HydroShareAuthBasic(username= username, password= password)
-                hs = HydroShare(auth=auth)
-                # hs.setAccessRules(public=True)
+            if not has_errors: 
+                # auth = HydroShareAuthBasic(username= username, password= password)
+                # hs = HydroShare(auth=auth)
                 abstract = date_built
                 keywords = owner.split(', ')
                 rtype = 'GenericResource'
@@ -1043,8 +1039,8 @@ def add_file(request):
                 hs = get_oauth_hs(request)
 
                 # your logic goes here. For example: list all HydroShare resources
-                for resource in hs.getResourceList():
-                    print(resource)
+                # for resource in hs.getResourceList():
+                #     print(resource)
 
             except Exception as e:
             # handle exceptions
@@ -1170,8 +1166,8 @@ def delete_resource(request):
             hs = get_oauth_hs(request)
 
             # your logic goes here. For example: list all HydroShare resources
-            for resource in hs.getResourceList():
-                print(resource)
+            # for resource in hs.getResourceList():
+            #     print(resource)
 
         except Exception as e:
         # handle exceptions
@@ -1288,14 +1284,24 @@ def filev(request):
         if not resourcein:
             has_errors = True
             resourcein_error = 'Resource ID is required.'
+
+        try:
+            # pass in request object
+            hs = get_oauth_hs(request)
+
+        except Exception as e:
         
-        if not username:
-            has_errors = True
-            username_error = 'Username is required.'
-        
-        if not password:
-            has_errors = True
-            password_error = 'Password is required.'
+            if not username:
+                has_errors = True
+                username_error = 'Username is required.'
+            
+            elif not password:
+                has_errors = True
+                password_error = 'Password is required.'
+
+            else:
+                auth = HydroShareAuthBasic(username= username, password= password)
+                hs = HydroShare(auth=auth)
 
         # if not river:
         #     has_errors = True
@@ -1303,8 +1309,8 @@ def filev(request):
 
         if not has_errors:
             # Do stuff here
-            auth = HydroShareAuthBasic(username= username, password= password)
-            hs = HydroShare(auth=auth)
+            # auth = HydroShareAuthBasic(username= username, password= password)
+            # hs = HydroShare(auth=auth)
             resourcefiles=hs.resource(resourcein).files.all().content
             return HttpResponse(resourcefiles)
 
@@ -1368,8 +1374,8 @@ def download_file(request):
             hs = get_oauth_hs(request)
 
             # your logic goes here. For example: list all HydroShare resources
-            for resource in hs.getResourceList():
-                print(resource)
+            # for resource in hs.getResourceList():
+            #     print(resource)
 
         except Exception as e:
         # handle exceptions
@@ -1393,8 +1399,8 @@ def download_file(request):
 
         if not has_errors:
             # Do stuff here
-            auth = HydroShareAuthBasic(username= username, password= password)
-            hs = HydroShare(auth=auth)
+            # auth = HydroShareAuthBasic(username= username, password= password)
+            # hs = HydroShare(auth=auth)
             fname = title
             fpath = hs.getResourceFile(resourcein, fname, destination= '/tmp')
             # response = HttpResponse( content_type='application/force-download')
@@ -1529,8 +1535,8 @@ def delete_file(request):
             hs = get_oauth_hs(request)
 
             # your logic goes here. For example: list all HydroShare resources
-            for resource in hs.getResourceList():
-                print(resource)
+            # for resource in hs.getResourceList():
+            #     print(resource)
 
         except Exception as e:
         # handle exceptions
@@ -1554,8 +1560,8 @@ def delete_file(request):
 
         if not has_errors:
             # Do stuff here
-            auth = HydroShareAuthBasic(username= username, password= password)
-            hs = HydroShare(auth=auth)
+            # auth = HydroShareAuthBasic(username= username, password= password)
+            # hs = HydroShare(auth=auth)
             resource_id = hs.deleteResourceFile(resourcein, title)
             messages.success(request, "File deleted successfully")
         if has_errors:    
@@ -1670,26 +1676,26 @@ def getfile_metadata(request):
         
         try:
             # pass in request object
-                hs = get_oauth_hs(request)
+            hs = get_oauth_hs(request)
 
-            # your logic goes here. For example: list all HydroShare resources
-                for resource in hs.getResourceList():
-                    print(resource)
+        # # your logic goes here. For example: list all HydroShare resources
+        #     for resource in hs.getResourceList():
+        #         print(resource)
 
-            except Exception as e:
-        # handle exceptions
+        except Exception as e:
+    # handle exceptions
+        
+            if not username:
+                has_errors = True
+                username_error = 'Username is required.'
             
-                if not username:
-                    has_errors = True
-                    username_error = 'Username is required.'
-                
-                elif not password:
-                    has_errors = True
-                    password_error = 'Password is required.'
+            elif not password:
+                has_errors = True
+                password_error = 'Password is required.'
 
-                else:
-                    auth = HydroShareAuthBasic(username= username, password= password)
-                    hs = HydroShare(auth=auth)
+            else:
+                auth = HydroShareAuthBasic(username= username, password= password)
+                hs = HydroShare(auth=auth)
 
         # if not river:
         #     has_errors = True
@@ -1697,8 +1703,8 @@ def getfile_metadata(request):
 
         if not has_errors:
             # Do stuff here
-            auth = HydroShareAuthBasic(username= username, password= password)
-            hs = HydroShare(auth=auth)
+            # auth = HydroShareAuthBasic(username= username, password= password)
+            # hs = HydroShare(auth=auth)
             response = hs.resource(resourcein).files.metadata(title).content
             
             # response_serialized = serializers.serialize('json', response)
@@ -1841,8 +1847,8 @@ def metadata(request):
             hs = get_oauth_hs(request)
 
         # your logic goes here. For example: list all HydroShare resources
-            for resource in hs.getResourceList():
-                print(resource)
+            # for resource in hs.getResourceList():
+            #     print(resource)
 
         except Exception as e:
     # handle exceptions
@@ -1896,8 +1902,8 @@ def metadata(request):
             # Do stuff here
             # title = title
             # filename = filename
-            auth = HydroShareAuthBasic(username= username, password= password)
-            hs = HydroShare(auth=auth)
+            # auth = HydroShareAuthBasic(username= username, password= password)
+            # hs = HydroShare(auth=auth)
             print(creator1)
             metadata = {
                 "coverages": [
@@ -2104,33 +2110,31 @@ def viewer(request):
 
         try:
             # pass in request object
-                hs = get_oauth_hs(request)
+            hs = get_oauth_hs(request)
 
-            # your logic goes here. For example: list all HydroShare resources
-                for resource in hs.getResourceList():
-                    print(resource)
+        # # your logic goes here. For example: list all HydroShare resources
+        #     for resource in hs.getResourceList():
+        #         print(resource)
 
-            except Exception as e:
-        # handle exceptions
+        except Exception as e:
+    # handle exceptions
+        
+            if not username:
+                has_errors = True
+                username_error = 'Username is required.'
             
-                if not username:
-                    has_errors = True
-                    username_error = 'Username is required.'
-                
-                elif not password:
-                    has_errors = True
-                    password_error = 'Password is required.'
+            elif not password:
+                has_errors = True
+                password_error = 'Password is required.'
 
-                else:
-                    auth = HydroShareAuthBasic(username= username, password= password)
-                    hs = HydroShare(auth=auth)
+            else:
+                auth = HydroShareAuthBasic(username= username, password= password)
+                hs = HydroShare(auth=auth)
 
         
 
         if not has_errors:
             # Do stuff here
-            auth = HydroShareAuthBasic(username= username, password= password)
-            hs = HydroShare(auth=auth)
 
             result = hs.resources(subject=viewr)
 
@@ -2241,31 +2245,31 @@ def download_resource(request):
         
         try:
             # pass in request object
-                hs = get_oauth_hs(request)
+            hs = get_oauth_hs(request)
 
-            # your logic goes here. For example: list all HydroShare resources
-                for resource in hs.getResourceList():
-                    print(resource)
+        # your logic goes here. For example: list all HydroShare resources
+            # for resource in hs.getResourceList():
+            #     print(resource)
 
-            except Exception as e:
-        # handle exceptions
+        except Exception as e:
+    # handle exceptions
+        
+            if not username:
+                has_errors = True
+                username_error = 'Username is required.'
             
-                if not username:
-                    has_errors = True
-                    username_error = 'Username is required.'
-                
-                elif not password:
-                    has_errors = True
-                    password_error = 'Password is required.'
+            elif not password:
+                has_errors = True
+                password_error = 'Password is required.'
 
-                else:
-                    auth = HydroShareAuthBasic(username= username, password= password)
-                    hs = HydroShare(auth=auth)
+            else:
+                auth = HydroShareAuthBasic(username= username, password= password)
+                hs = HydroShare(auth=auth)
 
         if not has_errors:
             # Do stuff here
-            auth = HydroShareAuthBasic(username= username, password= password)
-            hs = HydroShare(auth=auth)
+            # auth = HydroShareAuthBasic(username= username, password= password)
+            # hs = HydroShare(auth=auth)
             fpath='/tmp/%s.zip' % title
             hs.getResource(title, destination='/tmp')
             # response = HttpResponse( content_type='application/force-download')
@@ -2386,26 +2390,26 @@ def create_folder(request):
 
         try:
             # pass in request object
-                hs = get_oauth_hs(request)
+            hs = get_oauth_hs(request)
 
-            # your logic goes here. For example: list all HydroShare resources
-                for resource in hs.getResourceList():
-                    print(resource)
+        # # your logic goes here. For example: list all HydroShare resources
+        #     for resource in hs.getResourceList():
+        #         print(resource)
 
-            except Exception as e:
-        # handle exceptions
+        except Exception as e:
+    # handle exceptions
+        
+            if not username:
+                has_errors = True
+                username_error = 'Username is required.'
             
-                if not username:
-                    has_errors = True
-                    username_error = 'Username is required.'
-                
-                elif not password:
-                    has_errors = True
-                    password_error = 'Password is required.'
+            elif not password:
+                has_errors = True
+                password_error = 'Password is required.'
 
-                else:
-                    auth = HydroShareAuthBasic(username= username, password= password)
-                    hs = HydroShare(auth=auth)
+            else:
+                auth = HydroShareAuthBasic(username= username, password= password)
+                hs = HydroShare(auth=auth)
         
            
         if not foldername:
@@ -2414,8 +2418,8 @@ def create_folder(request):
 
         if not has_errors:
             # Do stuff here
-            auth = HydroShareAuthBasic(username= username, password= password)
-            hs = HydroShare(auth=auth)
+            # auth = HydroShareAuthBasic(username= username, password= password)
+            # hs = HydroShare(auth=auth)
             folder_to_create = foldername
             response_json = hs.createResourceFolder(resourcein, pathname=folder_to_create)
             messages.success(request, "Folder created successfully")
@@ -2524,26 +2528,26 @@ def deletefolder(request):
 
         try:
             # pass in request object
-                hs = get_oauth_hs(request)
+            hs = get_oauth_hs(request)
 
-            # your logic goes here. For example: list all HydroShare resources
-                for resource in hs.getResourceList():
-                    print(resource)
+        # your logic goes here. For example: list all HydroShare resources
+            # for resource in hs.getResourceList():
+            #     print(resource)
 
-            except Exception as e:
-        # handle exceptions
+        except Exception as e:
+    # handle exceptions
+        
+            if not username:
+                has_errors = True
+                username_error = 'Username is required.'
             
-                if not username:
-                    has_errors = True
-                    username_error = 'Username is required.'
-                
-                elif not password:
-                    has_errors = True
-                    password_error = 'Password is required.'
+            elif not password:
+                has_errors = True
+                password_error = 'Password is required.'
 
-                else:
-                    auth = HydroShareAuthBasic(username= username, password= password)
-                    hs = HydroShare(auth=auth)
+            else:
+                auth = HydroShareAuthBasic(username= username, password= password)
+                hs = HydroShare(auth=auth)
         
         
         if not foldername:
@@ -2552,8 +2556,8 @@ def deletefolder(request):
 
         if not has_errors:
             # Do stuff here
-            auth = HydroShareAuthBasic(username= username, password= password)
-            hs = HydroShare(auth=auth)
+            # auth = HydroShareAuthBasic(username= username, password= password)
+            # hs = HydroShare(auth=auth)
             folder_to_create = foldername
             response_json = hs.deleteResourceFolder(resourcein, pathname=folder_to_create)
             messages.success(request, "Folder deleted successfully")
@@ -2657,31 +2661,31 @@ def change_public(request):
         
         try:
             # pass in request object
-                hs = get_oauth_hs(request)
+            hs = get_oauth_hs(request)
 
-            # your logic goes here. For example: list all HydroShare resources
-                for resource in hs.getResourceList():
-                    print(resource)
+        # your logic goes here. For example: list all HydroShare resources
+            # for resource in hs.getResourceList():
+            #     print(resource)
 
-            except Exception as e:
-        # handle exceptions
+        except Exception as e:
+    # handle exceptions
+        
+            if not username:
+                has_errors = True
+                username_error = 'Username is required.'
             
-                if not username:
-                    has_errors = True
-                    username_error = 'Username is required.'
-                
-                elif not password:
-                    has_errors = True
-                    password_error = 'Password is required.'
+            elif not password:
+                has_errors = True
+                password_error = 'Password is required.'
 
-                else:
-                    auth = HydroShareAuthBasic(username= username, password= password)
-                    hs = HydroShare(auth=auth)
+            else:
+                auth = HydroShareAuthBasic(username= username, password= password)
+                hs = HydroShare(auth=auth)
 
         if not has_errors:
             # Do stuff here
-            auth = HydroShareAuthBasic(username= username, password= password)
-            hs = HydroShare(auth=auth)
+            # auth = HydroShareAuthBasic(username= username, password= password)
+            # hs = HydroShare(auth=auth)
             hs.setAccessRules(title, public=True)
             messages.success(request, "Resource is now public")
             # hs.setAccessRules(public=True)

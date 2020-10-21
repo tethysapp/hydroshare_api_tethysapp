@@ -9,8 +9,8 @@ button.addEventListener('click', async function () {
     const fileSelector = document.getElementById('title_input')
 
     const formData = new FormData();
-    formData.append('username', username.value);
-    formData.append('password', password.value);
+    formData.append('username', username && username.value);
+    formData.append('password', password && password.value);
     formData.append('resourcein', resourceid.value);
     formData.append('csrfmiddlewaretoken', csrfToken.value);
 

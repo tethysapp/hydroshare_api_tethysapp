@@ -9,8 +9,8 @@ button.addEventListener('click', async function () {
     const csrfToken = document.querySelector('input[name=csrfmiddlewaretoken]')
 
     const formData = new FormData();
-    formData.append('username', username.value);
-    formData.append('password', password.value);
+    formData.append('username', username && username.value);
+    formData.append('password', password && password.value);
     formData.append('resourcein', resourceid.value);
     formData.append('csrfmiddlewaretoken', csrfToken.value);
 
