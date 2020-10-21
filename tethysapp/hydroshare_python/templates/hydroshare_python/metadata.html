@@ -16,8 +16,12 @@
     
 
     <p>In the boxes below enter the user’s personal HydroShare username and password. If needed, make a HydroShare account by <a href="https://www.hydroshare.org/sign-up/?next=">clicking here</a>.</p>
+    {% if not loggedin %}
     {% gizmo username_input %}
     {% gizmo password_input %}
+    {% else %}
+    <h4> You are logged into HydroShare </h4>
+    {% endif %}
   <p></p>
   <h3>Step 2: Enter the Name of the Author(s) and/ or Chief Contributor(s) to the Resource.</h3>
   {% gizmo creator1_input %}

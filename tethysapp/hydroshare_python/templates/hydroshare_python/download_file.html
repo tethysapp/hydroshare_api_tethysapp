@@ -15,8 +15,12 @@
     {% csrf_token %}
 
     <p>In the boxes below enter the user’s personal HydroShare username and password. If needed, make a HydroShare account by <a href="https://www.hydroshare.org/sign-up/?next=">clicking here</a>.</p>
+    {% if not loggedin %}
     {% gizmo username_input %}
     {% gizmo password_input %}
+    {% else %}
+    <h4> You are logged into HydroShare </h4>
+    {% endif %}
     <p></p>
     <p>The resource ID is a unique identifier for every resource on HydroShare. You can find it by clicking on your resource in HydroShare, scrolling down to the “How to Cite” section, and copying the ID from the URL. This is an example hyperlink: https://www.hydroshare.org/resource/08c6e88adaa647cd9bb28e5d619178e0/ from which The 32 letter combination at the end is called the resource ID. The resource ID from the example hyperlink is <mark>08c6e88adaa647cd9bb28e5d619178e0</mark>. </p>
     <img src="{% static 'hydroshare_python/images/resourceid.jpeg'%}" alt="Resource ID" height="30">

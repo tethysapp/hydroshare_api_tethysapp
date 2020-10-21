@@ -14,8 +14,12 @@
     
 
     <p>In the boxes below you enter your HydroShare username and its password. If you need to make a HydroShare account, <a href="https://www.hydroshare.org/sign-up/?next=">click here</a>.</p>
+    {% if not loggedin %}
     {% gizmo username_input %}
     {% gizmo password_input %}
+    {% else %}
+    <h4> You are logged into HydroShare </h4>
+    {% endif %}
     <p></p>
     <p>This feature downloads the contents of a resource. The resource is zipped and downloaded, using an API from the HydroShare python library. The files can be extracted for use once they are downloaded. Also this feature is exclusive to the resources you own in HydroShare. </p>
     <p></p>
